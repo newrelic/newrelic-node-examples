@@ -1,6 +1,6 @@
-# New Relic Node.js Logs in Context Example
+# New Relic Node.js logs in context Example
 
-This project demonstrates [Logs in Context](https://docs.newrelic.com/docs/logs/logs-context/logs-in-context/) with New Relic by using a Node.js application and log enrichers.
+This project demonstrates [logs in context](https://docs.newrelic.com/docs/logs/logs-context/logs-in-context/) with New Relic by using a Node.js application and log enrichers.
 
 The sample application has support for the two log enrichers: [@newrelic/winston-enricher](https://github.com/newrelic/newrelic-node-log-extensions/tree/main/packages/winston-log-enricher) and [@newrelic/pino-enricher](https://github.com/newrelic/newrelic-node-log-extensions/tree/main/packages/pino-log-enricher).  It also contains a container to run fluentd with the [fluent-plugin-newrelic](https://github.com/newrelic/newrelic-fluentd-output) to forward logs to New Relic One.
 
@@ -23,6 +23,16 @@ The sample application has support for the two log enrichers: [@newrelic/winston
     ```
  1. Navigate to [New Relic One](https://one.newrelic.com) > APM > (select an app) > Events > Logs and 🎉
 
+
+![logs in context landing](/images/logs-in-context-landing.png?raw=true "logs in context landing")
+
+![log list with details](/images/log-list-with-details.png?raw=true "log list with details")
+
+![log details](/images/log-details.png?raw=true "log details")
+
+![distributed tracing](/images/dt-with-logs.png?raw=true "distributed tracing")
+
+![logs for trace](/images/dt-with-log-details.png?raw=true "logs for trace")
 
 ### Additional Configuration
 

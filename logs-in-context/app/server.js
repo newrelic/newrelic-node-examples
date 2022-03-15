@@ -1,4 +1,19 @@
-const start = async() => {
+/*
+ * Copyright 2022 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+'use strict'
+
+/**
+ * This is an example Fastify server that depending on an env var
+ * will either load pino or winston with their respective New Relic log enricher.
+ *
+ * There is 1 route `/` which will delay for 2 seconds before responding.  During this time
+ * there will be 3 log messages that occur: before delay, after delay and sending response.
+ *
+ */
+const start = async () => {
   const { PORT = 3000, HOST = 'localhost', WINSTON } = process.env
   let logger
   if (WINSTON) {
@@ -15,9 +30,7 @@ const start = async() => {
       },
       level: 'info',
       format: nrWinston(),
-      transports: [
-        new winston.transports.Console()
-      ]
+      transports: [new winston.transports.Console()]
     })
   } else {
     const nrPino = require('@newrelic/pino-enricher')
