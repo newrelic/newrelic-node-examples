@@ -1,0 +1,22 @@
+{
+  "name": "log-examples",
+  "version": "1.0.0",
+  "description": "Sample app that demonstrates logs in context for Node.js",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "author": "New Relic Node.js agent team <nodejs@newrelic.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@newrelic/pino-enricher": "^0.1.0",
+    "@newrelic/winston-enricher": "^2.1.0",
+    "fastify": "^3.27.2",
+    "pino": "^7.8.0",
+    "winston": "^3.6.0"
+  },
+  "devDependencies": {
+    "@newrelic/eslint-config": "^0.0.4"
+  }
+}
