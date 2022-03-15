@@ -21,18 +21,20 @@ The sample application has support for the two log enrichers: [@newrelic/winston
     ```sh
     hey -z 5m http://localhost:3000
     ```
- 1. Navigate to [New Relic One](https://one.newrelic.com) > APM > (select an app) > Events > Logs and 🎉
+ 1. Navigate to [New Relic One](https://one.newrelic.com) > APM > (select an app) > Triage > Logs.
+![logs in context landing](./images/logs-in-context-landing.png?raw=true "logs in context landing")
 
+ 1. Click a log line in the list view.
+![log list with details](./images/log-list-with-details.png?raw=true "log list with details")
 
-![logs in context landing](/images/logs-in-context-landing.png?raw=true "logs in context landing")
+ 1. View the details of the log entry and you can see `entity.*`, `span.id` and `trace.id` metadata added.
+![log details](./images/log-details.png?raw=true "log details")
 
-![log list with details](/images/log-list-with-details.png?raw=true "log list with details")
+ 1. Navigate to APM > (select an app) > Monitor > Distributed Trace.  Click a trace group > trace > See logs(top right of pane).
+![distributed tracing](./images/dt-with-logs.png?raw=true "distributed tracing")
 
-![log details](/images/log-details.png?raw=true "log details")
-
-![distributed tracing](/images/dt-with-logs.png?raw=true "distributed tracing")
-
-![logs for trace](/images/dt-with-log-details.png?raw=true "logs for trace")
+ 1. You can now see all relevant logs for a given trace.
+![logs for trace](./images/dt-with-log-details.png?raw=true "logs for trace")
 
 ### Additional Configuration
 
