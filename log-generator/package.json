@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@newrelic/pino-enricher": "^0.1.0",
+    "@newrelic/winston-enricher": "^2.1.2",
+    "faker": "^5.5.3",
+    "newrelic": "^8.9.1",
+    "pino": "^7.9.2",
+    "winston": "^3.7.2",
+    "yargs": "^17.4.0"
+  },
+  "devDependencies": {
+    "@newrelic/eslint-config": "^0.0.4"
+  }
+}
