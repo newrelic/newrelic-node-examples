@@ -29,6 +29,7 @@ function getArgs() {
       alias: 'l',
       describe: 'which logger to use',
       choices: ['winston', 'pino'],
+      default: 'winston',
       type: 'string'
     })
     .demandOption(['logtype'], 'specify which logger to use')
