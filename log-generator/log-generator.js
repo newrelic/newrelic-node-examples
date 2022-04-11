@@ -9,7 +9,9 @@
 
 process.env.NEW_RELIC_NO_CONFIG_FILE = true
 process.env.NEW_RELIC_APP_NAME = 'log-generator'
-process.env.NEW_RELIC_LICENSE_KEY = 'fill-in-license-key'
+
+process.env.NEW_RELIC_LICENSE_KEY = process.env.NR_LICENSE
+process.env.NEW_RELIC_HOST = 'staging-collector.newrelic.com'
 
 const newrelic = require('newrelic')
 
@@ -92,11 +94,13 @@ function runOneBatchOfLogs(logger, interval, count, size) {
 }
 
 function run(logger, interval, count, size) {
-  newrelic.startBackgroundTransaction('loggingTransaction', () => {
-    runOneBatchOfLogs(logger, interval, count, size).then(() => {
+  newrelic
+    .startBackgroundTransaction('loggingTransaction', () => {
+      return runOneBatchOfLogs(logger, interval, count, size)
+    })
+    .then(() => {
       run(logger, interval, count, size)
     })
-  })
 }
 
 const { logtype, interval, count, size } = getArgs()
