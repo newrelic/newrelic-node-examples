@@ -11,7 +11,7 @@ process.env.NEW_RELIC_NO_CONFIG_FILE = true
 process.env.NEW_RELIC_APP_NAME = 'log-generator'
 process.env.NEW_RELIC_LICENSE_KEY = 'fill-in-license-key'
 
-require('newrelic')
+const newrelic = require('newrelic')
 
 const yargs = require('yargs')
 const { hideBin } = require('yargs/helpers')
@@ -80,13 +80,23 @@ function getLogger(logtype) {
   return logger
 }
 
+function runOneBatchOfLogs(logger, interval, count, size) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      for (let i = 0; i < count; i++) {
+        logger.info(faker.random.alphaNumeric(size))
+      }
+      resolve()
+    }, interval)
+  })
+}
+
 function run(logger, interval, count, size) {
-  for (let i = 0; i < count; i++) {
-    logger.info(faker.random.alphaNumeric(size))
-  }
-  setTimeout(() => {
-    run(logger, interval, count, size)
-  }, interval)
+  newrelic.startBackgroundTransaction('loggingTransaction', () => {
+    runOneBatchOfLogs(logger, interval, count, size).then(() => {
+      run(logger, interval, count, size)
+    })
+  })
 }
 
 const { logtype, interval, count, size } = getArgs()
