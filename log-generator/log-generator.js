@@ -51,6 +51,12 @@ function getArgs() {
       default: 128,
       type: 'number'
     })
+    .option('duration', {
+      alias: 'd',
+      describe: 'how many seconds to run for (use 0 seconds to run forever)',
+      default: 0,
+      type: 'number'
+    })
     .help().argv
 }
 
@@ -104,7 +110,17 @@ function run(logger, interval, count, size) {
     })
 }
 
-const { logtype, interval, count, size } = getArgs()
+function setUp(duration) {
+  const exit = process.exit
+  if (duration > 0) {
+    setTimeout(() => {
+      exit(0)
+    }, duration * 1000)
+  }
+}
+
+const { logtype, interval, count, size, duration } = getArgs()
 const logger = getLogger(logtype)
 
+setUp(duration)
 run(logger, interval, count, size)
