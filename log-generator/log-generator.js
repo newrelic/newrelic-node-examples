@@ -117,6 +117,11 @@ function setUp(duration) {
       exit(0)
     }, duration * 1000)
   }
+
+  process.on('SIGINT', () => {
+    newrelic.shutdown()
+    exit(0)
+  })
 }
 
 const { logtype, interval, count, size, duration } = getArgs()
