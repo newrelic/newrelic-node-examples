@@ -9,9 +9,10 @@
 
 process.env.NEW_RELIC_NO_CONFIG_FILE = true
 process.env.NEW_RELIC_APP_NAME = 'log-generator'
-
-process.env.NEW_RELIC_LICENSE_KEY = process.env.NR_LICENSE
+process.env.NEW_RELIC_LICENSE_KEY = '<your-license-key>'
 process.env.NEW_RELIC_HOST = 'staging-collector.newrelic.com'
+process.env.NEW_RELIC_LOG_LEVEL = 'info'
+process.env.NEW_RELIC_APPLICATION_LOGGING_ENABLED = true
 
 const newrelic = require('newrelic')
 
@@ -21,7 +22,7 @@ const faker = require('faker')
 
 function getArgs() {
   return yargs(hideBin(process.argv))
-    .scriptName('log-generator')
+    .scriptName(process.env.NEW_RELIC_APP_NAME)
     .usage(
       'Usage: $0 OPTIONS\n\nstarts a process that will generate logs with either winston or pino'
     )
@@ -77,7 +78,7 @@ function getLogger(logtype) {
         format.json(),
         newrelicFormatter()
       ),
-      defaultMeta: { service: 'log-generator' },
+      defaultMeta: { service: process.env.NEW_RELIC_APP_NAME },
       transports: [new transports.Console()]
     })
   } else {
@@ -110,18 +111,19 @@ function run(logger, interval, count, size) {
     })
 }
 
+function shutdown() {
+  newrelic.shutdown({ collectPendingData: true}, () => {
+    process.exit(0)
+  })
+}
+
 function setUp(duration) {
   const exit = process.exit
   if (duration > 0) {
-    setTimeout(() => {
-      exit(0)
-    }, duration * 1000)
+    setTimeout(shutdown, duration * 1000)
   }
 
-  process.on('SIGINT', () => {
-    newrelic.shutdown()
-    exit(0)
-  })
+  process.on('SIGINT', shutdown)
 }
 
 const { logtype, interval, count, size, duration } = getArgs()
