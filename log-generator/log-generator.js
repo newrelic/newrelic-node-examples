@@ -102,7 +102,7 @@ function getLogger(logtype) {
 
     const { createLogger, format, transports } = require('winston')
     logger = createLogger({
-      level: 'info',
+      level: 'debug',
       format: format.combine(
         format.timestamp({
           format: 'YYYY-MM-DD HH:mm:ss'
@@ -118,7 +118,9 @@ function getLogger(logtype) {
   } else {
     const nrPino = require('@newrelic/pino-enricher')
     const pino = require('pino')
-    logger = pino(nrPino())
+    const config = nrPino()
+    config.level = 'debug'
+    logger = pino(config)
   }
 
   return logger
