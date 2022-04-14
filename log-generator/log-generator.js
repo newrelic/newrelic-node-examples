@@ -112,13 +112,12 @@ function run(logger, interval, count, size) {
 }
 
 function shutdown() {
-  newrelic.shutdown({ collectPendingData: true}, () => {
-    process.exit(0)
+  newrelic.shutdown({ collectPendingData: true }, () => {
+    process.exit(0) // eslint-disable-line no-process-exit
   })
 }
 
 function setUp(duration) {
-  const exit = process.exit
   if (duration > 0) {
     setTimeout(shutdown, duration * 1000)
   }
