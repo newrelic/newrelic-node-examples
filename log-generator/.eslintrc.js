@@ -8,10 +8,7 @@ module.exports = {
   extends: '@newrelic',
   overrides: [
     {
-      files: ['log-generator.js'],
-      rules: {
-        'header/header': ['off']
-      }
+      files: ['log-generator.js']
     }
   ]
 }
