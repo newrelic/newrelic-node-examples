@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 /*
  * Copyright 2022 New Relic Corporation. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
@@ -61,6 +60,40 @@ function getArgs() {
     .help().argv
 }
 
+// https://stackoverflow.com/a/55671924
+function weightedRandom(options) {
+  let i
+
+  const weights = []
+
+  for (i = 0; i < options.length; i++) {
+    weights[i] = options[i].weight + (weights[i - 1] || 0)
+  }
+
+  const random = Math.random() * weights[weights.length - 1]
+
+  for (i = 0; i < weights.length; i++) {
+    if (weights[i] > random) {
+      break
+    }
+  }
+
+  return options[i].item
+}
+
+function getRandomLogLevel() {
+  // Winston and pino define different log levels, but at least have
+  // these in common.
+  const logLevels = [
+    { item: 'error', weight: 1 },
+    { item: 'warn', weight: 4 },
+    { item: 'info', weight: 16 },
+    { item: 'debug', weight: 64 }
+  ]
+
+  return weightedRandom(logLevels)
+}
+
 function getLogger(logtype) {
   let logger
   if (logtype === 'winston') {
@@ -68,7 +101,7 @@ function getLogger(logtype) {
 
     const { createLogger, format, transports } = require('winston')
     logger = createLogger({
-      level: 'info',
+      level: 'debug',
       format: format.combine(
         format.timestamp({
           format: 'YYYY-MM-DD HH:mm:ss'
@@ -84,7 +117,9 @@ function getLogger(logtype) {
   } else {
     const nrPino = require('@newrelic/pino-enricher')
     const pino = require('pino')
-    logger = pino(nrPino())
+    const config = nrPino()
+    config.level = 'debug'
+    logger = pino(config)
   }
 
   return logger
@@ -94,7 +129,7 @@ function runOneBatchOfLogs(logger, interval, count, size) {
   return new Promise((resolve) => {
     setTimeout(() => {
       for (let i = 0; i < count; i++) {
-        logger.info(faker.random.alphaNumeric(size))
+        logger[getRandomLogLevel()](faker.random.alphaNumeric(size))
       }
       resolve()
     }, interval)
@@ -112,13 +147,12 @@ function run(logger, interval, count, size) {
 }
 
 function shutdown() {
-  newrelic.shutdown({ collectPendingData: true}, () => {
-    process.exit(0)
+  newrelic.shutdown({ collectPendingData: true }, () => {
+    process.exit(0) // eslint-disable-line no-process-exit
   })
 }
 
 function setUp(duration) {
-  const exit = process.exit
   if (duration > 0) {
     setTimeout(shutdown, duration * 1000)
   }
