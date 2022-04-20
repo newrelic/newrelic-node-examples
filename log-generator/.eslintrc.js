@@ -5,10 +5,5 @@
 
 'use strict'
 module.exports = {
-  extends: '@newrelic',
-  overrides: [
-    {
-      files: ['log-generator.js']
-    }
-  ]
+  extends: '@newrelic'
 }
