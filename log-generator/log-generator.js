@@ -8,12 +8,24 @@
 
 process.env.NEW_RELIC_NO_CONFIG_FILE = true
 process.env.NEW_RELIC_APP_NAME = 'log-generator'
-process.env.NEW_RELIC_LICENSE_KEY = '<your-license-key>'
+// process.env.NEW_RELIC_LICENSE_KEY = <your-license-key>
 process.env.NEW_RELIC_HOST = 'staging-collector.newrelic.com'
 process.env.NEW_RELIC_LOG_LEVEL = 'info'
+// set the next env var to false to disable all application logging features
 process.env.NEW_RELIC_APPLICATION_LOGGING_ENABLED = true
+process.env.NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED = true
+process.env.NEW_RELIC_APPLICATION_LOGGING_METRICS_ENABLED = true
+process.env.NEW_RELIC_APPLICATION_LOGGING_FORWARDING_MAX_SAMPLES_STORED = 10000
 
 const newrelic = require('newrelic')
+// we can't put a listener for 'errored'
+// because this happens before `const newrelic = require('newrelic')`
+// wrap in next tick so we can error from agent before exiting process
+process.nextTick(() => {
+  if (newrelic.agent._state === 'errored') {
+    process.exit(1)
+  }
+})
 
 const yargs = require('yargs')
 const { hideBin } = require('yargs/helpers')
@@ -32,7 +44,6 @@ function getArgs() {
       default: 'winston',
       type: 'string'
     })
-    .demandOption(['logtype'], 'specify which logger to use')
     .option('interval', {
       alias: 'i',
       describe: 'interval in milliseconds to wait between each round of log messages',
