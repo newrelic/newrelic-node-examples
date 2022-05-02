@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@newrelic/pino-enricher": "^0.1.0",
-    "@newrelic/winston-enricher": "^2.1.2",
+    "@newrelic/winston-enricher": "^3.0.0",
     "faker": "^5.5.3",
     "newrelic": "^8.9.1",
     "pino": "^7.9.2",

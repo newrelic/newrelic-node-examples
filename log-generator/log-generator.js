@@ -108,9 +108,10 @@ function getRandomLogLevel() {
 function getLogger(logtype) {
   let logger
   if (logtype === 'winston') {
-    const newrelicFormatter = require('@newrelic/winston-enricher')
+    const winston = require('winston')
+    const newrelicFormatter = require('@newrelic/winston-enricher')(winston)
+    const { createLogger, format, transports } = winston
 
-    const { createLogger, format, transports } = require('winston')
     logger = createLogger({
       level: 'debug',
       format: format.combine(

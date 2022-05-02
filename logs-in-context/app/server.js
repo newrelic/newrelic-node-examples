@@ -17,8 +17,8 @@ const start = async () => {
   const { PORT = 3000, HOST = 'localhost', WINSTON } = process.env
   let logger
   if (WINSTON) {
-    const nrWinston = require('@newrelic/winston-enricher')
     const winston = require('winston')
+    const nrWinston = require('@newrelic/winston-enricher')(winston)
     logger = winston.createLogger({
       levels: {
         fatal: 0,
