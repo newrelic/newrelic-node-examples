@@ -16,6 +16,7 @@ process.env.NEW_RELIC_APPLICATION_LOGGING_ENABLED = true
 process.env.NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED = true
 process.env.NEW_RELIC_APPLICATION_LOGGING_METRICS_ENABLED = true
 process.env.NEW_RELIC_APPLICATION_LOGGING_FORWARDING_MAX_SAMPLES_STORED = 10000
+process.env.NEW_RELIC_APPLICATION_LOGGING_LOCAL_DECORATING_ENABLED = false
 
 const newrelic = require('newrelic')
 // we can't put a listener for 'errored'
@@ -109,7 +110,6 @@ function getLogger(logtype) {
   let logger
   if (logtype === 'winston') {
     const winston = require('winston')
-    const newrelicFormatter = require('@newrelic/winston-enricher')(winston)
     const { createLogger, format, transports } = winston
 
     logger = createLogger({
@@ -120,8 +120,7 @@ function getLogger(logtype) {
         }),
         format.errors({ stack: true }),
         format.splat(),
-        format.json(),
-        newrelicFormatter()
+        format.json()
       ),
       defaultMeta: { service: process.env.NEW_RELIC_APP_NAME },
       transports: [new transports.Console()]
