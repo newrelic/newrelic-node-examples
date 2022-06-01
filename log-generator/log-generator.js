@@ -126,11 +126,8 @@ function getLogger(logtype) {
       transports: [new transports.Console()]
     })
   } else {
-    const nrPino = require('@newrelic/pino-enricher')
     const pino = require('pino')
-    const config = nrPino()
-    config.level = 'debug'
-    logger = pino(config)
+    logger = pino({ level: 'debug' })
   }
 
   return logger
