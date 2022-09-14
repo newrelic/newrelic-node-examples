@@ -1,5 +1,5 @@
 # Log Generator
-This utility was designed to generate logs winston or pino.  It can be used to do performance testing of the application logging in agent.
+This utility was designed to generate logs for winston or pino.  It can be used to do performance testing of the application logging in agent.
 
 ## Getting Started
 
