@@ -22,8 +22,10 @@ curl http://localhost:3000/user/100
 ```
 
  1. Navigate to [New Relic One](https://one.newrelic.com) > APM > ESM Example App > Monitor > Distributed Tracing.
+![DT view](./images/dt-view.png?raw=true "DT view")
 
  1. Click a trace and you can see the express instrumentation recording relevant spans.
+![Detailed trace](./images/dt-details.png?raw=true "Detailed Trace")
 
 
 ## Additional Configuration
