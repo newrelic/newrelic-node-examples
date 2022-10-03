@@ -13,7 +13,7 @@ exports.config = {
   /**
    * Your New Relic license key.
    */
-  license_key: 'your license key', 
+  license_key: '<your license key>', 
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
@@ -23,7 +23,9 @@ exports.config = {
     level: 'info'
   },
   api: {
-    custom_esm_instrumentation_path: './custom-instrumentation/index.js'
+    esm: {
+      custom_instrumentation_entrypoint: './custom-instrumentation/index.js'
+    }
   },
   /**
    * When true, all request headers except for those listed in attributes.exclude
