@@ -14,7 +14,7 @@
     "@newrelic/winston-enricher": "^4.0.0",
     "fastify": "^3.27.2",
     "newrelic": "^9.2.0",
-    "pino": "^7.8.0",
+    "pino": "^7.11.0",
     "winston": "^3.6.0"
   },
   "devDependencies": {
