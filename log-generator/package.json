@@ -4,7 +4,7 @@
     "newrelic": "^8.13.2",
     "pino": "^7.9.2",
     "winston": "^3.7.2",
-    "yargs": "^17.4.0"
+    "yargs": "^17.6.0"
   },
   "devDependencies": {
     "@newrelic/eslint-config": "^0.0.4"
