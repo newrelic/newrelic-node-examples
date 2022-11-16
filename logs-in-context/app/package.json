@@ -15,7 +15,7 @@
     "fastify": "^3.29.3",
     "newrelic": "^9.4.0",
     "pino": "^7.11.0",
-    "winston": "^3.6.0"
+    "winston": "^3.8.1"
   },
   "devDependencies": {
     "@newrelic/eslint-config": "^0.0.4"
