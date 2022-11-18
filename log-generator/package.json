@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "faker": "^5.5.3",
-    "newrelic": "^8.13.2",
-    "pino": "^7.9.2",
-    "winston": "^3.7.2",
+    "newrelic": "^8.17.1",
+    "pino": "^7.11.0",
+    "winston": "^3.8.1",
     "yargs": "^17.6.0"
   },
   "devDependencies": {
