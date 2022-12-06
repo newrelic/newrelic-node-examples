@@ -1,0 +1,15 @@
+{
+  "name": "clm-express",
+  "version": "1.0.0",
+  "description": "Example application used to verify Code Level Metrics integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "newrelic": "github:newrelic/node-newrelic#71c82960fa121e451728282caf7c389b95811754"
+  }
+}
