@@ -7,10 +7,11 @@
 
 const newrelic = require('newrelic')
 
-newrelic.instrumentMessages('./messages', (shim, messages, modname) => {
+newrelic.instrumentMessages('./nifty-messages', (shim, messages, modname) => {
   console.log(`[NEWRELIC] instrumenting ${modname}`)
   const Client = messages.Client
-  shim.setLibrary('messages')
+  // The library name will be used for naming transactions
+  shim.setLibrary('nifty-messages')
 
   console.log(`[NEWRELIC] instrumenting method 'publish'`)
   shim.recordProduce(Client.prototype, 'publish', (shim, fn, name, args) => {

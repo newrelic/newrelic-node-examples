@@ -1,6 +1,6 @@
 # Example instrumentation of a messaging application
 
-This is an example app that uses the `newrelic.instrumentMessages` [API function](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#instrumentMessages) and associated [messaging shim API](https://newrelic.github.io/node-newrelic/docs/MessageShim.html). It is an implementation of the [New Relic messaging instrumentation tutorial](http://newrelic.github.io/node-newrelic/docs/tutorial-Messaging-Simple.html).
+This is an example app that uses the `newrelic.instrumentMessages` [API function](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#instrumentMessages) and associated [messaging shim API](https://newrelic.github.io/node-newrelic/docs/MessageShim.html) to instrument a toy messaging library called Nifty Messages. This sample instrumentation is an implementation of the [New Relic messaging instrumentation tutorial](http://newrelic.github.io/node-newrelic/docs/tutorial-Messaging-Simple.html).
 
 ## Getting started
 

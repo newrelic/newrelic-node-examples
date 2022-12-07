@@ -7,7 +7,7 @@
 
 const express = require('express')
 const { PORT = '3000', HOST = 'localhost' } = process.env
-const { Client } = require('./messages')
+const { Client } = require('./nifty-messages')
 
 const client = new Client()
 
