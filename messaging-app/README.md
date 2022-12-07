@@ -48,6 +48,42 @@ curl 'http://localhost:3000/publish?msg=goodbye+yet+again'
 curl 'http://localhost:3000/'
 ```
 
+This should produce server output similar to this. The lines prefixed with `[NEWRELIC]` are output emitted by the sample instrumentation. The other lines are emitted by the messaging application itself.
+
+```
+[NEWRELIC] instrumenting ./nifty-messages
+[NEWRELIC] instrumenting method 'publish'
+[NEWRELIC] instrumenting method 'purge'
+[NEWRELIC] instrumenting callbacks of method 'getMessage'
+[NEWRELIC] instrumenting callbacks of method 'subscribe'
+Server started at http://127.0.0.1:3000
+[NEWRELIC] publish called on queue 'main' with message 'hello'
+called method 'publish'
+[NEWRELIC] publish called on queue 'main' with message 'goodbye'
+called method 'publish'
+called method 'getMessage'
+[NEWRELIC] getMessage on queue main returned a message: 'hello'
+called method 'getMessage'
+[NEWRELIC] getMessage on queue main returned a message: 'goodbye'
+[NEWRELIC] publish called on queue 'main' with message 'hello again'
+called method 'publish'
+[NEWRELIC] publish called on queue 'main' with message 'goodbye again'
+called method 'publish'
+[NEWRELIC] purge called on queue 'main'
+called method 'purge'
+called method 'subscribe'
+[NEWRELIC] publish called on queue 'main' with message 'hello yet again'
+called method 'publish'
+called handler on queue 'main'
+[NEWRELIC] subscribe on queue main returned a message: 'hello yet again'
+[NEWRELIC] publish called on queue 'main' with message 'goodbye yet again'
+called method 'publish'
+called handler on queue 'main'
+[NEWRELIC] subscribe on queue main returned a message: 'goodbye yet again'
+called method 'getMessage'
+[NEWRELIC] getMessage on queue main returned a message: 'undefined'
+```
+
 5. Navigate to [New Relic One](https://one.newrelic.com) > APM > Example Messaging App > Monitor > Distributed Tracing.
 ![DT View](./images/dt-view.png?raw=true "DT view")
 
