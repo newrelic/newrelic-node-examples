@@ -25,7 +25,6 @@ app.get('/publish', (req, res) => {
   const queueName = req.query.queue || 'main'
   client.publish(queueName, msg, () => {
     res.send([`Published message: ${msg}`])
-    res.end()
   })
 })
 
@@ -49,7 +48,6 @@ app.get('/', (req, res) => {
       messagesFromSub[queueName] = []
     }
     res.send(reply)
-    res.end()
   })
 })
 
@@ -67,5 +65,4 @@ app.get('/subscribe', (req, res) => {
       messagesFromSub[queueName].push(msg)
     }
   )
-  res.end()
 })
