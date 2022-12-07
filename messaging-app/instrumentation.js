@@ -30,6 +30,22 @@ newrelic.instrumentMessages('./nifty-messages', (shim, messages, modname) => {
     }
   })
 
+  console.log(`[NEWRELIC] instrumenting method 'purge'`)
+  shim.recordPurgeQueue(Client.prototype, 'purge', (shim, fn, name, args) => {
+    const queueName = args[0]
+    console.log(`[NEWRELIC] purge called on queue '${queueName}'`)
+
+    // misc key/value parameters can be recorded as a part of the trace segment
+    const params = { queueName }
+
+    return {
+      callback: shim.LAST,
+      destinationName: queueName,
+      destinationType: shim.QUEUE,
+      parameters: params
+    }
+  })
+
   console.log(`[NEWRELIC] instrumenting callbacks of method 'getMessage'`)
   shim.recordConsume(Client.prototype, 'getMessage', {
     destinationName: shim.FIRST,

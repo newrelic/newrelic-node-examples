@@ -24,6 +24,15 @@ class Client extends EventEmitter {
     cb()
   }
 
+  purge(queueName, cb) {
+    console.log("called method 'purge'")
+    if (this.queues[queueName] === undefined) {
+      return cb(new Error('unknown queue'))
+    }
+    this.queues[queueName] = []
+    return cb()
+  }
+
   getMessage(queueName, cb) {
     console.log("called method 'getMessage'")
     const queue = this.queues[queueName]

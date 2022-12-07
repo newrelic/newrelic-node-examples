@@ -19,7 +19,7 @@ npm ci
 PORT=3000 NEW_RELIC_LICENSE_KEY=<Your New Relic License Key> npm start
 ```
 
-This will start an Express app tied to a local-only toy messaging application at `http://localhost:3000`, with three endpoints: `/` for getting messages, `/publish` with a GET query parameter `msg` for publishing a message, and `/subscribe` for starting a message subscription to the `main` queue.
+This will start an Express app tied to a local-only Nifty Messages toy application at `http://localhost:3000`, with four endpoints: `/` for getting messages, `/purge` for purging a queue, `/publish` with a GET query parameter `msg` for publishing a message, and `/subscribe` for starting a message subscription to the `main` queue. All endpoints also accept a `queueName` GET parameter, which defaults to `main`.
 
 4. Make requests to the application
 
@@ -32,12 +32,17 @@ curl 'http://localhost:3000/publish?msg=goodbye'
 curl 'http://localhost:3000/'
 curl 'http://localhost:3000/'
 
+# Publish two messages but immediately purge them
+curl 'http://localhost:3000/publish?msg=hello+again'
+curl 'http://localhost:3000/publish?msg=goodbye+again'
+curl 'http://localhost:3000/purge'
+
 # Subscribe to get all messages
 curl 'http://localhost:3000/subscribe'
 
 # Publish two more
-curl 'http://localhost:3000/publish?msg=hello+again'
-curl 'http://localhost:3000/publish?msg=goodbye+again'
+curl 'http://localhost:3000/publish?msg=hello+yet+again'
+curl 'http://localhost:3000/publish?msg=goodbye+yet+again'
 
 # Get the messages processed by the subscription
 curl 'http://localhost:3000/'
@@ -53,7 +58,7 @@ curl 'http://localhost:3000/'
 
 The application consists of the following files.
 
-* [`messages.js`](./messages.js): a toy messaging app that exposes three prototypical methods, `publish`, `subscribe`, and `getMessage`.
+* [`nifty-messages.js`](./nifty-messages.js): a toy messaging app called Nifty Messages that exposes four prototypical methods, `publish`, `purge`, `subscribe`, and `getMessage`.
 * [`index.js`](./index.js): a simple Express app that makes use of the toy messaging app.
 * [`instrumentation.js`](./instrumentation.js): all of the New Relic instrumentation is in here. The `npm start` command loads this module first.
 * [`newrelic.js`](./newrelic.js): a basic, sample New Relic configuration.

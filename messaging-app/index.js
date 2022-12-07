@@ -28,6 +28,13 @@ app.get('/publish', (req, res) => {
   })
 })
 
+app.get('/purge', (req, res) => {
+  const queueName = req.query.queue || 'main'
+  client.purge(queueName, () => {
+    res.send([`Purged queue: ${queueName}`])
+  })
+})
+
 app.get('/', (req, res) => {
   const queueName = req.query.queue || 'main'
   client.getMessage(queueName, (err, msg) => {
