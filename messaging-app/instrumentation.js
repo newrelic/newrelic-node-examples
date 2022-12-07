@@ -75,6 +75,15 @@ newrelic.instrumentMessages('./nifty-messages', (shim, messages, modname) => {
   console.log(`[NEWRELIC] instrumenting callbacks of method 'subscribe'`)
   shim.recordSubscribedConsume(Client.prototype, 'subscribe', {
     consumer: shim.LAST,
+    // This handler will be called in whatever context our subscribed
+    // message handler is called. In index.js, this is the
+    // `consumeMessage` function defined by the `subscribe` Express
+    // route, which will be called whenever new messages are
+    // published.
+    //
+    // Note that we are not recording the subscription call itself,
+    // only the the consume calls made because a subscription was made
+    // earlier.
     messageHandler(shim, consumer, name, args) {
       const msg = args[0]
       console.log(`[NEWRELIC] subscribe on queue ${msg.queueName} returned a message: '${msg.msg}'`)
