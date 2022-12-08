@@ -6,6 +6,9 @@
 'use strict'
 
 const express = require('express')
+
+const { scheduleJob, runJob } = require('./util')
+
 const app = express()
 const { PORT = '3000', HOST = 'localhost' } = process.env
 
@@ -39,3 +42,6 @@ const handler = function (_req, res) {
 app.get('/chained', function mw1(_req, _res, next) { next() }, function(_req, _res, next) { next() }, (_req, _res, next) => { next() }, mw4, handler)
 // The above is deliberately ugly and in one line, with named,
 // anonymous, and arrow functions all in one big mess.
+
+app.get('/schedule-job', scheduleJob)
+app.get('/run-job', runJob)
