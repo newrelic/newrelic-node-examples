@@ -4,12 +4,20 @@
  */
 
 'use strict'
-
+const newrelic = require('newrelic')
 const express = require('express')
 
 const { scheduleJob, runJob } = require('./util')
+const qs = require('qs')
 
 const app = express()
+app.set('query parser', (str) => {
+  return qs.parse(str, {
+    allowPrototypes: true,
+    allowDots: true
+  })
+})
+app.set('view engine', 'html')
 const { PORT = '3000', HOST = 'localhost' } = process.env
 
 app.listen(PORT, HOST, function () {
@@ -30,12 +38,15 @@ app.get('/arrow', (_req, res) => {
   res.send('arrow fn mw handler')
 })
 
-function mw4(_req, _res, next) {
+function mw4(req, _res, next) {
+  const { profile } = req.query
+  newrelic.addCustomAttribute('profileId', profile)
   next()
 }
 
 const handler = function (_req, res) {
-  res.send('phew, that was a lot of hops')
+  const browser = newrelic.getBrowserTimingHeader()
+  res.send(`<html><head>${browser}</head><h1>Hello World</h1></html>`)
 }
 
 // eslint-disable-next-line
