@@ -2,3 +2,4 @@ node_modules
 newrelic_agent.log
 .idea
 dist
+**/*.log
