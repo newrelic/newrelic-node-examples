@@ -43,4 +43,4 @@ newrelic.setErrorGroupCallback(function exampleCallback(metadata) {
 2. `npm run start`
 3. `npm run traffic`
 
-You can now login to the New Relic UI and observe errors generated in the `Errors Inbox` page.
+You can now log in to the New Relic UI and observe errors generated in the `Errors Inbox` page.
