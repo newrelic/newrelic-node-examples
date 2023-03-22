@@ -7,6 +7,7 @@
 
 const newrelic = require('newrelic')
 const express = require('express')
+const { v4: uuidv4 } = require('uuid')
 const { interactWithAPI, interactWithDatabase } = require('./helpers')
 
 const app = express()
@@ -15,24 +16,31 @@ newrelic.setErrorGroupCallback(function groupErrors(errMetadata) {
   let errorGroup
 
   if (errMetadata['error.expected']) {
-    if (errMetadata.error?.component === 'api') {
+    if (errMetadata.error?.metadata?.component === 'api') {
       errorGroup = 'Expected API Error'
     }
 
-    if (errMetadata.error?.component === 'database') {
+    if (errMetadata.error?.metadata?.component === 'database') {
       errorGroup = 'Expected Database Error'
     }
   } else {
-    if (errMetadata.error?.component === 'api') {
+    if (errMetadata.error?.metadata?.component === 'api') {
       errorGroup = 'Unexpected API Error'
     }
 
-    if (errMetadata.error?.component === 'database') {
+    if (errMetadata.error?.metadata?.component === 'database') {
       errorGroup = 'Unexpected Database Error'
     }
   }
 
+  console.log(errorGroup)
   return errorGroup
+})
+
+app.use(function setUser(req, res, next) {
+  const id = req.query.user_id || uuidv4() 
+  newrelic.setUserID(id)
+  next()
 })
 
 app.get('/error/expected', function expectedController(_req, res) {
