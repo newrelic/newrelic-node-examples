@@ -19,7 +19,7 @@
 
 If the callback function returns a non-empty string, that string will be used as the Error Group name in Errors Inbox. If the callback function returns something other than a string, or an empty string, the `error.group.name` attribute will not be added to the Error.
 
-Finally, if `newrelic.setErrorGroupCallback` is invoked multiple times, the previous callback function will be overwritten, there can be only one active callback function.
+Finally, if `newrelic.setErrorGroupCallback` is invoked multiple times, the previous callback function will be overwritten. There can be only one active callback function.
 
 **Example Usage**
 ```js
