@@ -4,7 +4,7 @@
 
 `newrelic.setErrorGroupCallback` provides a way for you to customize the `error.group.name` attribute of errors that are captured by the agent. This attribute controls how the Errors Inbox functionality groups similar errors together.
 
-`newrelic.setErrorGroupCallback` accepts one argument: a callback function. The callback function can accept an object argument, which contains metadata associated with an individual error. The object passed to the callback function has the following shape:
+`newrelic.setErrorGroupCallback` accepts one argument: a synchronous callback function. The callback function can accept an object argument, which contains metadata associated with an individual error. The object passed to the callback function has the following shape:
 
 ```js
 {
