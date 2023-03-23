@@ -6,6 +6,5 @@
 'use strict'
 
 exports.config = {
-  app_name: 'Example Error Fingerprinting Application',
-  license_key: process.env.NR_KEY
+  app_name: 'Example Error Fingerprinting Application'
 }

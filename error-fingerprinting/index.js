@@ -33,7 +33,6 @@ newrelic.setErrorGroupCallback(function groupErrors(errMetadata) {
     }
   }
 
-  console.log(errorGroup)
   return errorGroup
 })
 

@@ -39,7 +39,7 @@ newrelic.setErrorGroupCallback(function exampleCallback(metadata) {
 ## Example App
 
 **Running the app**
-1. `export NR_KEY=<your-key-here>`
+1. `export NEW_RELIC_LICENSE_KEY=<your-key-here>`
 2. `npm run start`
 3. `npm run traffic`
 
