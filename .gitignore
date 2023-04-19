@@ -3,3 +3,6 @@ newrelic_agent.log
 .idea
 dist
 **/*.log
+
+# For custom environment
+.env
