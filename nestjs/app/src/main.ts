@@ -8,7 +8,6 @@ async function bootstrap() {
   let app;
   
   if (process.env['NEST_USE_FASTIFY']) {
-    console.log('using nest, allegedly')
     app = await NestFactory.create<NestFastifyApplication>(
       AppModule, 
       new FastifyAdapter(),
