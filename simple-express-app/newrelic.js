@@ -7,6 +7,7 @@
  */
 exports.config = {
   host: 'staging-collector.newrelic.com',
+  /*
   app_name: ['k2-demo'],
   security: {
     enabled: true,
@@ -14,6 +15,21 @@ exports.config = {
       enabled: true
     },
     validator_service_url: 'wss://csec-staging.nr-data.net'
+  },
+  */
+  app_name: ['bob-infinite-tracing'],
+  infinite_tracing: {
+    // mock location
+    /*trace_observer: {
+      host: 'localhost',
+      port: '50051'
+    },
+    */
+    trace_observer: {
+      host: 'a140b86b-7e23-4adc-bd03-6a684a98ecb3.aws-us-east-2.tracing.staging-edge.nr-data.net'
+    },
+    batching: true,
+    compression: true
   },
   logging: {
     /**
