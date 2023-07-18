@@ -6,7 +6,7 @@
   "dependencies": {
     "@apollo/server": "^4.7.4",
     "@as-integrations/koa": "^1.0.0",
-    "@aws-sdk/client-dynamodb": "^3.351.0",
+    "@aws-sdk/client-dynamodb": "^3.359.0",
     "@aws-sdk/lib-dynamodb": "^3.332.0",
     "@faker-js/faker": "^8.0.0",
     "@koa/cors": "^4.0.0",
