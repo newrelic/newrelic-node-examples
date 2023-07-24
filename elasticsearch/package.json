@@ -1,0 +1,17 @@
+{
+  "name": "elasticsearch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app/server.js",
+  "scripts": {
+    "start": "node -r newrelic app/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.8.1",
+    "express": "^4.18.2",
+    "newrelic": "^10.5.0"
+  }
+}
