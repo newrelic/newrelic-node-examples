@@ -1,3 +1,4 @@
+import './custom-instrumentation/index.js'
 import express from 'express'
 const { PORT = '3000', HOST = 'localhost' } = process.env
 import parseJson from 'parse-json'
