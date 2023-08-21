@@ -32,6 +32,8 @@
 $ npm install
 ```
 
+Edit `src/newrelic.ts` and add your license key to `license_key`.
+
 ## Running the app
 
 ```bash
