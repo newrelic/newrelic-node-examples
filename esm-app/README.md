@@ -29,9 +29,7 @@ curl http://localhost:3000/user/100
 
 
 ## Custom ESM instrumentation
-The process of registering custom instrumentation in an ESM application is different than a CommonJS(cjs) one.  In CommonJS applications, as long as you called `newrelic.instrument`, `newrelic.instrumentConglomerate`, `newrelic.instrumentDatastore`, `newrelic.instrumentWebframework`, or `newrelic.instrumentMessages` before the module was required, it would properly instrument.  However due to the async nature of ESM loading, you cannot control this in your application and must be done in a loader.  The New Relic Node.js agent has provided a configuration option(`config.api.esm.custom_instrumentation_entrypoint`) to specify the path to a file that will be used to register all your instrumentation.  
-
-In this application you can see the [configuration value](./newrelic.cjs#L26) being set to `./custom-instrumentation/index.js`.  Within that [file](./custom-instrumentation/index.js), it registers instrumentation for 3rd party ESM packages.
+The process of registering custom instrumentation in an ESM application is the same as a CommonJS(cjs) one.  You can use `newrelic.instrument`, `newrelic.instrumentConglomerate`, `newrelic.instrumentDatastore`, `newrelic.instrumentWebframework`, or `newrelic.instrumentMessages` before the module is imported, and it will properly instrument.  
 
 **Note**: You can no longer use `newrelic.instrumentLoadedModule` as the mechanics of that API method were geared towards CommonJS modules.
 
