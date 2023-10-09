@@ -1,0 +1,18 @@
+{
+  "name": "basic-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-sns": "^3.294.0",
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "newrelic": "github:bizob2828/node-newrelic#batch-inifite-tracing"
+  }
+}
