@@ -1,0 +1,14 @@
+version: "3.0"
+
+services:
+  logs-in-context-esm-app:
+    container_name: nr-logs-in-context-esm-app
+    env_file: env.example
+    environment:
+      NODE_ENV: production
+    build:
+      context: app
+    volumes:
+      - "./logs:/app/logs"
+    ports:
+      - "3000:3000"
