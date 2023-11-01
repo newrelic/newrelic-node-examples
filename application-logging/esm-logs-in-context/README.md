@@ -7,7 +7,7 @@ This utility was designed to generate logs for winston or pino.  It can be used 
 
 ### Set environment variable values
 
-Edit the `NEW_RELIC_LICENSE_KEY` value in `env.example` and rename the file to `.env`
+Edit the `NEW_RELIC_LICENSE_KEY` value in `env.example`.
 
 You have the option of changing the following environment variables, if you'd like to rename the application or adjust the log level of the New Relic Node Agent. 
 `NEW_RELIC_APP_NAME=logs-in-context-esm-example` 
