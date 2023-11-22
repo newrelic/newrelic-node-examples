@@ -1,0 +1,19 @@
+{
+  "name": "openai-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --env-file .env -r newrelic index.js",
+    "start:debug": "node --inspect-brk --env-file .env -r newrelic index.js",
+    "start:no-agent": "node --env-file .env index.js"
+  },
+  "author": "'",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.24.3",
+    "newrelic": "^11.6.0",
+    "openai": "^4.17.0",
+    "uuid": "^9.0.1"
+  }
+}
