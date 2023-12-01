@@ -3,6 +3,7 @@ This application demonstrates using the agent to instrument openai and record sp
 
 
 ## Getting started
+**Note**: This application requires the use of Node.js v20+.
 
  1. Clone or fork this repository.
 

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node --env-file .env -r newrelic index.js",
     "start:debug": "node --inspect-brk --env-file .env -r newrelic index.js",
