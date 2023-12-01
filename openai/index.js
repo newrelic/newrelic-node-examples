@@ -6,7 +6,7 @@ const { PORT: port = 3000, HOST: host = '127.0.0.1', OPENAI_API_KEY: apiKey } = 
 const openai = new OpenAI({
   apiKey
 })
-const { v4: uuid } = require('uuid')
+const { randomUUID: uuid } = require('node:crypto')
 
 const responses = new Map()
 
@@ -16,8 +16,6 @@ fastify.listen({ host, port }, function (err, address) {
     fastify.log.error(err)
     process.exit(1)
   }
-
-  fastify.log.info(`Server is now listening on ${address}`)
 })
 
 fastify.post('/embedding', async (request, reply) => {
@@ -26,8 +24,7 @@ fastify.post('/embedding', async (request, reply) => {
     input,
     model
   })
-  reply.send(embedding)
-
+  return reply.send(embedding)
 })
 
 fastify.post('/chat-completion', async(request, reply) => {
@@ -49,7 +46,7 @@ fastify.post('/chat-completion', async(request, reply) => {
 
   const ids = newrelic.getLlmMessageIds({ responseId: chatCompletion.id })
   responses.set(chatCompletion.id, ids)
-  reply.send(chatCompletion)
+  return reply.send(chatCompletion)
 })
 
 fastify.post('/chat-completion-stream', async(request, reply) => {
@@ -74,6 +71,8 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
   reply.raw.write('\n-------- END OF MESSAGE ---------\n')
   reply.raw.write(`Use this id to record feedback '${chunk.id}'\n`)
   reply.raw.end()
+  
+  return reply
 })
 
 fastify.post('/feedback', (request, reply) => {
@@ -93,5 +92,5 @@ fastify.post('/feedback', (request, reply) => {
     metadata
   })
 
-  reply.send('Feedback recorded')
+  return reply.send('Feedback recorded')
 })

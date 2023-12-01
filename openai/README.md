@@ -32,11 +32,11 @@ curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -
 ```
 
 ## Inspecting AI Responses
-After sending a few requests, navigate to your application in `APM & Services`.  Select `AI Monitoring` > `AI Responses` 
+After sending a few requests, navigate to your application in `APM & Services`.  Select `AI Monitoring` > `AI Responses`:
 
 ![AI Responses Landing](./images/ai-home.png?raw=true "AI Responses Landing")
 
-If you click the details of a response you will see metrics, trace information and LLM specific information
+If you click the details of a response you will see metrics, trace information and LLM specific information:
 
 
 ![AI Response](./images/response-details.png?raw=true "AI Response Details")
