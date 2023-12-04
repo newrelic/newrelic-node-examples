@@ -5,7 +5,7 @@ services:
     container_name: nr-fluentd
     env_file: .env
     build:
-      context: fluentd
+      context: ./fluentd
     volumes:
       - "./logs:/fluentd/log"
     ports:
@@ -17,7 +17,7 @@ services:
     environment:
       HOST: 0.0.0.0
     build:
-      context: app
+      context: ./app
     volumes:
       - "./logs:/app/logs"
     ports:

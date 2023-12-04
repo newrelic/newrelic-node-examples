@@ -4,8 +4,8 @@
   "description": "Sample app that demonstrates logs in context for Node.js",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint ",
-    "lint:fix": "eslint  --fix"
+    "lint": "eslint . ",
+    "lint:fix": "eslint . --fix"
   },
   "author": "New Relic Node.js agent team <nodejs@newrelic.com>",
   "license": "Apache-2.0",
