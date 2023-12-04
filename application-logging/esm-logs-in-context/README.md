@@ -7,11 +7,11 @@ This utility was designed to generate logs for winston or pino.  It can be used 
 
 ### Set environment variable values
 
-Edit the `NEW_RELIC_LICENSE_KEY` value in `env.example`.
+```sh
+cp env.example .env
+```
 
-You have the option of changing the following environment variables, if you'd like to rename the application or adjust the log level of the New Relic Node Agent. 
-`NEW_RELIC_APP_NAME=logs-in-context-esm-example` 
-`NEW_RELIC_LOG_LEVEL=info` 
+Edit the `NEW_RELIC_LICENSE_KEY` and `NEW_RELIC_APP_NAME` values in `.env`, as well as the `NEW_RELIC_LOG_LEVEL` if you prefer more detailed logs.
 
 ```sh
 docker compose up --build

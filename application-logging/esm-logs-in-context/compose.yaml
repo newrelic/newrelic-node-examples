@@ -2,8 +2,8 @@ version: "3.0"
 
 services:
   logs-in-context-esm-app:
-    container_name: nr-logs-in-context-esm-app
-    env_file: env.example
+    container_name: nr-legacy-logs-in-context-esm-app
+    env_file: .env
     environment:
       NODE_ENV: production
     build:
