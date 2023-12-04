@@ -1,5 +1,5 @@
 # ESM Logs in Context
-This utility was designed to generate logs for winston or pino.  It can be used to do performance testing of the application logging in agent.
+This utility was designed to generate logs for winston or pino.  It can be used to do performance testing of the application log forwarding in agent.
 
 ## Getting Started
 
