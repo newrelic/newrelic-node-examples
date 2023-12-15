@@ -1,3 +1,7 @@
+# Deprecation notice
+
+This example should be considered to be deprecated. Instead of following this method of delivering logs, we recommend that customers use the [Node agent for logs in context and log forwarding](https://docs.newrelic.com/docs/logs/logs-context/configure-logs-context-nodejs/). 
+
 # New Relic Node.js logs in context Example
 
 This project demonstrates [logs in context](https://docs.newrelic.com/docs/logs/logs-context/logs-in-context/) with New Relic by using a Node.js application and log enrichers.
