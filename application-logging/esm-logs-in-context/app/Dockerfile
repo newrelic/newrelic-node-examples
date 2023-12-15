@@ -33,4 +33,4 @@ COPY .. .
 EXPOSE 3000
 
 # Run the application.
-CMD node --experimental-loader newrelic/esm-loader.mjs -r newrelic index.js  > ./logs/logs-in-context-esm.log
+CMD node --experimental-loader newrelic/esm-loader.mjs -r newrelic index.js

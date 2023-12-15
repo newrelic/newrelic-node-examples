@@ -9,18 +9,18 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: [process.env.NEW_RELIC_APP_NAME],
+  app_name: ['Your App Name'],
   /**
    * Your New Relic license key.
    */
-  license_key: process.env.NEW_RELIC_LICENSE_KEY,
+  license_key: 'Your License Key',
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
      * issues with the agent, 'info' and higher will impose the least overhead on
      * production applications.
      */
-    level: process.env.NEW_RELIC_LOG_LEVEL
+    level: 'info'
   },
   /**
    * When true, all request headers except for those listed in attributes.exclude

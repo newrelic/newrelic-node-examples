@@ -8,7 +8,5 @@ services:
       NODE_ENV: production
     build:
       context: app
-    volumes:
-      - "./logs:/app/logs"
     ports:
       - "3000:3000"
