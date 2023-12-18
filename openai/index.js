@@ -32,11 +32,7 @@ fastify.post('/chat-completion', async(request, reply) => {
 
   // assign conversation_id via custom attribute API
   const conversationId = uuid()
-  newrelic.addCustomAttribute('conversation_id', conversationId)
-
-  // set metadata to be added to all LLM events
-  const meta = { test_meta: 'value of meta key', ctx: 'sample app', id: 'bogus' }
-  newrelic.setLlmMetadata(meta)
+  newrelic.addCustomAttribute('llm.conversation_id', conversationId)
 
   const chatCompletion = await openai.chat.completions.create({
     temperature: 0.5,
