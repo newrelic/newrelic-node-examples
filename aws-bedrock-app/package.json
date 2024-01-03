@@ -1,0 +1,16 @@
+{
+  "name": "aws-bedrock-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.484.0",
+    "dotenv": "^16.3.1",
+    "fastify": "^4.25.2"
+  }
+}
