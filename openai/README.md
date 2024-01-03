@@ -21,7 +21,7 @@ npm start
 ```sh
 curl -XPOST http://localhost:3000/embedding
 
-curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"message":"How much would could a woodchuck chuck if a woodchuck could chuck wood?"}'
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"message":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?"}'
 
 # To leave feedback copy the id from response
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
