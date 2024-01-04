@@ -1,13 +1,13 @@
 'use strict'
-require('dotenv').config()
-const newrelic = require('newrelic')
-const fastify = require('fastify')({ logger: true })
+require('dotenv').config();
+const newrelic = require('newrelic');
+const fastify = require('fastify')({ logger: true });
 const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
 const {
   BedrockRuntimeClient,
   InvokeModelCommand,
   InvokeModelWithResponseStreamCommand
-} = require('@aws-sdk/client-bedrock-runtime')
+} = require('@aws-sdk/client-bedrock-runtime');
 
 const responses = new Map();
 
@@ -134,18 +134,18 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
   });
 
   try {
-    const response = await client.send(command)
+    const response = await client.send(command);
 
-    reply.raw.writeHead(200, { 'Content-Type': 'text/plain'})
+    reply.raw.writeHead(200, { 'Content-Type': 'text/plain'});
     reply.raw.write(`requestId": ${response.$metadata.requestId}`);
     for await (const chunk of response.body) {
       if (chunk.chunk.bytes) {
-        reply.raw.write(chunk.chunk.bytes)
+        reply.raw.write(chunk.chunk.bytes);
       }
     }
   
-    reply.raw.write('\n-------- END OF MESSAGE ---------\n')
-    reply.raw.end()
+    reply.raw.write('\n-------- END OF MESSAGE ---------\n');
+    reply.raw.end();
     
     return reply;
   } catch (error) {

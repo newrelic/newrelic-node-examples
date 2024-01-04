@@ -21,7 +21,7 @@ npm start
 # model options are: amazon-titan, anthropic, ai21, cohere
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"message":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?", "model": "amazon-titan"}'
 
-# model options are: amazon-titan, anthropic, cohere
+# model options are: amazon-titan, anthropic, cohere - default model is amazon-titan
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion-stream -d '{"message":"Explain the rules of jai alai"}'
 
 curl -XPOST http://localhost:3000/embedding
