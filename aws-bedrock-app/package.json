@@ -3,14 +3,20 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "start": "node index.js"
+    "start": "node --env-file .env -r newrelic index.js",
+    "start:debug": "node --inspect-brk --env-file .env -r newrelic index.js",
+    "start:no-agent": "node --env-file .env index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.484.0",
     "dotenv": "^16.3.1",
-    "fastify": "^4.25.2"
+    "fastify": "^4.25.2",
+    "newrelic": "^11.8.0"
   }
 }

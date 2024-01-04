@@ -10,7 +10,7 @@
 ```sh
 npm ci
 cp .env.sample .env
-# Fill out `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in .env and save 
+# Fill out `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` and `NEW_RELIC_LICENSE_KEY` in .env and save 
 npm start
 ```
 
@@ -25,4 +25,7 @@ curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-compl
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion-stream -d '{"message":"Explain the rules of jai alai"}'
 
 curl -XPOST http://localhost:3000/embedding
+
+# To leave feedback copy the id from response
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
 ```

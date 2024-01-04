@@ -1,5 +1,6 @@
 'use strict'
 require('dotenv').config()
+const newrelic = require('newrelic')
 const fastify = require('fastify')({ logger: true })
 const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
 const {
@@ -7,6 +8,8 @@ const {
   InvokeModelCommand,
   InvokeModelWithResponseStreamCommand
 } = require('@aws-sdk/client-bedrock-runtime')
+
+const responses = new Map();
 
 const client = new BedrockRuntimeClient({
   region: 'us-east-1',
@@ -175,3 +178,24 @@ fastify.post('/embedding', async (request, reply) => {
     return reply.code(500).send({ error: error });
   }
 })
+
+fastify.post('/feedback', (request, reply) => {
+  const { category = 'feedback-test', rating = 1, message = 'Good talk', metadata, id } = request.body || {}
+  const ids = responses.get(id);
+  if (!ids) {
+    return reply.code(404).send(`No message ids found for ${message}`);
+  }
+
+  newrelic.recordLlmFeedbackEvent({
+    conversationId: ids.conversation_id,
+    requestId: ids.request_id,
+    messageId: ids.message_ids[0],
+    category,
+    rating,
+    message,
+    metadata
+  })
+
+  return reply.send('Feedback recorded');
+})
+
