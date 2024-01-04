@@ -132,17 +132,19 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
 
   try {
     const response = await client.send(command)
-    let resChunks = [];
 
-    for await (const payload of response.body) {
-      resChunks.push(payload.chunk.bytes);
+    reply.raw.writeHead(200, { 'Content-Type': 'text/plain'})
+    reply.raw.write(`requestId": ${response.$metadata.requestId}`);
+    for await (const chunk of response.body) {
+      if (chunk.chunk.bytes) {
+        reply.raw.write(chunk.chunk.bytes)
+      }
     }
-
-    const concatenatedBuffer = Buffer.concat(resChunks);
-    const byteString = new TextDecoder().decode(concatenatedBuffer);
-    const outputObj = JSON.parse(JSON.stringify(byteString));
-
-    return reply.send({"requestId": response.$metadata.requestId, outputObj});
+  
+    reply.raw.write('\n-------- END OF MESSAGE ---------\n')
+    reply.raw.end()
+    
+    return reply;
   } catch (error) {
     return reply.code(500).send({ error: error });
   }
@@ -150,7 +152,7 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
 
 fastify.post('/embedding', async (request, reply) => {
   const { message = 'Test embedding', model = 'amazon-titan-embed' } = request.body || {}
-  
+
   const prompt = {
     body: JSON.stringify({
       inputText: message,
