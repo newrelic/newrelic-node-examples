@@ -89,7 +89,87 @@ fastify.post('/chat-completion', async (request, reply) => {
 
     return reply.send({"requestId": response.$metadata.requestId, outputText});
   } catch (error) {
-    console.error(error);
     return reply.code(500).send({ error: error });
   }
 });
+
+fastify.post('/chat-completion-stream', async(request, reply) => {
+  const { message = 'Say this is a test', model = 'amazon-titan' } = request.body || {};
+
+  // Model configurations
+  const modelConfigurations = {
+    // amazon titan text
+    'amazon-titan': {
+      modelId: 'amazon.titan-text-express-v1',
+      body: { inputText: message },
+    },
+    // anthropic claude
+    'anthropic': {
+      modelId: 'anthropic.claude-v2',
+      body: {
+        prompt: `\n\nHuman: ${message}\n\nAssistant:`,
+        max_tokens_to_sample: 200,
+      },
+    },
+    // cohere
+    'cohere': {
+      modelId: 'cohere.command-text-v14',
+      body: { prompt: message },
+    },
+  };
+
+  const modelConfig = modelConfigurations[model];
+  if (!modelConfig) {
+    return reply.code(400).send({ error: 'Invalid model' });
+  }
+
+  const command = new InvokeModelWithResponseStreamCommand({
+    body: JSON.stringify(modelConfig.body),
+    modelId: modelConfig.modelId,
+    contentType: 'application/json',
+    accept: 'application/json',
+  });
+
+  try {
+    const response = await client.send(command)
+    let resChunks = [];
+
+    for await (const payload of response.body) {
+      resChunks.push(payload.chunk.bytes);
+    }
+
+    const concatenatedBuffer = Buffer.concat(resChunks);
+    const byteString = new TextDecoder().decode(concatenatedBuffer);
+    const outputObj = JSON.parse(JSON.stringify(byteString));
+
+    return reply.send({"requestId": response.$metadata.requestId, outputObj});
+  } catch (error) {
+    return reply.code(500).send({ error: error });
+  }
+})
+
+fastify.post('/embedding', async (request, reply) => {
+  const { message = 'Test embedding', model = 'amazon-titan-embed' } = request.body || {}
+  
+  const prompt = {
+    body: JSON.stringify({
+      inputText: message,
+    }),
+    modelId: 'amazon.titan-embed-text-v1',
+    contentType: 'application/json',
+    accept: 'application/json'
+  }
+
+  const command = new InvokeModelCommand(prompt);
+
+  try {
+    const response = await client.send(command);
+    const resBody = new TextDecoder('utf-8').decode(response.body);
+    const parsedResBody = JSON.parse(resBody);
+    const embedding = parsedResBody.embedding;
+
+    return reply.send({"requestId": response.$metadata.requestId, embedding});
+  } catch (error) {
+    return reply.code(500).send({ error: error });
+  }
+})
