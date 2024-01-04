@@ -46,7 +46,7 @@ fastify.post('/chat-completion', async (request, reply) => {
     },
     // ai21 labs jurassic 2
     'ai21': {
-      modelId: 'ai21.j2-mid-v1',
+      modelId: 'ai21.j2-ultra-v1',
       body: { prompt: message },
     },
     // cohere
