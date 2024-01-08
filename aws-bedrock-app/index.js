@@ -1,5 +1,4 @@
 'use strict'
-require('dotenv').config();
 const newrelic = require('newrelic');
 const fastify = require('fastify')({ logger: true });
 const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env

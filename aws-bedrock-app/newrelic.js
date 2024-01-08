@@ -24,6 +24,9 @@ exports.config = {
   ai_monitoring: {
     enabled: true
   },
+  feature_flag: {
+    aws_bedrock_instrumentation: true 
+  },
   custom_insights_events: {
     max_samples_stored: 100000
   },
