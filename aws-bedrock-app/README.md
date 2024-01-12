@@ -18,14 +18,16 @@ npm start
 
  ```sh
 # make a request to chat completions - provide a model to use or the default amazon-titan model will be used
-# model options are: amazon-titan, anthropic, ai21, cohere
+# model options are: amazon-titan, anthropic, ai21, cohere, meta
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"message":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?", "model": "amazon-titan"}'
 
 # model options are: amazon-titan, anthropic, cohere - default model is amazon-titan
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion-stream -d '{"message":"Explain the rules of jai alai"}'
 
-curl -XPOST http://localhost:3000/embedding
-
-# To leave feedback copy the id from response
+# To leave feedback copy the id from response of a chat completion
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
+
+# model options are: amazon-titan-embed, cohere-embed
+curl -XPOST -H 'Content-type: application/json' http://localhost:3000/embedding -d '{"message:"Test embedding", "model": "amazon-titan-embed"}'
+
 ```
