@@ -28,6 +28,6 @@ curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-compl
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
 
 # model options are: amazon-titan-embed, cohere-embed
-curl -XPOST -H 'Content-type: application/json' http://localhost:3000/embedding -d '{"message:"Test embedding", "model": "amazon-titan-embed"}'
+curl -XPOST -H 'Content-type: application/json' http://localhost:3000/embedding -d '{"message":"Test embedding", "model": "amazon-titan-embed"}'
 
 ```
