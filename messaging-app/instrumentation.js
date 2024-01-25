@@ -6,8 +6,9 @@
 'use strict'
 
 const newrelic = require('newrelic')
+const niftyPath = require.resolve('./nifty-messages')
 
-newrelic.instrumentMessages('./nifty-messages', (shim, messages, modname) => {
+newrelic.instrumentMessages({ absolutePath: niftyPath, moduleName: 'nifty-messages', onRequire: (shim, messages, modname) => {
   console.log(`[NEWRELIC] instrumenting ${modname}`)
   const Client = messages.Client
   // The library name will be used for naming transactions
@@ -93,4 +94,4 @@ newrelic.instrumentMessages('./nifty-messages', (shim, messages, modname) => {
       }
     }
   })
-})
+}})
