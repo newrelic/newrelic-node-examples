@@ -7,7 +7,7 @@
 
 const newrelic = require('newrelic')
 
-newrelic.instrumentWebframework('SimpleFramework', instrumentMyWebFramework)
+newrelic.instrumentWebframework('./simple-framework', instrumentMyWebFramework)
 
 function instrumentMyWebFramework(shim, myModule, moduleName) {
   console.log(`[NEWRELIC] instrumenting ${moduleName}`)
