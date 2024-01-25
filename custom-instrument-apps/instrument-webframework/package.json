@@ -10,6 +10,6 @@
   "author": "New Relic",
   "license": "ISC",
   "dependencies": {
-    "newrelic": "^11.10.0"
+    "newrelic": "^11.10.1"
   }
 }

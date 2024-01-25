@@ -6,8 +6,9 @@
 'use strict'
 
 const newrelic = require('newrelic')
+const frameworkPath = require.resolve('./simple-framework')
 
-newrelic.instrumentWebframework('./simple-framework', instrumentMyWebFramework)
+newrelic.instrumentWebframework({ absolutePath: frameworkPath, moduleName: 'simple-framework', onRequire: instrumentMyWebFramework})
 
 function instrumentMyWebFramework(shim, myModule, moduleName) {
   console.log(`[NEWRELIC] instrumenting ${moduleName}`)
