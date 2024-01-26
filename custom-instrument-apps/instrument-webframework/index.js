@@ -6,22 +6,39 @@
 'use strict'
 
 const { SimpleFramework } = require('./simple-framework')
+const { authenticate } = require('./lib/authenticate')
 
-const loggingMiddleware = (req, _) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
+const getUsers = () => {
+  const users = [
+    { id: 1, username: 'user1', email: 'user1@example.com' },
+    { id: 2, username: 'user2', email: 'user2@example.com' },
+    { id: 3, username: 'user3', email: 'user3@example.com' }
+  ];
+
+  return JSON.stringify(users);
 }
 
-const app = new SimpleFramework()
-app.use(loggingMiddleware)
+let server = new SimpleFramework()
 
-app.get('/', (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
-  res.end('Hello, World!')
+server.all(function authenticateMiddleware(req, res) {
+  if (authenticate()) {
+    console.log("Authenticated!")
+  } else {
+    res.statusCode = 403
+    res.end()
+  }
 })
 
-app.post('/submit', (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
-  res.end('Form submitted successfully!')
+server.get('/api/users', function(req, res) {
+  res.write(getUsers())
+  res.end()
 })
 
-app.start(3000)
+server.get('/home', function(req, res) {
+  server.render('home', function(err, renderedView) {
+    res.write(renderedView)
+    res.end()
+  })
+})
+
+server.start(3000)

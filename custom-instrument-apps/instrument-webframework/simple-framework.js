@@ -7,6 +7,8 @@
 
 const http = require('http')
 const url = require('url')
+const fs = require('fs');
+const path = require('path');
 
 class SimpleFramework {
   constructor() {
@@ -14,16 +16,12 @@ class SimpleFramework {
     this.middleware = []
   }
 
-  use(middlewareFunction) {
+  all(middlewareFunction) {
     this.middleware.push(middlewareFunction)
   }
 
   get(path, handler) {
     this.routes.push({ method: 'GET', path, handler })
-  }
-
-  post(path, handler) {
-    this.routes.push({ method: 'POST', path, handler })
   }
 
   handleRequest(req, res) {
@@ -53,6 +51,18 @@ class SimpleFramework {
     server.listen(port, () => {
       console.log(`Server listening on port ${port}`)
     })
+  }
+
+  render(viewName, callback) {
+    const viewPath = path.join(__dirname, 'lib', 'views', `${viewName}.html`);
+  
+    fs.readFile(viewPath, 'utf8', (err, data) => {
+      if (err) {
+        return callback(err, null);
+      }
+  
+      callback(null, data);
+    });
   }
 }
 

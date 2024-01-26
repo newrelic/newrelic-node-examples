@@ -17,7 +17,7 @@ function instrumentMyWebFramework(shim, myModule, moduleName) {
 
   const Framework = myModule.SimpleFramework
 
-  shim.wrapMiddlewareMounter(Framework.prototype, ['get', 'post'], {
+  shim.wrapMiddlewareMounter(Framework.prototype, ['all', 'get'], {
     route: shim.FIRST,
     wrapper: function wrapMiddleware(shim, fn, name, route) {
       return shim.recordMiddleware(fn, {
@@ -28,5 +28,10 @@ function instrumentMyWebFramework(shim, myModule, moduleName) {
         next: shim.THIRD
       })
     }
+  })
+
+  shim.recordRender(Framework.prototype, 'render', {
+    view: shim.FIRST,
+    callback: shim.LAST
   })
 }
