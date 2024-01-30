@@ -6,7 +6,7 @@ This is an example app that uses the `newrelic.instrumentWebframework` [API func
 
 1. Clone or fork this repository
 
-2. Go into this subdirectory,
+2. Navigate to the example's subdirectory:
 
 ``` sh
 cd newrelic-node-examples/custom-instrument-apps/instrument-webframework
