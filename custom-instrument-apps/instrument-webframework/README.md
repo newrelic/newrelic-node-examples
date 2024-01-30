@@ -12,11 +12,13 @@ This is an example app that uses the `newrelic.instrumentWebframework` [API func
 cd newrelic-node-examples/custom-instrument-apps/instrument-webframework
 ```
 
-3. Install dependencies and run the application
+3. Update the `license_key` in the `newrelic.js` config file with your license key.
+
+4. Install dependencies and run the application
 
 ```sh
 npm ci
-NEW_RELIC_LICENSE_KEY=<Your New Relic License Key> npm start
+npm start
 ```
 
 4. Make requests to the application
