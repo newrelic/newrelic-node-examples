@@ -4,7 +4,7 @@ This is an example app that uses the `newrelic.instrumentWebframework` [API func
 
 ## Getting started
 
-1. Clone or fork, this repository,
+1. Clone or fork this repository
 
 2. Go into this subdirectory,
 
