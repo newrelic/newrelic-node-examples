@@ -12,7 +12,7 @@ This is an example app that uses the `newrelic.instrumentWebframework` [API func
 cd newrelic-node-examples/custom-instrument-apps/instrument-webframework
 ```
 
-3. Install dependencies and run application
+3. Install dependencies and run the application
 
 ```sh
 npm ci
