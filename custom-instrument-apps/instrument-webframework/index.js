@@ -35,10 +35,9 @@ server.get('/api/users', function(req, res) {
 })
 
 server.get('/home', function(req, res) {
-  server.render('home', function(err, renderedView) {
-    res.write(renderedView)
-    res.end()
-  })
+  const renderedView = server.render('home')
+  res.write(renderedView)
+  res.end()
 })
 
 server.start(3000)

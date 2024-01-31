@@ -53,16 +53,15 @@ class SimpleFramework {
     })
   }
 
-  render(viewName, callback) {
-    const viewPath = path.join(__dirname, 'lib', 'views', `${viewName}.html`);
-  
-    fs.readFile(viewPath, 'utf8', (err, data) => {
-      if (err) {
-        return callback(err, null);
-      }
-  
-      callback(null, data);
-    });
+  render(viewName) {
+    try {
+      const viewPath = path.join(__dirname, 'lib', 'views', `${viewName}.html`);
+      const data = fs.readFileSync(viewPath, 'utf8');
+      return data;
+    } catch (err) {
+      console.error(err);
+      return null; 
+    }
   }
 }
 
