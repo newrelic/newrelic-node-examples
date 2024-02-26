@@ -40,8 +40,8 @@ fastify.post('/chat-completion', async(request, reply) => {
     model
   });
 
-  const ids = newrelic.getLlmMessageIds({ responseId: chatCompletion.id })
-  responses.set(chatCompletion.id, ids)
+  const { traceId } = newrelic.getTraceMetadata()
+  responses.set(chatCompletion.id, { traceId })
   return reply.send(chatCompletion)
 })
 
@@ -62,8 +62,8 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
     }
   }
 
-  const ids = newrelic.getLlmMessageIds({ responseId: chunk.id })
-  responses.set(chunk.id, ids)
+  const { traceId } = newrelic.getTraceMetadata()
+  responses.set(chunk.id, { traceId })
   reply.raw.write('\n-------- END OF MESSAGE ---------\n')
   reply.raw.write(`Use this id to record feedback '${chunk.id}'\n`)
   reply.raw.end()
@@ -73,15 +73,13 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
 
 fastify.post('/feedback', (request, reply) => {
   const { category = 'feedback-test', rating = 1, message = 'Good talk', metadata, id } = request.body || {}
-  const ids = responses.get(id)
-  if (!ids) {
-    return reply.code(404).send(`No message ids found for ${message}`)
+  const { traceId } = responses.get(id)
+  if (!traceId) {
+    return reply.code(404).send(`No trace id found for ${message}`)
   }
 
   newrelic.recordLlmFeedbackEvent({
-    conversationId: ids.conversation_id,
-    requestId: ids.request_id,
-    messageId: ids.message_ids[0],
+    traceId,
     category,
     rating,
     message,
