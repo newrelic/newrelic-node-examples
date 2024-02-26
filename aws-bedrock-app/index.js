@@ -69,8 +69,8 @@ fastify.post('/chat-completion', async (request, reply) => {
     }
 
     const { requestId } = response.$metadata
-    const ids = newrelic.getLlmMessageIds({ responseId: requestId })
-    responses.set(requestId, ids)
+    const { traceId } = newrelic.getTraceMetadata()
+    responses.set(requestId, { traceId })
 
     return reply.send({requestId, outputText});
   } catch (error) {
@@ -152,15 +152,13 @@ fastify.post('/embedding', async (request, reply) => {
 
 fastify.post('/feedback', (request, reply) => {
   const { category = 'feedback-test', rating = 1, message = 'Good talk', metadata, id } = request.body || {}
-  const ids = responses.get(id);
-  if (!ids) {
-    return reply.code(404).send(`No message ids found for ${message}`);
+  const { traceId } = responses.get(id);
+  if (!traceId) {
+    return reply.code(404).send(`No trace id found for ${message}`);
   }
 
   newrelic.recordLlmFeedbackEvent({
-    conversationId: ids.conversation_id,
-    requestId: ids.request_id,
-    messageId: ids.message_ids[0],
+    traceId,
     category,
     rating,
     message,
