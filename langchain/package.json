@@ -14,9 +14,9 @@
   "author": "'",
   "license": "ISC",
   "dependencies": {
-    "@langchain/openai": "^0.0.14",
+    "@langchain/openai": "^0.0.15",
     "fastify": "^4.24.3",
-    "langchain": "^0.1.21",
+    "langchain": "^0.1.24",
     "newrelic": "^11.11.0",
     "uuid": "^9.0.1"
   }

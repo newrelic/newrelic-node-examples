@@ -23,13 +23,7 @@ curl -XPOST http://localhost:3000/embedding
 
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"message":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?"}'
 
-# To leave feedback copy the id from response
-curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
-
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion-stream -d '{"message":"Explain the rules of jai alai"}'
-
-# To leave feedback copy the id from response
-curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
 ```
 
 ## Inspecting AI Responses

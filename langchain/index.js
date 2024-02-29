@@ -7,11 +7,7 @@ const { LLMChain, BaseChain } = require('langchain/chains')
 const { ChatPromptTemplate } = require('@langchain/core/prompts')
 const { StringOutputParser } = require('@langchain/core/output_parsers')
 
-const { PORT: port = 3000, HOST: host = '127.0.0.1', OPENAI_API_KEY: apiKey } = process.env
-
-const openai = new OpenAI({
-  apiKey
-})
+const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
 
 const { randomUUID: uuid } = require('node:crypto')
 
@@ -34,65 +30,49 @@ fastify.post('/embedding', async (request, reply) => {
 })
 
 fastify.post('/chat-completion', async(request, reply) => {
-  const { message = 'Say this is a test', model = 'gpt-4' } = request.body || {}
+  const {
+    message = 'Say this is a test.',
+    model = 'gpt-4',
+    temperature = 0.5
+  } = request.body || {}
+
+  const chatModel = new ChatOpenAI({
+    model,
+    temperature
+  })
 
   // assign conversation_id via custom attribute API
   const conversationId = uuid()
   newrelic.addCustomAttribute('llm.conversation_id', conversationId)
 
-
-  const chatCompletion = await openai.completionWithRetry({
-    temperature: 0.5,
-    messages: [{ role: 'user', content: message }],
-    model
-  })
-  const ids = newrelic.getLlmMessageIds({ responseId: chatCompletion.id })
-  responses.set(chatCompletion.id, ids)
-  return reply.send(chatCompletion)
+  const res = await chatModel.invoke(message)
+  console.log(res)
+  return reply.send(res)
 })
 
 fastify.post('/chat-completion-stream', async(request, reply) => {
-  const { message = 'Say this is a test', model = 'gpt-4' } = request.body || {}
-  const stream = await openai.chat.completions.create({
-    stream: true,
-    temperature: 0.5,
-    messages: [{ role: 'user', content: message }],
-    model
-  });
+  const {
+    message = 'Say this is a test.',
+    model = 'gpt-4',
+    temperature = 0.5
+  } = request.body || {}
 
-  reply.raw.writeHead(200, { 'Content-Type': 'text/plain'})
-  let chunk
-  for await (chunk of stream) {
-    if (chunk.choices[0]?.delta?.content) {
-      reply.raw.write(chunk.choices[0].delta.content)
-    }
+  const chatModel = new ChatOpenAI({
+    model,
+    temperature
+  })
+
+  const stream = await chatModel.stream(message)
+  let chunkContent = []
+  for await (const chunk of stream) {
+    chunkContent.push(chunk.content)
   }
 
-  const ids = newrelic.getLlmMessageIds({ responseId: chunk.id })
-  responses.set(chunk.id, ids)
+  reply.raw.writeHead(200, { 'Content-Type': 'text/plain'})
+  reply.raw.write('\n-------- MESSAGE ---------\n')
+  reply.raw.write(`'${chunkContent.join('')}'\n`)
   reply.raw.write('\n-------- END OF MESSAGE ---------\n')
-  reply.raw.write(`Use this id to record feedback '${chunk.id}'\n`)
   reply.raw.end()
 
   return reply
-})
-
-fastify.post('/feedback', (request, reply) => {
-  const { category = 'feedback-test', rating = 1, message = 'Good talk', metadata, id } = request.body || {}
-  const ids = responses.get(id)
-  if (!ids) {
-    return reply.code(404).send(`No message ids found for ${message}`)
-  }
-
-  newrelic.recordLlmFeedbackEvent({
-    conversationId: ids.conversation_id,
-    requestId: ids.request_id,
-    messageId: ids.message_ids[0],
-    category,
-    rating,
-    message,
-    metadata
-  })
-
-  return reply.send('Feedback recorded')
 })
