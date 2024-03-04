@@ -1,0 +1,23 @@
+{
+  "name": "langchain-openai-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node --env-file .env -r newrelic index.js",
+    "start:debug": "node --inspect-brk --env-file .env -r newrelic index.js",
+    "start:no-agent": "node --env-file .env index.js"
+  },
+  "author": "'",
+  "license": "ISC",
+  "dependencies": {
+    "@langchain/openai": "^0.0.15",
+    "fastify": "^4.24.3",
+    "langchain": "^0.1.24",
+    "newrelic": "^11.11.0",
+    "uuid": "^9.0.1"
+  }
+}
