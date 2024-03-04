@@ -46,7 +46,6 @@ fastify.post('/chat-completion', async(request, reply) => {
   newrelic.addCustomAttribute('llm.conversation_id', conversationId)
 
   const res = await chatModel.invoke(message)
-  console.log(res)
   return reply.send(res)
 })
 
