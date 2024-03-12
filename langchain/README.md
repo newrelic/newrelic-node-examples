@@ -24,6 +24,18 @@ curl -XPOST http://localhost:3000/embedding
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"message":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?"}'
 
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion-stream -d '{"message":"Explain the rules of jai alai"}'
+
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/memory_vector -d '{"message":"Describe a bridge", "model":"gpt-4", "temperature": 1}' 
+
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/memory_vector -d '{"message":"Describe a tunnel", "model":"gpt-4", "temperature": 1}'
+
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/tools -d '{"message":"midge"}'
+
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/tools -d '{"message":"chunnel"}'
+
+# To leave feedback for any of the above, copy the id from response
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
+ 
 ```
 
 ## Inspecting AI Responses
