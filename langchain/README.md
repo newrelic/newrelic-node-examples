@@ -25,15 +25,23 @@ curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-compl
 
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion-stream -d '{"message":"Explain the rules of jai alai"}'
 
-curl -X POST -H "Content-Type: application/json" http://localhost:3000/memory_vector -d '{"message":"Describe a bridge", "model":"gpt-4", "temperature": 1}' 
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/memory_vector -d '{"message":"Describe a bridge", "results": 1}' 
 
-curl -X POST -H "Content-Type: application/json" http://localhost:3000/memory_vector -d '{"message":"Describe a tunnel", "model":"gpt-4", "temperature": 1}'
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/memory_vector -d '{"message":"Describe a tunnel", "results": 1}'
 
 curl -X POST -H "Content-Type: application/json" http://localhost:3000/tools -d '{"message":"midge"}'
 
 curl -X POST -H "Content-Type: application/json" http://localhost:3000/tools -d '{"message":"chunnel"}'
 
-# To leave feedback for any of the above, copy the id from response
+# start an ElasticSearch container and make requests to the vector store: 
+
+docker-compose up -d --build 
+
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/elastic_vector -d '{"message":"Describe a bridge", "results": 1}'
+
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/elastic_vector -d '{"message":"Describe a bridge", "results": 1}'
+
+# To leave feedback for any of the above, copy the feedback id from response
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
  
 ```

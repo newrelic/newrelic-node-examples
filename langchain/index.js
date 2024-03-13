@@ -6,10 +6,19 @@ const { ChatOpenAI, OpenAIEmbeddings } = require('@langchain/openai')
 const { MemoryVectorStore } = require("langchain/vectorstores/memory")
 const TestTool = require('./custom-tool')
 
+const { Client } = require("@elastic/elasticsearch")
+const { createRetrievalChain } = require("langchain/chains/retrieval")
+
+const {
+  ElasticVectorSearch
+} = require("@langchain/community/vectorstores/elasticsearch")
+const { Document } = require("@langchain/core/documents")
+const { createStuffDocumentsChain } = require("langchain/chains/combine_documents")
+const { ChatPromptTemplate } = require("@langchain/core/prompts")
+
+
 const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
-
 const { randomUUID: uuid } = require('node:crypto')
-
 const responses = new Map()
 
 
@@ -125,8 +134,7 @@ console.log("RESULT", result)
 fastify.post('/memory_vector', async (request, reply) => {
   const {
     message = 'Describe a bridge',
-    model = 'text-embedding-ada-002',
-    temperature = 0.5
+    results = 1
   } = request.body || {}
 
   const vectorStore = await MemoryVectorStore.fromTexts(
@@ -142,7 +150,7 @@ fastify.post('/memory_vector', async (request, reply) => {
       new OpenAIEmbeddings()
   )
 
-  const response = await vectorStore.similaritySearch(message, temperature)
+  const response = await vectorStore.similaritySearch(message, results)
 
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(traceId, { traceId })
@@ -150,4 +158,80 @@ fastify.post('/memory_vector', async (request, reply) => {
 
   return reply.send({...response})
 })
+
+// Before running this endpoint, make sure to start an ElasticSearch container with `docker-compose up -d --build`.
+fastify.post('/elastic_vector', async (request, reply) => {
+  const {
+    message = 'Describe Elasticsearch.',
+    results = 1
+  } = request.body || {}
+
+  const config = {
+    node: process.env.ELASTIC_URL ?? "http://localhost:9200",
+  }
+  const clientArgs = {
+    client: new Client(config),
+    indexName: process.env.ELASTIC_INDEX ?? "test_vectorstore",
+  }
+
+  const embeddings = new OpenAIEmbeddings()
+  const vectorStore = new ElasticVectorSearch(embeddings, clientArgs)
+
+  const documentSource = [
+    "A bridge is a structure linking two places elevated over another.",
+    "A smidge is a small amount of something.",
+    "A midge is a tiny flying insect.",
+    "A tunnel is a passage which allows access underground or through an elevated geographic feature or human-made structure.",
+    "The Chunnel is a tunnel under the English Channel.",
+    "A funnel is a shape consisting of a partial cone and a cylinder, for directing solids or fluids from a wider to a narrower opening.",
+    "Elasticsearch is a powerful vector db.",
+    "the quick brown fox jumped over the lazy dog",
+    "lorem ipsum dolor sit amet",
+    "Elasticsearch a distributed, RESTful search engine optimized for speed and relevance on production-scale workloads."
+  ]
+
+  const docs = []
+  for await (const doc of documentSource) {
+    const id = (docs.length + 1)
+    const d = new Document({
+      metadata: { id: id },
+      pageContent: doc,
+    })
+    docs.push(d)
+  }
+
+  const ids = await vectorStore.addDocuments(docs)
+  const vectorResults = await vectorStore.similaritySearch(message, results)
+
+  const prompt =
+      ChatPromptTemplate.fromTemplate(`Answer the following question based only on the provided context:
+
+<context>
+{context}
+</context>
+
+Question: {input}`)
+
+  const documentChain = await createStuffDocumentsChain({
+    llm: new ChatOpenAI(),
+    prompt,
+  })
+
+  const chain = await createRetrievalChain({
+    combineDocsChain: documentChain,
+    retriever: vectorStore.asRetriever()
+  })
+  const response1 = await chain.invoke({ input: message })
+
+  await vectorStore.delete({ ids })
+
+  const response2 = await chain.invoke({ input: message })
+
+  const { traceId } = newrelic.getTraceMetadata()
+  responses.set(traceId, { traceId })
+  const feedbackId = traceId
+
+  return reply.send({feedbackId, vectorResults, response1, response2})
+})
+
 
