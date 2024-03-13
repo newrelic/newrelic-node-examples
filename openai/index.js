@@ -1,6 +1,5 @@
 'use strict'
 
-require('dotenv').config()
 const newrelic = require('newrelic')
 const fastify = require('fastify')({ logger: true })
 const OpenAI = require('openai')

@@ -14,9 +14,8 @@
   "author": "'",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.4.5",
     "fastify": "^4.24.3",
-    "newrelic": "^11.11.0",
+    "newrelic": "^11.13.0",
     "openai": "^4.17.0",
     "uuid": "^9.0.1"
   }
