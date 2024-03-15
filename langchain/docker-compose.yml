@@ -1,7 +1,7 @@
 version: "3"
 services:
   elasticsearch:
-    container_name: nr_node_elastic
+    container_name: nr_langchain_elastic
     image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
