@@ -6,13 +6,13 @@
 'use strict'
 const { Tool } = require('@langchain/core/tools')
 const data = {
-  langchain: { response: 'Langchain is the best!' },
-  bridge: { response: 'A bridge is a structure linking two places elevated over another.' },
-  smidge: { response: 'A smidge is a small amount of something.' },
-  midge: { response: 'A midge is a tiny flying insect.' },
-  tunnel: { response: 'A tunnel is a passage which allows access underground or through an elevated geographic feature or human-made structure.' },
-  chunnel: { response: 'The Chunnel is a tunnel under the English Channel.' },
-  funnel: { response: 'A funnel is a shape consisting of a partial cone and a cylinder, for directing solids or fluids from a wider to a narrower opening.' }
+  langchain: 'Langchain is the best!',
+  bridge: 'A bridge is a structure linking two places elevated over another.',
+  smidge: 'A smidge is a small amount of something.',
+  midge: 'A midge is a tiny flying insect.',
+  tunnel: 'A tunnel is a passage which allows access underground or through an elevated geographic feature or human-made structure.',
+  chunnel: 'The Chunnel is a tunnel under the English Channel.',
+  funnel: 'A funnel is a shape consisting of a partial cone and a cylinder, for directing solids or fluids from a wider to a narrower opening.'
 }
 
 module.exports = class TestTool extends Tool {

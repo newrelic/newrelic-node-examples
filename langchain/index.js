@@ -125,10 +125,8 @@ fastify.post('/tools', async (request, reply) => {
   const result = await tool.call(message)
 
   const { traceId } = newrelic.getTraceMetadata()
-  result.feedbackId = traceId
-  responses.set(result.feedbackId, { traceId })
-console.log("RESULT", result)
-  return reply.send({...result})
+  responses.set(traceId, { traceId })
+  return reply.send({ result, feedbackId: traceId })
 })
 
 fastify.post('/memory_vector', async (request, reply) => {
