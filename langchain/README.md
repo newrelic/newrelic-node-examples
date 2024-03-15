@@ -10,6 +10,8 @@ This application demonstrates using the agent to instrument langchain and record
  1. Install dependencies and run application
 
 ```sh
+# start an ElasticSearch container for the ElasticSearch vector store: 
+docker-compose up -d --build 
 npm ci
 cp .env.sample .env
 # Fill out `OPENAI_API_KEY` and `NEW_RELIC_LICENSE_KEY` in .env and save 
@@ -19,30 +21,24 @@ npm start
  1. Make requests to application.
 
 ```sh
-curl -XPOST http://localhost:3000/embedding
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"topic":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?"}'
 
-curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"message":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?"}'
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion-stream -d '{"topic":"Explain the rules of jai alai"}'
 
-curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion-stream -d '{"message":"Explain the rules of jai alai"}'
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/memory_vector -d '{"topic":"Describe a bridge", "results": 1}' 
 
-curl -X POST -H "Content-Type: application/json" http://localhost:3000/memory_vector -d '{"message":"Describe a bridge", "results": 1}' 
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/memory_vector -d '{"topic":"Describe a tunnel", "results": 1}'
 
-curl -X POST -H "Content-Type: application/json" http://localhost:3000/memory_vector -d '{"message":"Describe a tunnel", "results": 1}'
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/tools -d '{"topic":"midge"}'
 
-curl -X POST -H "Content-Type: application/json" http://localhost:3000/tools -d '{"message":"midge"}'
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/tools -d '{"topic":"chunnel"}'
 
-curl -X POST -H "Content-Type: application/json" http://localhost:3000/tools -d '{"message":"chunnel"}'
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/elastic_vector -d '{"topic":"Describe a bridge", "results": 1}'
 
-# start an ElasticSearch container and make requests to the vector store: 
-
-docker-compose up -d --build 
-
-curl -X POST -H "Content-Type: application/json" http://localhost:3000/elastic_vector -d '{"message":"Describe a bridge", "results": 1}'
-
-curl -X POST -H "Content-Type: application/json" http://localhost:3000/elastic_vector -d '{"message":"Describe a bridge", "results": 1}'
+curl -X POST -H "Content-Type: application/json" http://localhost:3000/elastic_vector -d '{"topic":"Describe a bridge", "results": 1}'
 
 # To leave feedback for any of the above, copy the feedback id from response
-curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>", "message": "Good talk!"}'
  
 ```
 

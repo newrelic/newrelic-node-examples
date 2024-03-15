@@ -3,21 +3,21 @@ const newrelic = require('newrelic')
 const fastify = require('fastify')({ logger: true })
 
 const { ChatOpenAI, OpenAIEmbeddings } = require('@langchain/openai')
-const { MemoryVectorStore } = require("langchain/vectorstores/memory")
-const TestTool = require('./custom-tool')
-
 const { Client } = require("@elastic/elasticsearch")
 const { createRetrievalChain } = require("langchain/chains/retrieval")
+const { ChatPromptTemplate } = require("@langchain/core/prompts")
+const { StringOutputParser } = require('@langchain/core/output_parsers')
+const { Document } = require("@langchain/core/documents")
+const { createStuffDocumentsChain } = require("langchain/chains/combine_documents")
 
+const { MemoryVectorStore } = require("langchain/vectorstores/memory")
 const {
   ElasticVectorSearch
 } = require("@langchain/community/vectorstores/elasticsearch")
-const { Document } = require("@langchain/core/documents")
-const { createStuffDocumentsChain } = require("langchain/chains/combine_documents")
-const { ChatPromptTemplate } = require("@langchain/core/prompts")
 
+const TestTool = require('./custom-tool')
 
-const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
+const { PORT: port = 3000, HOST: host = '127.0.0.1' , OPENAI_API_KEY: openAIApiKey = 'fake-key'} = process.env
 const { randomUUID: uuid } = require('node:crypto')
 const responses = new Map()
 
@@ -29,54 +29,53 @@ fastify.listen({ host, port }, function (err, address) {
   }
 })
 
-fastify.post('/embedding', async (request, reply) => {
-  const { input = 'Test embedding', model = 'text-embedding-ada-002' } = request.body || {}
-  const embeddings = new OpenAIEmbeddings({modelName: model})
-
-  const embedding = await embeddings.embedQuery(input)
-  return reply.send(embedding)
-})
-
 fastify.post('/chat-completion', async(request, reply) => {
   const {
-    message = 'Say this is a test.',
+    topic = 'You are a scientist',
     model = 'gpt-4',
     temperature = 0.5
   } = request.body || {}
 
+  const prompt = ChatPromptTemplate.fromMessages([["assistant", '{topic}.']])
   const chatModel = new ChatOpenAI({
+    openAIApiKey,
     model,
-    temperature
+    temperature,
+    maxRetries: 0
   })
-
-  // assign conversation_id via custom attribute API
-  const conversationId = uuid()
-  newrelic.addCustomAttribute('llm.conversation_id', conversationId)
-
-  const response = await chatModel.invoke(message)
+  const outputParser = new StringOutputParser()
+  const input = { topic }
+  const options = { metadata: { key: 'value', hello: 'world' }, tags: ['tag1', 'tag2'] }
+  const chain = prompt.pipe(chatModel).pipe(outputParser)
+  const response = await chain.invoke(input, options)
   const { traceId } = newrelic.getTraceMetadata()
-  response.feedbackId = traceId
-  responses.set(response.feedbackId, { traceId })
+  responses.set(traceId, { traceId })
 
-  return reply.send({...response})
+  return reply.send({response, feedbackId: traceId})
 })
 
 fastify.post('/chat-completion-stream', async(request, reply) => {
   const {
-    message = 'Say this is a test.',
-    model = 'gpt-4',
+    topic = 'Say this is a test.',
+    model = 'gpt-3.5-turbo',
     temperature = 0.5
   } = request.body || {}
+
+  const prompt = ChatPromptTemplate.fromMessages([["assistant", '{topic}.']])
 
   const chatModel = new ChatOpenAI({
     model,
     temperature
   })
 
-  const stream = await chatModel.stream(message)
-  const chunkContent = []
-  for await (const chunk of stream) {
-    chunkContent.push(chunk.content)
+  const outputParser = new StringOutputParser()
+  const input = { topic }
+  const options = { metadata: { key: 'value', hello: 'world' }, tags: ['tag1', 'tag2'] }
+  const chain = prompt.pipe(chatModel).pipe(outputParser)
+  const stream = await chain.stream(input, options)
+  const chunks = []
+  for await (const chunk of await stream) {
+    chunks.push(chunk)
   }
 
   const { traceId } = newrelic.getTraceMetadata()
@@ -84,7 +83,7 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
 
   reply.raw.writeHead(200, { 'Content-Type': 'text/plain'})
   reply.raw.write('\n-------- MESSAGE ---------\n')
-  reply.raw.write(`'${chunkContent.join('')}'\n`)
+  reply.raw.write(`'${chunks.join('')}'\n`)
   reply.raw.write('\n-------- END OF MESSAGE ---------\n')
   reply.raw.write(`Use this id to record feedback: '${traceId}'\n`)
   reply.raw.end()
@@ -113,7 +112,7 @@ fastify.post('/feedback', (request, reply) => {
 
 fastify.post('/tools', async (request, reply) => {
   const {
-    message = 'Say this is a test.',
+    topic = 'Say this is a test.',
     temperature = 0.5
   } = request.body || {}
 
@@ -122,7 +121,7 @@ fastify.post('/tools', async (request, reply) => {
     baseUrl
   })
 
-  const result = await tool.call(message)
+  const result = await tool.call(topic)
 
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(traceId, { traceId })
@@ -131,7 +130,7 @@ fastify.post('/tools', async (request, reply) => {
 
 fastify.post('/memory_vector', async (request, reply) => {
   const {
-    message = 'Describe a bridge',
+    topic = 'Describe a bridge',
     results = 1
   } = request.body || {}
 
@@ -148,19 +147,37 @@ fastify.post('/memory_vector', async (request, reply) => {
       new OpenAIEmbeddings()
   )
 
-  const response = await vectorStore.similaritySearch(message, results)
+  const vectorResponse = await vectorStore.similaritySearch(topic, results)
+
+  const prompt =
+      ChatPromptTemplate.fromTemplate(`Answer the following question based only on the provided context:
+
+<context>
+{context}
+</context>
+
+Question: {input}`)
+
+  const documentChain = await createStuffDocumentsChain({
+    llm: new ChatOpenAI(),
+    prompt,
+  })
+
+  const chain = await createRetrievalChain({
+    combineDocsChain: documentChain,
+    retriever: vectorStore.asRetriever()
+  })
+  const response1 = await chain.invoke({ input: topic })
 
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(traceId, { traceId })
-  response.feedbackId = traceId
-
-  return reply.send({...response})
+  return reply.send({feedbackId: traceId,  vectorResponse, response1 })
 })
 
 // Before running this endpoint, make sure to start an ElasticSearch container with `docker-compose up -d --build`.
 fastify.post('/elastic_vector', async (request, reply) => {
   const {
-    message = 'Describe Elasticsearch.',
+    topic = 'Describe Elasticsearch.',
     results = 1
   } = request.body || {}
 
@@ -199,7 +216,7 @@ fastify.post('/elastic_vector', async (request, reply) => {
   }
 
   const ids = await vectorStore.addDocuments(docs)
-  const vectorResults = await vectorStore.similaritySearch(message, results)
+  const vectorResults = await vectorStore.similaritySearch(topic, results)
 
   const prompt =
       ChatPromptTemplate.fromTemplate(`Answer the following question based only on the provided context:
@@ -219,11 +236,11 @@ Question: {input}`)
     combineDocsChain: documentChain,
     retriever: vectorStore.asRetriever()
   })
-  const response1 = await chain.invoke({ input: message })
+  const response1 = await chain.invoke({ input: topic })
 
   await vectorStore.delete({ ids })
 
-  const response2 = await chain.invoke({ input: message })
+  const response2 = await chain.invoke({ input: topic })
 
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(traceId, { traceId })
