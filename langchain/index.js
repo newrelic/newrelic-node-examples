@@ -18,7 +18,6 @@ const {
 const TestTool = require('./custom-tool')
 
 const { PORT: port = 3000, HOST: host = '127.0.0.1' , OPENAI_API_KEY: openAIApiKey = 'fake-key'} = process.env
-const { randomUUID: uuid } = require('node:crypto')
 const responses = new Map()
 
 
