@@ -112,8 +112,7 @@ fastify.post('/feedback', (request, reply) => {
 
 fastify.post('/tools', async (request, reply) => {
   const {
-    topic = 'Say this is a test.',
-    temperature = 0.5
+    topic = 'Say this is a test.'
   } = request.body || {}
 
   const baseUrl = 'http://httpbin.org'
