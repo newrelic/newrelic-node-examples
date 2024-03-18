@@ -14,10 +14,12 @@
   "author": "'",
   "license": "ISC",
   "dependencies": {
-    "@langchain/openai": "^0.0.15",
-    "fastify": "^4.24.3",
-    "langchain": "^0.1.24",
-    "newrelic": "^11.11.0",
+    "@elastic/elasticsearch": "^8.12.2",
+    "@langchain/community": "^0.0.37",
+    "@langchain/openai": "^0.0.19",
+    "fastify": "^4.26.2",
+    "langchain": "^0.1.26",
+    "newrelic": "^11.13.0",
     "uuid": "^9.0.1"
   }
 }

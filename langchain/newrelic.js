@@ -24,7 +24,6 @@ exports.config = {
   ai_monitoring: {
     enabled: true
   },
-  feature_flag: { langchain_instrumentation: true },
   custom_insights_events: {
     max_samples_stored: 100000
   },
