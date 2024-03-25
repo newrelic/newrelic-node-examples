@@ -35,7 +35,7 @@ fastify.post('/chat-completion', async(request, reply) => {
     temperature = 0.5
   } = request.body || {}
 
-  const prompt = ChatPromptTemplate.fromMessages([["assistant", '{topic}.']])
+  const prompt = ChatPromptTemplate.fromMessages([["human", '{topic}.']])
   const chatModel = new ChatOpenAI({
     openAIApiKey,
     model,
@@ -60,7 +60,7 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
     temperature = 0.5
   } = request.body || {}
 
-  const prompt = ChatPromptTemplate.fromMessages([["assistant", '{topic}.']])
+  const prompt = ChatPromptTemplate.fromMessages([["human", '{topic}.']])
 
   const chatModel = new ChatOpenAI({
     model,
