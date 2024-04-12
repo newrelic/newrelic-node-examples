@@ -53,8 +53,6 @@ export default function Page({ user }) {
       </div>
 
       <button type="submit">Update</button>
-
-      {/*<pre>{JSON.stringify(user, null, 2)}</pre>*/}
     </form>
   )
 }
