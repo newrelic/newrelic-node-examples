@@ -15,7 +15,9 @@ export default function App({ Component, pageProps }) {
     return (
       <>
           <ul className="navbar">
+              <li><a href="/">Home</a></li>
               <li><Link href="/users" key={"users"}>Users</Link></li>
+              <li><a href="/hello/world">Hello</a></li>
               <li><Link href="/about" key={"about"}>About</Link></li>
           </ul>
           <Component {...pageProps} />

@@ -14,9 +14,13 @@ instrumentation for all of the libraries New Relic's Node.js agent supports.
 application forwards server-side logs via our instrumentation of the Pino logger.
 + [pages/_document.js](./pages/_document.jsx): shows how to enable the browser
 agent.
-+ [pages/user/edit/[id].jsx](./pages/user/edit/%5Bid%5D.jsx): shows how to handle errors
-on both the client and server. When updating a user's age, an error will be
-returned, presented in the client, and available in the New Relic dashboard.
++ [pages/user/edit/[id].jsx](./pages/user/edit/%5Bid%5D.jsx): shows how to
+handle errors on both the client and server. When updating a user's age, an
+error will be returned, presented in the client, and available in the New Relic
+dashboard.
++ [pages/hello/[value].jsx](./pages/hello/%5Bvalue%5D.jsx): shows a static page
+that has been generated at compile time. Views of this sort of page will show
+up appropriately in the New Relic dashboard.
 
 ## Setup
 
