@@ -1,7 +1,7 @@
 // See https://nextjs.org/docs/pages/building-your-application/data-fetching/forms-and-mutations
 
-import logger from '../../lib/logger.js'
-import getDatabase from '../../lib/database.js'
+import logger from '../../../lib/logger.js'
+import getDatabase from '../../../lib/database.js'
 
 // See https://react.dev/reference/react/useState
 import { useState } from 'react'
