@@ -1,4 +1,4 @@
-This is an example of an instrumented Next.js app.
+This is an example of an instrumented Next.js app using [Pages Router](https://nextjs.org/docs/pages)
 
 ## Overview
 
