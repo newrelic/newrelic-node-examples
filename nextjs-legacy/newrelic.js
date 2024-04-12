@@ -7,6 +7,16 @@
  * description of configuration variables and their potential values.
  */
 exports.config = {
+  /**
+   * This application_logging block shows the default configuration. That is,
+   * it is not technically necessary; if it were omitted completely, we'd still
+   * get the same configuration applied.
+   *
+   * We are including it here for illustrative purposes. With log forwarding
+   * enabled, the Pino instance returned by `lib/logger.js` will be instrumented
+   * by the `newrelic` agent and ship logs to New Relic so that they can be
+   * viewed in the dashboard.
+   */
   application_logging: {
     forwarding: {
       enabled: true
