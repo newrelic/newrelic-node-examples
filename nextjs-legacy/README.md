@@ -27,20 +27,9 @@ up appropriately in the New Relic dashboard.
 1. Copy [.env.sample](./.env.sample) to `.env`.
 2. Edit `.env` to add your New Relic app name and license key
 (see "Enabling APM collection" below).
-3. Start the application: `npm run dev`.
+3. Build the application: `npm run build`
+3. Start the application: `npm start`.
 4. Browse the application: http://127.0.0.1:3000/
-
-### Enabling APM collection
-
-1. In the [New Relic One dashboard][dash], click "Add Data" in the left sidebar.
-2. Select "Node.js" from the "Application monitoring" data source section.
-3. Select "On a host".
-4. Select either license key option depending on your situation.
-5. Enter a name for the application and click the "Continue" button.
-6. Enter the provided configuration information into your application's
-New Relic configuration, e.g. in your local `newrelic.js` file.
-7. Start your application, return to the dashboard, and finish the process
-by clicking the "Test Connection" button.
 
 ### Enabling the browser agent
 
