@@ -12,7 +12,7 @@
   "author": "Jessica Lopatta <jlopatta@newrelic.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "artillery": "^2.0.4",
+    "artillery": "^2.0.10",
     "express": "^4.19.2",
     "newrelic": "^11.5.0",
     "uuid": "^9.0.0"
