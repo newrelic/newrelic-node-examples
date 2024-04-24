@@ -31,15 +31,3 @@ up appropriately in the New Relic dashboard.
 3. Start the application: `npm start`.
 4. Browse the application: http://127.0.0.1:3000/
 
-### Enabling the browser agent
-
-1. In the [New Relic One dashboard][dash], click "Browser" in the left sidebar.
-2. Click the "Add Data" in the upper right corner.
-3. Select "Browser Monitoring" from the "Browser" data source category.
-4. Select "Connect browser data to an application's APM data" for the
-instrumentation method.
-5. Select your APM application from the provided dropdown and continue.
-6. Click the "Update settings" button and then the "Continue" button.
-7. Wait a few minutes for the changes to take effect.
-
-[dash]: https://one.newrelic.com

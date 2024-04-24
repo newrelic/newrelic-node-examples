@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "NODE_OPTIONS='-r dotenv/config --loader newrelic/esm-loader.mjs -r @newrelic/next' next dev",
-    "build": "next build",
+    "build": "NODE_OPTIONS='-r dotenv/config' next build",
     "start": "NODE_OPTIONS='-r dotenv/config --loader newrelic/esm-loader.mjs -r @newrelic/next' next start",
     "lint": "next lint"
   },
