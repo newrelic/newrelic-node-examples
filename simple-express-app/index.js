@@ -5,7 +5,18 @@ const lib = require('@aws-sdk/client-sns')
 const sns = new lib.SNSClient()
 
 app.get('/named-route', (req, res) => {
-  res.send('hi')
+  fetch('https://requestbin.myworkato.com/1hisp3d1', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: Buffer.from(`{"fizz":"buzz"}`)
+  })
+  .then((response) => {
+    return response.text()
+  }).then((data) => {
+    res.send(data)
+  })
 })
 
 app.get('/sns', async (req, res) => {
