@@ -1,6 +1,6 @@
 # Example instrumentation of a messaging application
 
-This is an example app that uses the `newrelic.instrumentMessages` [API function](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#instrumentMessages) and associated [messaging shim API](https://newrelic.github.io/node-newrelic/MessageShim.html) to instrument a toy messaging library called Nifty Messages. This sample instrumentation is an implementation of the [New Relic messaging instrumentation tutorial](http://newrelic.github.io/node-newrelic/tutorial-Messaging-Simple.html).
+This is an example app that uses the [newrelic.instrumentMessages](https://newrelic.github.io/node-newrelic/API.html#instrumentMessages) and associated [messaging shim API](https://newrelic.github.io/node-newrelic/MessageShim.html) to instrument a toy messaging library called Nifty Messages. This sample instrumentation is an implementation of the [New Relic messaging instrumentation tutorial](http://newrelic.github.io/node-newrelic/tutorial-Messaging-Simple.html).
 
 ## Getting started
 
@@ -98,9 +98,6 @@ The application consists of the following files.
 * [`index.js`](./index.js): a simple Express app that makes use of the toy messaging app.
 * [`instrumentation.js`](./instrumentation.js): all of the New Relic instrumentation is in here. The `npm start` command loads this module first.
 * [`newrelic.js`](./newrelic.js): a basic, sample New Relic configuration.
-
-The instrumentation in `instrumentation.js` makes use of [`instrumentMessages`](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/api-guides/nodejs-agent-api/#instrumentMessages) and three relevant functions of the [messaging shim API](https://newrelic.github.io/node-newrelic/MessageShim.html):
-
 * [`recordProduce`](https://newrelic.github.io/node-newrelic/MessageShim.html#recordProduce)
 * [`recordConsume`](https://newrelic.github.io/node-newrelic/MessageShim.html#recordConsume)
 * [`recordSubscribedConsume`](https://newrelic.github.io/node-newrelic/MessageShim.html#recordSubscribedConsume)
