@@ -15,9 +15,9 @@
     "body-parser": "^1.19.0",
     "dotenv": "^16.0.3",
     "express": "^4.19.2",
-    "newrelic": "^11.5.0",
+    "newrelic": "^11.8.0",
     "pg": "^8.8.0",
     "sequelize": "^6.29.0",
-    "sqlite3": "^5.1.5"
+    "sqlite3": "^5.1.7"
   }
 }
