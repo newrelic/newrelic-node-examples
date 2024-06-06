@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.19.2",
-    "newrelic": "^11.5.0"
+    "newrelic": "^11.8.0"
   },
   "devDependencies": {
     "@newrelic/eslint-config": "^0.2.0"
