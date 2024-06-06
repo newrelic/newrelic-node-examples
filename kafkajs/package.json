@@ -1,0 +1,24 @@
+{
+  "name": "kafkajs-sample",
+  "version": "1.0.0",
+  "description": "Example application using kafka to send and consume messages",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r newrelic --env-file .env index.js",
+    "start:debug": "node --inspect-brk -r newrelic --env-file .env index.js",
+    "start:consumer": "NEW_RELIC_LOG=./consumer_agent.log NEW_RELIC_APP_NAME=kafka-consumer node -r newrelic --env-file .env consumer.js",
+    "start:consumer:debug": "NEW_RELIC_LOG=./consumer_agent.log NEW_RELIC_APP_NAME=kafka-consumer node -r --env-file .env newrelic --inspect-brk consumer.js",
+    "lint": "eslint . ",
+    "lint:fix": "eslint . --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.27.0",
+    "kafkajs": "^2.2.4",
+    "pino": "^9.1.0"
+  },
+  "devDependencies": {
+    "@newrelic/eslint-config": "^0.4.0"
+  }
+}
