@@ -9,21 +9,21 @@ This example provides both a kafkajs producer and a background consumer.
 
  1. Setup the kafka containers
 
-```sh
-docker compose up -d 
-```
+    ```sh
+    docker compose up -d 
+    ```
 
  1. Install dependencies and run application
 
-```sh
-npm ci
-cp env.sample .env
-# Fill out `NEW_RELIC_LICENSE_KEY` in .env and save 
-# Start the producer
-npm start
-# Start the consumer in a different shell
-npm run start:consumer
-```
+    ```sh
+    npm ci
+    cp env.sample .env
+    # Fill out `NEW_RELIC_LICENSE_KEY` in .env and save 
+    # Start the producer
+    npm start
+    # Start the consumer in a different shell
+    npm run start:consumer
+    ```
 
  1. Make requests to application. The consumer subscribes to two topics: `test-topic` and `other-topic`.
 
@@ -66,7 +66,7 @@ For every consumption of a message a transaction is created.
 ### Metric exploration
 Metrics are captured for the number of messages and byte size of messages by running this query
 
-```
+```sql
 SELECT count(newrelic.timeslice.value) FROM Metric WHERE metricTimesliceName LIKE 'Message/Kafka/Topic/Named/%/Received/%' AND `entity.guid` = '<entity-guid>' FACET metricTimesliceName TIMESERIES SINCE 1 day ago
 ```
 
@@ -75,6 +75,6 @@ SELECT count(newrelic.timeslice.value) FROM Metric WHERE metricTimesliceName LIK
 ### Transaction attributes
 `kafka.consume.byteCount` and `kafka.consume.client_id` are tracked per transaction. Run this query:
 
-```
+```sql
 FROM Transaction select name, kafka.consume.byteCount, kafka.consume.client_id where appName = 'kafka-consumer'
 ```

@@ -16,6 +16,7 @@
   "dependencies": {
     "fastify": "^4.27.0",
     "kafkajs": "^2.2.4",
+    "newrelic": "^11.19.0",
     "pino": "^9.1.0"
   },
   "devDependencies": {

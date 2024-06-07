@@ -20,9 +20,8 @@ async function main() {
     await consumer.subscribe({ topic })
   })
   await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      logger.info(`Handling message from topic: ${topic}`)
-      logger.info(message.value.toString())
+    eachMessage: async function processMessage({ topic, partition, message }) {
+      logger.info('Handling message %s from topic: %s', message.value.toString(), topic)
       await new Promise((resolve) => {
         setTimeout(resolve, Math.floor(Math.random() * 2000))
       })
