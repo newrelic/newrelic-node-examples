@@ -6,7 +6,4 @@ sleep 5
 echo "Starting server"
 npx prisma migrate dev --name init
 node prisma/seed.js
-npm run dev &
-
-echo "Make requests"
-./make-requests.sh
+npm run dev
