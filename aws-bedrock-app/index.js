@@ -63,7 +63,10 @@ fastify.post('/chat-completion', async (request, reply) => {
       case 'cohere':
         outputText = parsedResBody.generations[0].text;
         break;
-      case 'meta': 
+      case 'llama2':
+        outputText = parsedResBody.generation
+        break;
+      case 'llama3':
         outputText = parsedResBody.generation
         break;
     }
@@ -72,14 +75,14 @@ fastify.post('/chat-completion', async (request, reply) => {
     const { traceId } = newrelic.getTraceMetadata()
     responses.set(requestId, { traceId })
 
-    return reply.send({requestId, outputText});
+    return reply.send({ requestId, outputText });
   } catch (error) {
     const code = error?.$metadata?.httpStatusCode || 500
     return reply.code(code).send({ error });
   }
 });
 
-fastify.post('/chat-completion-stream', async(request, reply) => {
+fastify.post('/chat-completion-stream', async (request, reply) => {
   const { message = 'Say this is a test', model = 'amazon-titan' } = request.body || {};
 
   const modelConfig = requests[model]
@@ -99,17 +102,17 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
   try {
     const response = await client.send(command);
 
-    reply.raw.writeHead(200, { 'Content-Type': 'text/plain'});
+    reply.raw.writeHead(200, { 'Content-Type': 'text/plain' });
     reply.raw.write(`requestId": ${response.$metadata.requestId}`);
     for await (const chunk of response.body) {
       if (chunk.chunk.bytes) {
         reply.raw.write(chunk.chunk.bytes);
       }
     }
-  
+
     reply.raw.write('\n-------- END OF MESSAGE ---------\n');
     reply.raw.end();
-    
+
     return reply;
   } catch (error) {
     const code = error?.$metadata?.httpStatusCode || 500
@@ -119,7 +122,7 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
 
 fastify.post('/embedding', async (request, reply) => {
   const { message = 'Test embedding', model = 'amazon-titan-embed' } = request.body || {}
-  
+
   const modelConfig = requests[model]
 
   if (!modelConfig) {
@@ -130,7 +133,7 @@ fastify.post('/embedding', async (request, reply) => {
 
   const prompt = {
     body: JSON.stringify(data.body),
-    modelId: data.modelId, 
+    modelId: data.modelId,
     contentType: 'application/json',
     accept: 'application/json'
   }
@@ -143,7 +146,7 @@ fastify.post('/embedding', async (request, reply) => {
     const parsedResBody = JSON.parse(resBody);
     const embedding = parsedResBody.embedding;
 
-    return reply.send({"requestId": response.$metadata.requestId, embedding});
+    return reply.send({ "requestId": response.$metadata.requestId, embedding });
   } catch (error) {
     const code = error?.$metadata?.httpStatusCode || 500
     return reply.code(code).send({ error });
