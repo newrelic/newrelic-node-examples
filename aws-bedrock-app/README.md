@@ -18,7 +18,7 @@ npm start
 
  ```sh
 # make a request to chat completions - provide a model to use or the default amazon-titan model will be used
-# model options are: amazon-titan, anthropic, ai21, cohere, meta
+# model options are: amazon-titan, anthropic, ai21, cohere, llama2, and llama3
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"message":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?", "model": "amazon-titan"}'
 
 # model options are: amazon-titan, anthropic, cohere - default model is amazon-titan

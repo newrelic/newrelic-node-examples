@@ -28,8 +28,12 @@ module.exports = {
     modelId: 'cohere.embed-english-v3',
     body: { texts: message.split(' '), input_type: 'search_document' },
   }),
-  'meta': (message) => ({
+  'llama2': (message) => ({
     modelId: 'meta.llama2-13b-chat-v1',
+    body: { prompt: message },
+  }),
+  'llama3': (message) => ({
+    modelId: 'meta.llama3-8b-instruct-v1:0',
     body: { prompt: message },
   }),
   'amazon-invalid': (message) => ({
@@ -51,8 +55,12 @@ module.exports = {
     modelId: 'cohere.command-text-v14',
     body: { inputText: message },
   }),
-  'meta-invalid': (message) => ({
+  'llama2-invalid': (message) => ({
     modelId: 'meta.llama2-13b-chat-v1',
+    body: { inputText: message },
+  }),
+  'llama3-invalid': (message) => ({
+    modelId: 'meta.llama3-8b-instruct-v1:0',
     body: { inputText: message },
   }),
 }
