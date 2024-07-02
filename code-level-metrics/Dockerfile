@@ -1,4 +1,4 @@
-FROM node:lts-slim
+FROM node:20.15.0-slim
 EXPOSE 3000
 
 RUN apt-get update && apt-get install curl -y
