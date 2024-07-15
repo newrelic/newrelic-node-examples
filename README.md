@@ -2,7 +2,24 @@
 
 # New Relic Node.js Examples
 
-This repository will contain examples of agent features.  Browse the folders for different self-contained, working examples.
+This repository contains example application and scripts that demonstrate functionality of the [New Relic Node.js Agent](https://github.com/newrelic/node-newrelic).  
+
+ * [AI Monitoring](./ai-monitoring) - examples using supported 3rd party libraries to produce AI Monitoring(AIM) telemetry
+ * [Logs in Context](./application-logging) - examples using logging libraries to demonstrate agent log decoration and forwarding of logs to New Relic
+ * [Code Level Metrics](./code-level-metrics) - example demonstrating span attributes that help drive the [CodeStream](https://newrelic.com/codestream) integration
+ * [Custom Instrumentation](./custom-instrumentation) - examples demonstrating the use of the [Node.js agent API](https://newrelic.github.io/node-newrelic/API.html)
+ * [Elasticsearch](./elasticsearch) - example demonstrating elasticsearch with Node.js agent
+ * [Error Fingerprinting](./error-fingerprinting) - example using [setErrorCallback](https://newrelic.github.io/node-newrelic/API.html#setErrorGroupCallback) and [noticeError](https://newrelic.github.io/node-newrelic/API.html#noticeError) to [group errors](https://docs.newrelic.com/docs/errors-inbox/errors-inbox/#error-groups) produced in Node.js application
+ * [ESM](./esm-app) - example demonstrating how to load agent in an [ESM](https://nodejs.org/api/esm.html) application. It also demonstrates how to register custom instrumentation for a ESM package.
+ * [GraphQL Dataloader](./graphql-koa-dataloader) - example using Apollo Server, koa and GraphQL dataloader
+ * [Kafkajs](./kafkajs) - example demonstrating [kafkajs](https://kafka.js.org/) with Node.js agent 
+ * [Mock Infinite Tracing Server](./mock-infinite-tracing-server) - mock gRPC server to use to locally test [infinite tracing](https://docs.newrelic.com/docs/distributed-tracing/infinite-tracing/introduction-infinite-tracing/) with a Node.js applciation 
+ * [Nest](./nestjs) - examples demonstrating Nestjs with Node.js agent
+ * [Next.js](./nextjs) - examples demonstrating Next.js with Node.js agent
+ * [Prisma](./prisma-app) - example demonstrating Prisma with Node.js agent
+ * [Sequelize](./sequelize-app) - example demonstrating sequelize with Node.js agent
+ * [Express](./simple-express-app) - example demonstrating express with Node.js agent
+ * [Source Maps](./source-maps) - typescript example using [--enable-source-maps](https://nodejs.org/dist/latest-v22.x/docs/api/cli.html#--enable-source-maps) to demonstrate proper stack traces the Node.js agent produces 
 
 ## Contribute
 
@@ -14,11 +31,11 @@ If you have any questions, or to execute our corporate CLA (which is required if
 
 As noted in our [security policy](../../security/policy), New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
 
-If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through [HackerOne](https://hackerone.com/newrelic).
+If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through [our bug bounty program](https://docs.newrelic.com/docs/security/security-privacy/information-security/report-security-vulnerabilities/).
 
 If you would like to contribute to this project, review [these guidelines](./CONTRIBUTING.md).
 
-To all contributors, we thank you!  Without your contribution, this project would not be what it is today.
+To [all contributors](https://github.com/newrelic/newrelic-node-examples/graphs/contributors), we thank you!  
 
 ## License
 New Relic Node.js Examples is licensed under the [Apache 2.0](http://apache.org/licenses/LICENSE-2.0.txt) License.

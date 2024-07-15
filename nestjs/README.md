@@ -1,7 +1,6 @@
-This is an example of an instrumented Nest.js app, using Prisma and Winston.
+# Nestjs examples
 
-Get it running:
+This folder contains 2 different [Nestjs](https://github.com/nestjs/nest) examples that demonstrate producing telemetry with the Node.js agent.
 
-1. Copy sample.env to .env
-2. Edit .env to add your New Relic ingest key, and any other desired changes.
-3. Start with `docker-compose up --build`.
+ * [basic Nestjs example](./nestjs-example) - full Nestjs example to demonstrate the telemetry the agent provides
+ * [Nestjs example with agent config as typescript](./nestjs-config-file) - Nestjs example application that relies on agent configuration as `newrelic.ts`
