@@ -21,7 +21,7 @@ function basicBackgroundTransaction() {
     // 2) Return a promise. The transaction will end when the promise resolves or
     //    rejects.
     // 3) Do neither. If no promise is returned, and `getTransaction()` isn't
-    //    called, the transaction will end immediately after the handle returns.
+    //    called, the transaction will end immediately after the handler returns.
 
     // Here is an example for the first case.
     newrelic.startBackgroundTransaction(transactionName, function handle() {

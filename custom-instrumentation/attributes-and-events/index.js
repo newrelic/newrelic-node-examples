@@ -11,22 +11,22 @@ const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
 //Define routes for each type of transaction and event
 fastify.post('/custom-attribute', async (request, reply) => {
     newrelic.addCustomAttribute('hello', 'world');
-    reply.send({ status: 'Custom attribute recorded' });
+    return reply.send({ status: 'Custom attribute recorded' });
 });
 
 fastify.post('/custom-attributes', async (request, reply) => {
     newrelic.addCustomAttributes({ hello: 'world' });
-    reply.send({ status: 'Custom attributes recorded' });
+    return reply.send({ status: 'Custom attributes recorded' });
 });
 
 fastify.post('/custom-span-attribute', async (request, reply) => {
     newrelic.addCustomSpanAttribute('hello', 'world');
-    reply.send({ status: 'Custom span attribute recorded' });
+    return reply.send({ status: 'Custom span attribute recorded' });
 });
 
 fastify.post('/custom-span-attributes', async (request, reply) => {
     newrelic.addCustomSpanAttributes({ hello: 'world' });
-    reply.send({ status: 'Custom span attributes recorded' });
+    return reply.send({ status: 'Custom span attributes recorded' });
 });
 
 fastify.post('/custom-event', async (request, reply) => {
@@ -35,7 +35,7 @@ fastify.post('/custom-event', async (request, reply) => {
         n: 1,
         ok: true
     });
-    reply.send({ status: 'Custom event recorded' });
+    return reply.send({ status: 'Custom event recorded' });
 });
 
 //Start the server
