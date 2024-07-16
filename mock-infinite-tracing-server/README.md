@@ -5,7 +5,7 @@ This is a gRPC server used to test our [infinite tracing](https://docs.newrelic.
 
 ## Setup
 
-To setup gRPC run
+To setup gRPC, run
 
 ```sh
 npm install
