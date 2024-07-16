@@ -3,5 +3,6 @@ newrelic_agent.log
 .idea
 dist
 **/*.log
+.DS_Store
 # For custom environment
 .env
