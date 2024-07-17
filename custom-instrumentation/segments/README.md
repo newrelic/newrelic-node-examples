@@ -17,7 +17,10 @@ This example provides an application with custom segments. Segments are a way to
    # Start the application
    npm start
    ```
-4. The application will automatically start running background transactions with custom segments inside them. Modify index.js to include/omit more transactions/segments.
+4. Make requests to the application. Route names include: 'callback-segment', 'promise-segment', 'async-segment', and 'sync-assign-segment'.
+   ```
+   curl -X POST http://localhost:3000/custom-segment
+   ```
 
 ## Exploring Telemetry
 
