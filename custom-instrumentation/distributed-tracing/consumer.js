@@ -12,17 +12,17 @@ const connection = new IORedis({
   maxRetriesPerRequest: null
 })
 
-newrelic.startBackgroundTransaction('Background task - consumer', function innerHandler() {
-  const backgroundHandle = newrelic.getTransaction()
-  const headers = {}
-  backgroundHandle.acceptDistributedTraceHeaders(headers)
-
+return newrelic.startBackgroundTransaction('Message queue - consumer', function innerHandler() {
   const worker = new Worker(
     'jobQueue',
     async (job) => {
       console.log('Processing job:', job.id)
       console.log('Job data:', job.data)
+      console.log('Job headers', job.data.headers)
 
+      const backgroundHandle = newrelic.getTransaction()
+      backgroundHandle.acceptDistributedTraceHeaders('Queue', job.data.headers)
+      backgroundHandle.end()
       return Promise.resolve()
     },
     { connection }
@@ -38,5 +38,28 @@ newrelic.startBackgroundTransaction('Background task - consumer', function inner
 
   console.log('Worker started')
 
-  backgroundHandle.end()
+  // process.on('SIGINT', shutdown)
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      newrelic.shutdown({ collectPendingData: true }, () => {
+        console.log('new relic agent shutdown')
+        resolve()
+        // eslint-disable-next-line no-process-exit
+        process.exit(0)
+      })
+    }, 10000)
+  })
 })
+
+// function shutdown() {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       newrelic.shutdown({ collectPendingData: true }, () => {
+//         console.log('new relic agent shutdown')
+//         resolve()
+//         // eslint-disable-next-line no-process-exit
+//         process.exit(0)
+//       })
+//     }, 5000)
+//   })
+// }

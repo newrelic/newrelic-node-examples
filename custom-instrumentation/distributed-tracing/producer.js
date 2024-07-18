@@ -14,9 +14,11 @@ const connection = new IORedis({
 
 const queue = new Queue('jobQueue', { connection })
 
-newrelic.startBackgroundTransaction('Background task - producer', function innerHandler() {
+return newrelic.startBackgroundTransaction('Message queue - producer', function innerHandler() {
+  console.log('Message queue started')
+
   const backgroundHandle = newrelic.getTransaction()
-  const headers = {}
+  const headers = { 'test-dt': 'test-newrelic' }
   backgroundHandle.insertDistributedTraceHeaders(headers)
 
   setInterval(async () => {
@@ -24,6 +26,16 @@ newrelic.startBackgroundTransaction('Background task - producer', function inner
     console.log('Job added to the queue')
   }, 600)
 
-  console.log('Background job queue started')
   backgroundHandle.end()
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      newrelic.shutdown({ collectPendingData: true }, () => {
+        console.log('new relic agent shutdown')
+        resolve()
+        // eslint-disable-next-line no-process-exit
+        process.exit(0)
+      })
+    }, 5000)
+  })
 })

@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:producer": "KAFKAJS_NO_PARTITIONER_WARNING=1 NEW_RELIC_APP_NAME=message-queue-producer node -r newrelic --env-file .env producer.js",
-    "start:consumer": "NEW_RELIC_LOG=./consumer_agent.log NEW_RELIC_APP_NAME=message-queue-consumer node -r newrelic --env-file .env consumer.js",
+    "start:producer": "NEW_RELIC_APP_NAME=message-queue-producer-final node -r newrelic --env-file .env producer.js",
+    "start:consumer": "NEW_RELIC_LOG=./consumer_agent.log NEW_RELIC_APP_NAME=message-queue-consumer-final node -r newrelic --env-file .env consumer.js",
     "lint": "eslint . ",
     "lint:fix": "eslint . --fix"
   },

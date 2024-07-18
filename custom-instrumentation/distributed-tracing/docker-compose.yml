@@ -1,33 +1,13 @@
-version: "3"
+version: '3'
 services:
-  zookeeper:
-    container_name: sample_kafka_zookeeper
-    image: confluentinc/cp-zookeeper
+  redis:
+    image: redis:latest
+    container_name: sample_redis
     ports:
-      - '2182:2181'
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-  kafka:
-    container_name: sample_kafka_server 
-    image: confluentinc/cp-kafka
-    links:
-      - zookeeper
-    ports:
-      - '9093:9093'
+      - "6379:6379"
+    restart: unless-stopped
     healthcheck:
-      test: /usr/bin/kafka-cluster cluster-id --bootstrap-server localhost:9093 || exit 1
-      interval: 1s
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
       timeout: 60s
       retries: 60
-    environment:
-      KAFKA_BROKER_ID: 2 
-      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
-      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:29094,PLAINTEXT_HOST://localhost:9093'
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_DEFAULT_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-
