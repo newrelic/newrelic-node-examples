@@ -7,7 +7,7 @@
 const newrelic = require('newrelic')
 const fastify = require('fastify')({ logger: true })
 const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
-const { someCbTask, somePromiseTask, someAsyncTask, someSyncAssignTask } = require('./functions.js')
+const { someCbTask, somePromiseTask, someAsyncTask, someSyncAssignTask } = require('./functions')
 
 // Define routes for each segment event
 fastify.post('/callback-segment', (request, reply) => {

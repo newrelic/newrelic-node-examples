@@ -19,7 +19,16 @@ This example provides an application with custom segments. Segments are a way to
    ```
 4. Make requests to the application. Route names include: 'callback-segment', 'promise-segment', 'async-segment', and 'sync-assign-segment'.
    ```
-   curl -X POST http://localhost:3000/custom-segment
+   curl -X POST http://localhost:3000/callback-segment
+   ```
+   ```
+   curl -X POST http://localhost:3000/promise-segment
+   ```
+   ```
+   curl -X POST http://localhost:3000/async-segment
+   ```
+   ```
+   curl -X POST http://localhost:3000/sync-assign-segment
    ```
 
 ## Exploring Telemetry
@@ -28,10 +37,19 @@ After sending a few requests, navigate to your application in APM & Services. Lo
 
 ![1721223889308](./image/README/1721223889308.png)
 
-To query your segment data, you can run a query like the following:›
+To query your custom segment data, you can run a query like the ones shown below:
 
 ```NRQL
-SELECT count(*) FROM Span FACET name WHERE name = 'myCustomSegment'
+SELECT count(*) FROM Span FACET name WHERE name = 'myCallbackSegment'
+```
+```NRQL
+SELECT count(*) FROM Span FACET name WHERE name = 'myPromiseSegment'
+```
+```NRQL
+SELECT count(*) FROM Span FACET name WHERE name = 'myAsyncSegment'
+```
+```NRQL
+SELECT count(*) FROM Span FACET name WHERE name = 'mySyncAssignSegment'
 ```
 
 ![1721224323000](./image/README/1721224323000.png)
