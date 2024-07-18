@@ -1,0 +1,18 @@
+{
+    "name": "segments-app",
+    "version": "1.0.0",
+    "description": "Example application using custom segments",
+    "main": "index.js",
+    "scripts":{
+        "start": "node -r newrelic --env-file .env index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "fastify": "^4.27.0",
+        "newrelic": "^11.19.0"
+    },
+    "devDependencies": {
+        "@newrelic/eslint-config": "^0.4.0"
+    }
+}
