@@ -5,36 +5,25 @@
 
 'use strict'
 const newrelic = require('newrelic')
-const { Kafka } = require('kafkajs')
+const { Queue } = require('bullmq')
+const IORedis = require('ioredis')
 
-// Give the agent some time to start up.
-setTimeout(run, 2000)
-
-const kafka = new Kafka({
-  clientId: 'example-producer',
-  brokers: ['localhost:9093']
+const connection = new IORedis({
+  maxRetriesPerRequest: null
 })
-const producer = kafka.producer()
 
-async function run() {
-  newrelic.startBackgroundTransaction('Send kafka message', async function innerHandler() {
-    const backgroundHandle = newrelic.getTransaction()
-    const headers = { newrelic: '' }
-    backgroundHandle.insertDistributedTraceHeaders(headers)
+const queue = new Queue('jobQueue', { connection })
 
-    await producer.connect()
-    console.log('Producer connected')
+newrelic.startBackgroundTransaction('Background task - producer', function innerHandler() {
+  const backgroundHandle = newrelic.getTransaction()
+  const headers = {}
+  backgroundHandle.insertDistributedTraceHeaders(headers)
 
-    const topic = 'test-topic'
-    const messages = [{ key: 'key', value: 'test-message' }]
+  setInterval(async () => {
+    await queue.add('simpleJob', { message: 'This is a background job', headers })
+    console.log('Job added to the queue')
+  }, 600)
 
-    await producer.send({
-      topic,
-      messages
-    })
-
-    await producer.disconnect()
-    console.log('Producer disconnected')
-    backgroundHandle.end()
-  })
-}
+  console.log('Background job queue started')
+  backgroundHandle.end()
+})

@@ -5,43 +5,38 @@
 
 'use strict'
 const newrelic = require('newrelic')
-const { Kafka } = require('kafkajs')
-const kafka = new Kafka({
-  clientId: 'test-consumer',
-  brokers: ['localhost:9093']
+const { Worker } = require('bullmq')
+const IORedis = require('ioredis')
+
+const connection = new IORedis({
+  maxRetriesPerRequest: null
 })
-const topics = ['test-topic', 'other-topic']
-const consumer = kafka.consumer({ groupId: 'test-group' })
 
-async function main() {
-  newrelic.startBackgroundTransaction('Accept kafka message', async function innerHandler() {
-    const backgroundHandle = newrelic.getTransaction()
-    backgroundHandle.acceptDistributedTraceHeaders()
+newrelic.startBackgroundTransaction('Background task - consumer', function innerHandler() {
+  const backgroundHandle = newrelic.getTransaction()
+  const headers = {}
+  backgroundHandle.acceptDistributedTraceHeaders(headers)
 
-    await consumer.connect()
-    console.log('Consumer connected')
+  const worker = new Worker(
+    'jobQueue',
+    async (job) => {
+      console.log('Processing job:', job.id)
+      console.log('Job data:', job.data)
 
-    topics.forEach(async (topic) => {
-      await consumer.subscribe({ topic })
-    })
+      return Promise.resolve()
+    },
+    { connection }
+  )
 
-    await consumer.run({
-      eachMessage: async function processMessage({ topic, partition, message }) {
-        console.log(`Received message from ${topic}: ${message.value.toString()}`)
-        await new Promise((resolve) => {
-          setTimeout(resolve, Math.floor(Math.random() * 2000))
-        })
-        await consumer.commitOffsets([{ topic, partition, offset: message.offset }])
-      }
-    })
-
-    process.on('SIGINT', async () => {
-      await consumer.disconnect()
-      console.log('Consumer disconnected')
-      // eslint-disable-next-line no-process-exit
-      process.exit(0)
-    })
+  worker.on('completed', (job) => {
+    console.log(`Job with ID ${job.id} has been completed`)
   })
-}
 
-main().catch(console.error)
+  worker.on('failed', (job, err) => {
+    console.log(`Job with ID ${job.id} has failed with error: ${err.message}`)
+  })
+
+  console.log('Worker started')
+
+  backgroundHandle.end()
+})

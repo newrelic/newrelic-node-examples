@@ -4,15 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:producer": "KAFKAJS_NO_PARTITIONER_WARNING=1 NEW_RELIC_APP_NAME=kafka-producer node -r newrelic --env-file .env producer.js",
-    "start:consumer": "NEW_RELIC_LOG=./consumer_agent.log NEW_RELIC_APP_NAME=kafka-consumer node -r newrelic --env-file .env consumer.js",
+    "start:producer": "KAFKAJS_NO_PARTITIONER_WARNING=1 NEW_RELIC_APP_NAME=message-queue-producer node -r newrelic --env-file .env producer.js",
+    "start:consumer": "NEW_RELIC_LOG=./consumer_agent.log NEW_RELIC_APP_NAME=message-queue-consumer node -r newrelic --env-file .env consumer.js",
     "lint": "eslint . ",
     "lint:fix": "eslint . --fix"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "kafkajs": "^2.2.4",
+    "bullmq": "^5.10.1",
+    "ioredis": "^5.4.1",
     "newrelic": "^11.19.0"
   },
   "devDependencies": {
