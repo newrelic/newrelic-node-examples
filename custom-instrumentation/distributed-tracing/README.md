@@ -31,7 +31,7 @@ The consumer starts a transaction, processes the jobs from the queue and links t
 ***You can change the number of messages sent by editing the time in setTimeout in both the producer and the consumer. Increase the time to increase the number of messages sent and processed.*** 
 
 ## Exploring Telemetry
-After the producer sends a few messages and the consumer processes them, navigate to your application in `APM & Services`.  Select `Distributed Tracing`. A transaction will be created and spans for the messages sent and processed. Since the consumer is running and handling message consumption, Distributed Tracing will link the two entities.
+After the producer sends a few messages and the consumer processes them, navigate to your application in `APM & Services`.  Select `Distributed Tracing`. A transaction and spans will be created for the messages sent and processed. Since the consumer is running and handling message consumption, Distributed Tracing will link the two entities.
 
 ![Producer distributed tracing](./images/producer-dt.png?raw=true "Producer distributed tracing")
 ![Producer distributed trace](./images/producer-dt-trace.png?raw=true "Producer distributed trace")
