@@ -10,7 +10,7 @@ const Queue = require('./job-queue')
 
 function exampleJob() {
     // Do whatever work you want here - this is just a placeholder
-    return 'done';
+    return 'job done';
 }
 
 function cbJob(cb) {

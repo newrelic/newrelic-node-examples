@@ -9,10 +9,13 @@ const newrelic = require('newrelic')
 const queuePath = require.resolve('./job-queue')
 
 newrelic.instrument({
-    absolutePath: queuePath,
+    // The absolute path to the required module
+    absolutePath: queuePath, 
+    // The module's name 
     moduleName: 'job-queue',
+    // The function that will be called once the module is required
     onRequire: function onRequire(shim, jobQueue) {
-        console.log(`[NEWRELIC] instrumenting 'job-module'`)
+        console.log(`[NEWRELIC] instrumenting job-queue module`)
 
         console.log(`[NEWRELIC] instrumenting method 'scheduleJob'`)
         shim.record(
@@ -24,7 +27,19 @@ newrelic.instrument({
                 }
             }
         )
+
+        console.log(`[NEWRELIC] instrumenting method 'runJobs'`)
+        shim.record(
+            jobQueue.prototype,
+            'runJobs',
+            function wrapJob(shim, original) {
+                return function wrappedRunJobs(job) {
+                    return original.apply(this, shim.bindSegment(job))
+                }
+            }
+        )
     },
+    // The function that will be called if the instrumentation fails
     onError: function onError(err) {
         // Uh oh! Our instrumentation failed, lets see why:
         console.error(err.message, err.stack)
