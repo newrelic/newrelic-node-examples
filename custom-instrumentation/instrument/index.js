@@ -32,6 +32,11 @@ async function promiseJob() {
 
 function main(){
     const queue = new Queue()
+
+    // We will be creating our transacations with startBackgroundTransaction
+    // because we are not operating inside a typical web framework. If you already
+    // are operating within a web framework with transactions, you may omit
+    // the startBackgroundTransaction wrapper.
     newrelic.startBackgroundTransaction('firstTransaction', function first() {
         const transaction = newrelic.getTransaction()
         queue.scheduleJob(async function firstJob() {
@@ -54,6 +59,11 @@ function main(){
             })
         })
     })
+
+    // Without instrumentation, executing this code will cause 'firstTransaction'
+    // to be the active transaction in both 'firstJob' and 'secondJob'. This is
+    // not the intended behavior. If we instrument queue.scheduleJob, the 
+    // functions will be correctly placed within their respective transactions.
 }
 
 main()
