@@ -34,9 +34,10 @@ function main(){
     const queue = new Queue()
 
     // We will be creating our transacations with startBackgroundTransaction
-    // because we are not operating inside a typical web framework. If you already
-    // are operating within a web framework with transactions, you may omit
-    // the startBackgroundTransaction wrapper.
+    // because this application does not utilize frameworks New Relic already
+    // instruments. Thus, transactions are not automatically created for use.
+    // If you are already operating within an instrumented framework, you may
+    // omit the startBackgroundTransaction wrapper.
     newrelic.startBackgroundTransaction('firstTransaction', function first() {
         const transaction = newrelic.getTransaction()
         queue.scheduleJob(async function firstJob() {
