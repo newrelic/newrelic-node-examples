@@ -32,7 +32,7 @@ This example application shows you how to use the [newrelic.instrument](https://
 2. Then select 'Distributed tracing'. You should see the trace groups `firstTransacation`, `secondTransaction`, and `thirdTransaction`. Inside these groups will be our custom instrumentation. Select any trace group and then select a single trace.
 3. Toggle 'Show in-process spans' and you will see 'wrappedScheduleJob' which is wrapped the method of `queue.scheduleJob` that we implemented. Under `thirdTransaction`, you will see `queue.runJobs` instrumented as 'wrappedRunJobs'.
 
-   ![1722457046327](image/README/1722457046327.png)
+   ![1722457046327](./image/README/1722457046327.png)
 
    ![1722456944802](./image/README/1722456944802.png)
 
