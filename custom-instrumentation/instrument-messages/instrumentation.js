@@ -86,7 +86,7 @@ newrelic.instrumentMessages({ absolutePath: niftyPath, moduleName: 'nifty-messag
     // only the the consume calls made because a subscription was made
     // earlier.
     messageHandler(shim, consumer, name, args) {
-      const msg = args[0]
+      const msg = consumer[0]
       console.log(`[NEWRELIC] subscribe on queue ${msg.queueName} returned a message: '${msg.msg}'`)
       return {
         destinationName: msg.queueName,
