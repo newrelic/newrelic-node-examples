@@ -12,7 +12,7 @@
  * description of configuration variables and their potential values. */
 
 exports.config = {
-  app_name: ['Example Instrument API App'],
+  app_name: ['Example Job Queue App'],
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing

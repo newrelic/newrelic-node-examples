@@ -9,19 +9,18 @@ function Queue() {
   this.jobs = []
 }
 
-Queue.prototype.runJobs = function run(jobs) {
+Queue.prototype.runJobs = function run() {
+  const jobs = this.jobs
   while (jobs.length) {
-    jobs.pop()()
+    const job = jobs.pop()
+    job()
   }
 }
 
 Queue.prototype.scheduleJob = function scheduleJob(job) {
-  const queue = this
-  process.nextTick(function() {
-    if (queue.jobs.length === 0) {
-      setTimeout(queue.runJobs, 1000, queue.jobs)
-    }
-    queue.jobs.push(job)
+  const jobs = this.jobs
+  process.nextTick(function () {
+    jobs.push(job)
   })
 }
 

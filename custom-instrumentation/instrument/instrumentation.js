@@ -33,8 +33,8 @@ newrelic.instrument({
             jobQueue.prototype,
             'runJobs',
             function wrapJob(shim, original) {
-                return function wrappedRunJobs(job) {
-                    return original.apply(this, shim.bindSegment(job))
+                return function wrappedRunJobs() {
+                    return original.apply(this, shim.bindSegment())
                 }
             }
         )
