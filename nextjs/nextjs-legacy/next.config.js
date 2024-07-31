@@ -1,6 +1,6 @@
 'use strict'
 
-const nrExternals = require('@newrelic/next/load-externals')
+const nrExternals = require('newrelic/load-externals')
 
 module.exports = {
   // In order for newrelic to effectively instrument a Next.js application,
