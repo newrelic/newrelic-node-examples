@@ -20,18 +20,18 @@ function instrumentMyWebFramework(shim, myModule, moduleName) {
   shim.wrapMiddlewareMounter(Framework.prototype, ['all', 'get'], {
     route: shim.FIRST,
     wrapper: function wrapMiddleware(shim, fn, name, route) {
-      return shim.recordMiddleware(fn, {
+      return shim.recordMiddleware(fn, new shim.specs.MiddlewareSpec({
         route: route,
         type: shim.MIDDLEWARE,
         req: shim.FIRST,
         res: shim.SECOND,
         next: shim.THIRD
-      })
+      }))
     }
   })
 
-  shim.recordRender(Framework.prototype, 'render', {
+  shim.recordRender(Framework.prototype, 'render', new shim.specs.RenderSpec({
     view: shim.FIRST,
     callback: shim.LAST
-  })
+  }))
 }

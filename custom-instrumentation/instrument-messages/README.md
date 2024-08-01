@@ -15,7 +15,7 @@ cd newrelic-node-examples/messaging-app
 3. Install dependencies and run application
 
 ```sh
-npm ci
+npm install
 PORT=3000 NEW_RELIC_LICENSE_KEY=<Your New Relic License Key> npm start
 ```
 
