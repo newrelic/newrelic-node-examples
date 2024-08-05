@@ -1,0 +1,22 @@
+{
+  "name": "distributed-tracing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:producer": "NEW_RELIC_APP_NAME=message-queue-producer node -r newrelic --env-file .env producer.js",
+    "start:consumer": "NEW_RELIC_LOG=./consumer_agent.log NEW_RELIC_APP_NAME=message-queue-consumer node -r newrelic --env-file .env consumer.js",
+    "lint": "eslint . ",
+    "lint:fix": "eslint . --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bullmq": "^5.10.1",
+    "ioredis": "^5.4.1",
+    "newrelic": "^11.19.0"
+  },
+  "devDependencies": {
+    "@newrelic/eslint-config": "^0.4.0"
+  }
+}
