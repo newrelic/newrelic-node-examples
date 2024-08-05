@@ -33,7 +33,7 @@ async function promiseJob() {
 function main() {
     const queue = new Queue()
 
-    // We will be creating our transacations with startBackgroundTransaction
+    // We will be creating our transactions with startBackgroundTransaction
     // because this application does not utilize frameworks New Relic already
     // instruments. Thus, transactions are not automatically created for use.
     // If you are already operating within an instrumented framework, you may

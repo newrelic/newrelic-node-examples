@@ -20,8 +20,6 @@ This example application shows you how to use the [newrelic.instrument](https://
 4. The app will automatically start adding example jobs to a queue and run them. You should see the following in the console when the instrumentation takes place.
    ```
    [NEWRELIC] instrumenting 'job-queue'
-   [NEWRELIC] instrumenting method 'scheduleJob'
-   [NEWRELIC] instrumenting method 'runJobs'
    Callback job done
    Promise job done
    ```
@@ -30,11 +28,11 @@ This example application shows you how to use the [newrelic.instrument](https://
 
 1. Now you should be able to see `job-queue` instrumented in New Relic. Navigate to 'APM & Services' and then select the 'Example Job Queue App' entity.
 2. Then select 'Distributed tracing'. You should see the trace groups `firstTransacation`, `secondTransaction`, and `thirdTransaction`. Inside these groups will be our custom instrumentation. Select any trace group and then select a single trace.
-3. Toggle 'Show in-process spans' and you will see 'wrappedScheduleJob' which is wrapped the method of `queue.scheduleJob` that we implemented. Under `thirdTransaction`, you will see `queue.runJobs` instrumented as 'wrappedRunJobs'.
+3. Under `firstTransaction` or `secondTransaction`, toggle 'Show in-process spans' and you will see 'scheduleJob - job'; this shows the name of which job was recorded. Under `thirdTransaction`, you will see `queue.runJobs` instrumented as 'runJobs'.
 
-   ![1722457046327](./image/README/1722457046327.png)
+   ![1722869774240](./image/README/1722869774240.png)
 
-   ![1722456944802](./image/README/1722456944802.png)
+   ![1722869857647](image/README/1722869857647.png)
 
 ## Description
 

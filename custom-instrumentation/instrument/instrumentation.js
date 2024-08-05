@@ -10,41 +10,42 @@ const queuePath = require.resolve('./job-queue')
 
 newrelic.instrument({
     // The absolute path to the required module
-    absolutePath: queuePath, 
+    absolutePath: queuePath,
     // The module's name 
     moduleName: 'job-queue',
     // The function that will be called once the module is required
-    onRequire: function onRequire(shim, jobQueue) {
-        console.log(`[NEWRELIC] instrumenting job-queue module`)
-
-        console.log(`[NEWRELIC] instrumenting method 'scheduleJob'`)
-        shim.record(
-            jobQueue.prototype,
-            'scheduleJob',
-            function wrapJob(shim, original) {
-                return function wrappedScheduleJob(job) {
-                    return original.call(this, shim.bindSegment(job)) 
-                }
-            }
-        )
-
-        console.log(`[NEWRELIC] instrumenting method 'runJobs'`)
-        shim.record(
-            jobQueue.prototype,
-            'runJobs',
-            function wrapJob(shim, original) {
-                return function wrappedRunJobs() {
-                    return original.apply(this, shim.bindSegment())
-                }
-            }
-        )
-    },
+    onRequire: instrumentMyJobQueue,
     // The function that will be called if the instrumentation fails
     onError: function onError(err) {
-        // Uh oh! Our instrumentation failed, lets see why:
+        // Uh oh! Our instrumentation failed, let's see why:
         console.error(err.message, err.stack)
 
         // Let's kill the application when debugging so we don't miss it.
         process.exit(-1)
     }
 })
+
+function instrumentMyJobQueue(shim, myModule, moduleName) {
+    console.log(`[NEWRELIC] instrumenting ${moduleName}`)
+
+    const proto = myModule.prototype;
+
+    shim.record(proto, 'scheduleJob', 
+        // This is a RecorderFunction that returns a RecorderSpecParams object
+        function (shim, func, name, args) {
+            const job = args[0];
+            return {
+                name: `scheduleJob - ${job.name}`,
+                callback: shim.LAST
+            }
+        }
+    )
+    shim.record(proto, 'runJobs', 
+        function (shim, func, name, args) {
+            return {
+                name: 'runJobs',    
+                callback: shim.LAST
+            }
+        }
+    )
+}
