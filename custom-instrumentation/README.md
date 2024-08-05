@@ -2,7 +2,7 @@
 
 This folder contains example applications using the [Agent API](https://newrelic.github.io/node-newrelic/API.html) to do custom instrumentation.
 
-* [instrument](./instrument) - example application that uses the [newrelic.instrument API](https://newrelic.github.io/node-newrelic/API.html#instrument) and associated [shim API](https://newrelic.github.io/node-newrelic/Shim.html) to instrument a a toy queue library called Job Queue
+* [instrument](./instrument) - example application that uses the [newrelic.instrument API](https://newrelic.github.io/node-newrelic/API.html#instrument) and associated [shim API](https://newrelic.github.io/node-newrelic/Shim.html) to instrument a toy queue library called Job Queue
 * [instrumentMessages](./instrument-messages) - example application that uses the [newrelic.instrumentMessages API](https://newrelic.github.io/node-newrelic/API.html#instrumentMessages) and associated [messaging shim API](https://newrelic.github.io/node-newrelic/MessageShim.html) to instrument a toy messaging library called Nifty Messages
 * [instrumentWebframework](./instrument-webframework) - example application that uses the [newrelic.instrumentWebframework API](https://newrelic.github.io/node-newrelic/API.html#instrumentWebframework) and associated [WebFramework shim API](https://newrelic.github.io/node-newrelic/WebFrameworkShim.html) to instrument a hypothetical web framework
 * [attributesAndEvents](./attributes-and-events) - example application that demonstrates how to share custom [attributes](https://newrelic.github.io/node-newrelic/API.html#addCustomAttribute) and [events](https://newrelic.github.io/node-newrelic/API.html#recordCustomEvent)
