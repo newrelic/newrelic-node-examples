@@ -13,23 +13,26 @@ const connection = new IORedis({
 })
 
 // since BullMQ is not auto instrumented by the newrelic node agent, we have to manually start a transaction
-return newrelic.startBackgroundTransaction('Message queue - consumer', function innerHandler() {
+return newrelic.startBackgroundTransaction('Message queue - consumer', function outerHandler() {
   const worker = new Worker(
     'jobQueue',
     async (job) => {
-      console.log('Processing job:', job.id)
-      console.log('Job data:', job.data)
-      console.log('Job headers', job.data.headers)
-
-      // call newrelic.getTransaction to retrieve a handle on the current transaction
-      const backgroundHandle = newrelic.getTransaction()
-
-      // link the transaction started in the producer by accepting its headers
-      backgroundHandle.acceptDistributedTraceHeaders('Queue', job.data.headers)
-
-      // end the transaction
-      backgroundHandle.end()
-      return Promise.resolve()
+      // create a transaction for every consumption
+      newrelic.startBackgroundTransaction('Message consumption', function innerHandler() {
+        console.log('Processing job:', job.id)
+        console.log('Job data:', job.data)
+        console.log('Job headers', job.data.headers)
+  
+        // call newrelic.getTransaction to retrieve a handle on the current transaction
+        const backgroundHandle = newrelic.getTransaction()
+  
+        // link the transaction started in the producer by accepting its headers
+        backgroundHandle.acceptDistributedTraceHeaders('Queue', job.data.headers)
+  
+        // end the transaction
+        backgroundHandle.end()
+        return Promise.resolve()
+      })
     },
     { connection }
   )

@@ -4,7 +4,7 @@ This example provides both a BullMQ producer and consumer with a redis instance.
 
 The producer starts a transaction, adds headers into the transaction and then adds those headers as part of the job data to be added to the queue. The producer and the new relic agent will shutdown after 10 seconds. 
 
-The consumer starts a transaction, processes the jobs from the queue and links the transaction from the producer by accepting its headers that were added as part of the job data. The producer and the new relic agent will shutdown after 60 seconds. 
+The consumer starts a transaction, processes the jobs from the queue and links the transaction from the producer by accepting its headers that were added as part of the job data. 
 
 ## Getting started
 **Note**: This application requires the use of Node.js v20+ and docker.
@@ -28,10 +28,10 @@ The consumer starts a transaction, processes the jobs from the queue and links t
     # Start the producer in a different shell
     npm run start:producer
     ```
-***You can change the number of messages sent by editing the time in setTimeout in both the producer and the consumer. Increase the time to increase the number of messages sent and processed.*** 
+***You can send more messages to the consumer by rerunning the producer with "npm run start:producer"*** 
 
 ## Exploring Telemetry
-After the producer sends a few messages and the consumer processes them, navigate to your application in `APM & Services`.  Select `Distributed Tracing`. A transaction and spans will be created for the messages sent and processed. Since the consumer is running and handling message consumption, Distributed Tracing will link the two entities.
+After the producer sends a few messages and the consumer processes them, navigate to your application in `APM & Services`.  Select `Distributed Tracing`. Transactions will be created for the messages sent and processed. Since the consumer is running and handling message consumption, Distributed Tracing will link the two entities.
 
 ![Producer distributed tracing](./images/producer-dt.png?raw=true "Producer distributed tracing")
 ![Producer distributed trace](./images/producer-dt-trace.png?raw=true "Producer distributed trace")
@@ -43,8 +43,11 @@ You will see a distributed trace and a service map for the consumer as well.
 
 ![Consumer distributed tracing](./images/consumer-dt.png?raw=true "Consumer distributed tracing")
 
-The consumer service map shows two entities (producer and consumer) and a redis instance. 
+The consumer service map shows two entities (producer and consumer) and redis. 
 ![Consumer service map](./images/consumer-service-map.png?raw=true "Consumer service map")
+
+There are transactions created for every message consumption.
+![Consumer Transactions](./images/consumer-transactions.png)
 
 ## About `insertDistributedTraceHeaders` and `acceptDistributedTraceHeaders`
 
