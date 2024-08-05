@@ -20,7 +20,7 @@ The consumer starts a transaction, processes the jobs from the queue and links t
  3. Install dependencies and run application
 
     ```sh
-    npm ci
+    npm install
     cp env.sample .env
     # Fill out `NEW_RELIC_LICENSE_KEY` in .env and save 
     # Start the consumer

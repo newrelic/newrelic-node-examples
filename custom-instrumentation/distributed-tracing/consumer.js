@@ -45,13 +45,12 @@ return newrelic.startBackgroundTransaction('Message queue - consumer', function 
   console.log('Worker started')
 
   return new Promise((resolve) => {
-    setTimeout(() => {
+    process.on('SIGINT', () => {
       newrelic.shutdown({ collectPendingData: true }, () => {
         console.log('new relic agent shutdown')
-        resolve()
         // eslint-disable-next-line no-process-exit
         process.exit(0)
       })
-    }, 60000)
+    })
   })
 })
