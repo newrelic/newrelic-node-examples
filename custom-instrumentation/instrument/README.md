@@ -32,7 +32,7 @@ This example application shows you how to use the [newrelic.instrument](https://
 
    ![1722869774240](./image/README/1722869774240.png)
 
-   ![1722869857647](image/README/1722869857647.png)
+   ![1722869857647](./image/README/1722869857647.png)
 
 ## Description
 
