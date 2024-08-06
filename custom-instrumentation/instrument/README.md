@@ -26,7 +26,7 @@ This example application shows you how to use the [newrelic.instrument](https://
 
 ## Exploring Telemetry
 
-1. Now you should be able to see `job-queue` instrumented in New Relic. Navigate to 'APM & Services' and then select the 'Example Job Queue App' entity.
+1. After a few minutes, you should be able to see `job-queue` instrumented in New Relic. From the dashboard, navigate to 'APM & Services' and then select the 'Example Job Queue App' entity.
 2. Then select 'Distributed tracing'. You should see the trace groups `firstTransacation`, `secondTransaction`, and `thirdTransaction`. Inside these groups will be our custom instrumentation. Select any trace group and then select a single trace.
 3. Under `firstTransaction` or `secondTransaction`, toggle 'Show in-process spans' and you will see 'scheduleJob - job'; this shows the name of which job was recorded. Under `thirdTransaction`, you will see `queue.runJobs` instrumented as 'runJobs'.
 
