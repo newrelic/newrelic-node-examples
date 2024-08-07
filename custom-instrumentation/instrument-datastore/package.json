@@ -1,0 +1,18 @@
+{
+    "name": "simple-datastore-app",
+    "version": "1.0.0",
+    "description": "Example app instrumenting a simple datastore",
+    "main": "index.js",
+    "scripts": {
+        "start": "node -r ./instrumentation --env-file .env index.js"
+    },
+    "author": "New Relic",
+    "license": "ISC",
+    "dependencies": {
+        "fastify": "^4.28.1",
+        "newrelic": "^12.0.0"
+    },
+    "devDependencies": {
+        "@newrelic/eslint-config": "^0.4.0"
+    }
+}
