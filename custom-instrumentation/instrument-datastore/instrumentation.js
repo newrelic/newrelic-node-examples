@@ -11,7 +11,7 @@ const datastorePath = require.resolve('./simple-datastore')
 newrelic.instrumentDatastore({
     // The path to our datastore module
     absolutePath: datastorePath,
-    // The name of the datstore module
+    // The name of the datastore module
     moduleName: 'simple-datastore',
     // The function that will instrument the datastore
     // if it is successfully required.
