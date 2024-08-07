@@ -38,7 +38,10 @@ This is an example application that uses the [newrelic.instrumentDatastore](http
 1. After making requests to application, wait a few minutes and go to your New Relic dashboard. Select 'APM & Services', then 'Example Simple Datastore Application', and then 'Distributed tracing'. You should see the following trace groups.
 2. Select the `...//query` trace group. Then select a single trace and expand it. You should see a datastore icon with "simple-datastore" next to it. After "simple-datastore", New Relic parses your query for you and describes it. In this case, we see `simple-datastore users select` which was taken from our dummy query, `SELECT * FROM users`.
 
-   The reason we see "UNKNOWN" for our datastore is because "simple-datastore" is not a real datastore that can be instrumented by the infrastructure agent. For an acutal datastore, we would select "Instrument what's missing" and follow the instructions provided.![1723050070487](https://file+.vscode-resource.vscode-cdn.net/Users/achisholm/Desktop/newrelic-node-examples/custom-instrumentation/instrument-datastore/image/README/1723050070487.png)
+   The reason we see "UNKNOWN" for our datastore is because "simple-datastore" is not a real datastore that can be instrumented by the infrastructure agent. For an actual datastore, we would select "Instrument what's missing" and follow the instructions provided.
+
+   ![1723050070487](./image/README/1723050070487.png)
+
 3. Check out the `...//batch` and `...//shutdown` trace groups and observe the differences.
 
 ## Description
@@ -48,4 +51,4 @@ This application consists of the following files:
 * `index.js`: a simple app that hosts a datastore and allows the user to make queries against it
 * `simple-datastore.js`: a datastore called Simple Datastore that provides basic operations and queries
 * `instrumentation.js`: all of the New Relic instrumentation is in here; the `npm start` command makes sure this module is loaded first
-* `newrelic.js`: a basic, sample New Relic configurartion
+* `newrelic.js`: a basic, sample New Relic configuration
