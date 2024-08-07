@@ -17,7 +17,7 @@ cd newrelic-node-examples/custom-instrumentation/instrument-webframework
 4. Install dependencies and run the application
 
 ```sh
-npm ci
+npm install
 npm start
 ```
 
@@ -26,10 +26,10 @@ npm start
     Using curl:
     ```sh
     # Fetch users
-    curl localhost:3000/api/users
+    curl http://localhost:3000/api/users
 
     # Fetch homepage
-    curl localhost:3000/home    
+    curl http://localhost:3000/home    
     ```
 
     Using browser:

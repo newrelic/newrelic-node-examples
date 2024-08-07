@@ -1,6 +1,6 @@
 'use strict'
 
-const nrExternals = require('@newrelic/next/load-externals')
+const nrExternals = require('newrelic/load-externals')
 
 module.exports = {
   experimental: {

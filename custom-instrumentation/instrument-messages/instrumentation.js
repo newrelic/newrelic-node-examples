@@ -23,12 +23,12 @@ newrelic.instrumentMessages({ absolutePath: niftyPath, moduleName: 'nifty-messag
     // misc key/value parameters can be recorded as a part of the trace segment
     const params = { message, queueName }
 
-    return {
+    return new shim.specs.MessageSpec({
       callback: shim.LAST,
       destinationName: queueName,
       destinationType: shim.QUEUE,
       parameters: params
-    }
+    })
   })
 
   console.log(`[NEWRELIC] instrumenting method 'purge'`)
@@ -39,21 +39,20 @@ newrelic.instrumentMessages({ absolutePath: niftyPath, moduleName: 'nifty-messag
     // misc key/value parameters can be recorded as a part of the trace segment
     const params = { queueName }
 
-    return {
+    return new shim.specs.MessageSpec({
       callback: shim.LAST,
       destinationName: queueName,
       destinationType: shim.QUEUE,
       parameters: params
-    }
+    })
   })
 
   console.log(`[NEWRELIC] instrumenting callbacks of method 'getMessage'`)
-  shim.recordConsume(Client.prototype, 'getMessage', {
+  shim.recordConsume(Client.prototype, 'getMessage', new shim.specs.MessageSpec({
     destinationName: shim.FIRST,
     callback: shim.LAST,
-    messageHandler(shim, fn, name, args) {
-      const err = args[0]
-      const msg = args[1]
+    after({ args }) {
+      const [err, msg] = args
       if (msg) {
         console.log(
           `[NEWRELIC] getMessage on queue ${msg.queueName} returned a message: '${msg.msg}'`
@@ -71,10 +70,10 @@ newrelic.instrumentMessages({ absolutePath: niftyPath, moduleName: 'nifty-messag
         parameters: { err }
       }
     }
-  })
+  }))
 
   console.log(`[NEWRELIC] instrumenting callbacks of method 'subscribe'`)
-  shim.recordSubscribedConsume(Client.prototype, 'subscribe', {
+  shim.recordSubscribedConsume(Client.prototype, 'subscribe', new shim.specs.MessageSubscribeSpec({
     consumer: shim.LAST,
     // This handler will be called in whatever context our subscribed
     // message handler is called. In index.js, this is the
@@ -85,7 +84,7 @@ newrelic.instrumentMessages({ absolutePath: niftyPath, moduleName: 'nifty-messag
     // Note that we are not recording the subscription call itself,
     // only the the consume calls made because a subscription was made
     // earlier.
-    messageHandler(shim, consumer, name, args) {
+    messageHandler(shim, args) {
       const msg = args[0]
       console.log(`[NEWRELIC] subscribe on queue ${msg.queueName} returned a message: '${msg.msg}'`)
       return {
@@ -93,5 +92,5 @@ newrelic.instrumentMessages({ absolutePath: niftyPath, moduleName: 'nifty-messag
         destinationType: shim.QUEUE
       }
     }
-  })
+  }))
 }})
