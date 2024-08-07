@@ -1,0 +1,17 @@
+{
+    "name": "instrument-app",
+    "version": "1.0.0",
+    "description": "Example app instrumentating a job queue",
+    "main": "index.js",
+    "scripts": {
+        "start": "node -r ./instrumentation --env-file .env index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "newrelic": "^11.19.0"
+    },
+    "devDependencies": {
+        "@newrelic/eslint-config": "^0.4.0"
+    }
+}
