@@ -6,7 +6,7 @@
 'use strict'
 
 const newrelic = require('newrelic')
-const { SimpleDatastore } = require('./simple-datastore')
+const SimpleDatastore = require('./simple-datastore')
 const fastify = require('fastify')({ logger: true })
 
 const datastore = new SimpleDatastore()
@@ -29,19 +29,17 @@ fastify.post('/batch', async (request, reply) => {
 })
 
 fastify.post('/shutdown', async (request, reply) => {
-  // Close the connection to the datastore
-  datastore.close()
-  // Close fastify
-  fastify.close()
-  return reply.send({ status: 'Connection closed' })
-})
+    // Close fastify
+    setImmediate(() => fastify.close())
+    return reply.send({ status: 'Connection closed' })
+  })
 
-fastify.addHook('onClose', async (instance) => {
-  // Finally shutdown the agent so it properly flushes all data
-  setTimeout(() => {
+  fastify.addHook('onClose', async (instance) => {
+    // Close the connection to the datastore
+    datastore.close()
+    // Finally shutdown the agent so it properly flushes all data
     newrelic.shutdown({ collectPendingData: true }, () => process.exit(0))
-  }, 2500)
-})
+  })
 
 // Start the server where the database will be hosted
 const start = async () => {

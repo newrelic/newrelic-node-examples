@@ -54,4 +54,4 @@ class SimpleDatastore {
   }
 }
 
-module.exports = { SimpleDatastore }
+module.exports = SimpleDatastore 

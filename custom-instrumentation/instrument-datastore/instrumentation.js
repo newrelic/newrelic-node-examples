@@ -24,9 +24,9 @@ newrelic.instrumentDatastore({
   },
 })
 
-function instrumentSimpleDatastore (shim, datastore, moduleName) {
+function instrumentSimpleDatastore (shim, SimpleDatastore, moduleName) {
   console.log(`[NEWRELIC] instrumenting ${moduleName}`)
-  const proto = datastore.SimpleDatastore.prototype
+  const proto = SimpleDatastore.prototype
 
   // This is required to set the datastore name in the transaction trace
   shim.setDatastore(moduleName)
