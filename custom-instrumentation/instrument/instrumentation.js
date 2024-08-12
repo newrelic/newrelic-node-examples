@@ -31,21 +31,20 @@ function instrumentMyJobQueue(shim, myModule, moduleName) {
     const proto = myModule.prototype;
 
     shim.record(proto, 'scheduleJob', 
-        // This is a RecorderFunction that returns a RecorderSpecParams object
         function (shim, func, name, args) {
             const job = args[0];
-            return {
+            return new shim.specs.RecorderSpec({
                 name: `scheduleJob - ${job.name}`,
                 callback: shim.LAST
-            }
+            })
         }
     )
     shim.record(proto, 'runJobs', 
         function (shim, func, name, args) {
-            return {
+            return new shim.specs.RecorderSpec({
                 name: 'runJobs',    
                 callback: shim.LAST
-            }
+            })
         }
     )
 }

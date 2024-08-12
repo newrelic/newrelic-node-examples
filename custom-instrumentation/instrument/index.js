@@ -49,8 +49,8 @@ function main() {
             // Do some work - for example, this waits for a promise job to complete
             const result = await promiseJob()
             console.log(result)
+            transaction.end()
         })
-        transaction.end()
     })
 
     newrelic.startBackgroundTransaction('secondTransaction', function () {
@@ -59,9 +59,9 @@ function main() {
             // Do some work - for example, this waits for a callback job to complete
             cbJob(function cb(result) {
                 console.log(result)
+                transaction.end()
             })
         })
-        transaction.end()
     })
 
     // Wait for the jobs to be added to the queue and then run them
@@ -74,11 +74,10 @@ function main() {
             const transaction = newrelic.getTransaction()
             queue.runJobs()
             transaction.end()
+            // Finally shutdown the agent so it properly flushes all data
+            newrelic.shutdown({ collectPendingData: true }, () => process.exit(0))
         })
     )
-
-    // Finally shutdown the agent so it properly flushes all data
-    newrelic.shutdown({ collectPendingData: true }, () => process.exit(0))
 }
 
 main()
