@@ -9,8 +9,8 @@ const newrelic = require('newrelic')
 const SimpleDatastore = require('./simple-datastore')
 const fastify = require('fastify')({ logger: true })
 
-const datastore = new SimpleDatastore()
 const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
+const datastore = new SimpleDatastore(host, port)
 
 // We will be using the fastify web framework to host the
 // datastore, but any host (Docker, web framework, etc.) can be used
@@ -28,18 +28,10 @@ fastify.post('/batch', async (request, reply) => {
   return reply.send({ result })
 })
 
-fastify.post('/shutdown', async (request, reply) => {
-    // Close fastify
-    setImmediate(() => fastify.close())
-    return reply.send({ status: 'Connection closed' })
-  })
-
-  fastify.addHook('onClose', async (instance) => {
-    // Close the connection to the datastore
-    datastore.close()
-    // Finally shutdown the agent so it properly flushes all data
-    newrelic.shutdown({ collectPendingData: true }, () => process.exit(0))
-  })
+fastify.addHook('onClose', async (instance) => {
+  // Close the connection to the datastore
+  datastore.close()
+})
 
 // Start the server where the database will be hosted
 const start = async () => {

@@ -7,9 +7,11 @@
 
 // For a datastore, there are only two types of things to record: operations and queries.
 class SimpleDatastore {
-  constructor () {
+  constructor (host, port) {
     this.client = null
     this.connected = false
+    this.host = host
+    this.port = port
   }
 
   // These are our datastore operation methods
