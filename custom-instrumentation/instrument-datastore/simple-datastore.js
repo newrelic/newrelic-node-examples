@@ -5,16 +5,15 @@
 
 'use strict'
 
-// For a datastore, there are only two types of things to record: operations and queries.
 class SimpleDatastore {
-  constructor (host, port) {
+  constructor (host, port, database=null) {
     this.client = null
     this.connected = false
     this.host = host
     this.port = port
+    this.database = database
   }
 
-  // These are our datastore operation methods
   connect () {
     this.connected = true
     console.log('Connected to simple-datastore')

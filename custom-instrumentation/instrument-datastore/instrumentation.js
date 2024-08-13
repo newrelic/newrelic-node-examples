@@ -31,34 +31,25 @@ function instrumentSimpleDatastore(shim, SimpleDatastore, moduleName) {
   // This is required to set the datastore name in the transaction trace
   shim.setDatastore(moduleName)
 
-  // This function instruments our datastore operations.
-  // You may provide a OperationSpec or SegmentFunction for the opSpec.
-  // We chose SegmentFunction here because we want to know the name of the operation.
-  shim.recordOperation(proto, ['connect', 'close'], function (shim, fn, name, args) {
-    return {
-      name: name
-    }
-  })
-
   // These functions instrument our queries.
-  shim.recordQuery(proto, 'execute',
-    new shim.specs.QuerySpec({
+  shim.recordQuery(proto, 'execute', function (shim, fn, name, args) {
+    return new shim.specs.QuerySpec({
       name: 'query',
       query: shim.FIRST,
       promise: true,
-      host: this.host,
-      port: this.port
+      parameters: getInstanceParameters(shim, this)
     })
+  }
   )
 
-  shim.recordBatchQuery(proto, 'batch',
-    new shim.specs.QuerySpec({
+  shim.recordBatchQuery(proto, 'batch', function (shim, fn, name, args) {
+    return new shim.specs.QuerySpec({
       name: 'batch',
       query: findBatchQueryArg,
       promise: true,
-      host: this.host,
-      port: this.port
+      parameters: getInstanceParameters(shim, this)
     })
+  }
   )
 }
 
@@ -66,4 +57,13 @@ function instrumentSimpleDatastore(shim, SimpleDatastore, moduleName) {
 function findBatchQueryArg(shim, name, func, args) {
   const sql = (args[0] && args[0][0]) || ''
   return sql.query || sql
+}
+
+// This gets the datastore parameters.
+function getInstanceParameters(shim, client) {
+  return new shim.specs.params.DatastoreParameters({
+    host: client.host || null,
+    port_path_or_id: client.port || null,
+    database_name: client.database || null
+  })
 }

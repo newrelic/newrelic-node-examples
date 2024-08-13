@@ -1,6 +1,6 @@
 # Example instrumentation of a datastore application
 
-This is an example application that uses the [newrelic.instrumentDatastore](https://newrelic.github.io/node-newrelic/API.html#instrumentDatastore) and associated [Datastore shim API](https://newrelic.github.io/node-newrelic/DatastoreShim.html) to instrument a hypothetical datastore. New Relic instruments only two things for datastores: queries and operations (non-queries like connect and close).
+This is an example application that uses the [newrelic.instrumentDatastore](https://newrelic.github.io/node-newrelic/API.html#instrumentDatastore) and associated [Datastore shim API](https://newrelic.github.io/node-newrelic/DatastoreShim.html) to instrument a hypothetical datastore. New Relic instruments only two things for datastores: queries and operations (NoSQL databases, etc.).
 
 ## Getting Started
 
@@ -19,7 +19,7 @@ This is an example application that uses the [newrelic.instrumentDatastore](http
    # Start the application
    npm start
    ```
-4. Make requests to the application. Route names include: 'query', 'batch', and 'shutdown'.
+4. Make requests to the application. Route names include: 'query' and 'batch'.
 
    ```
    curl -X POST http://localhost:3000/query
@@ -32,11 +32,11 @@ This is an example application that uses the [newrelic.instrumentDatastore](http
 ## Exploring Telemetry
 
 1. After making requests to application, wait a few minutes and go to your New Relic dashboard. Select 'APM & Services', then 'Example Simple Datastore Application', and then 'Distributed tracing'. You should see the following trace groups: `...//query` and `...//batch`.
-2. Select the `...//query` trace group. Then select a single trace and expand it. You should see a datastore icon with "simple-datastore" next to it. After "simple-datastore", New Relic parses your query for you and describes it. In this case, we see `simple-datastore users select` which was taken from our dummy query, `SELECT * FROM users`.
+2. Select the `...//query` trace group. Then select a single trace and expand it. You should see a datastore icon with "simple-datastore" next to it. After "simple-datastore", New Relic parses your query for you and describes it. In this case, we see `simple-datastore users select` which was taken from our dummy query, `SELECT * FROM users`. Instead of the example host, you should see your localhost name on the datastore icon.
 
-   ![1723050070487](./image/README/1723050070487.png)
-   
-3. Check out the `...//batch` trace group and observe the differences.
+   ![1723565297742](image/README/1723565297742.png)
+3. In the 'Attributes' tab, you should see the datastore name, database name, the database statement, server address, and server port.
+4. Check out the `...//batch` trace group as well.
 
 ## Description
 
