@@ -5,11 +5,14 @@
 
 'use strict'
 
+// This is the file where we use our example module.
+
 const newrelic = require('newrelic')
 const Queue = require('./job-queue')
 
+// These are some example jobs to simulate work.
 function exampleJob() {
-    // Do whatever work you want here - this is just a placeholder
+    // Do some work
     return 'job done';
 }
 
@@ -30,19 +33,22 @@ async function promiseJob() {
     })
 }
 
+// The main function of our application
 function main() {
     const queue = new Queue()
 
-    // We will be creating our transactions with startBackgroundTransaction
-    // because this application does not utilize frameworks New Relic already
-    // instruments. Thus, transactions are not automatically created for use.
-    // If you are already operating within an instrumented framework, you may
-    // omit the startBackgroundTransaction wrapper.
+    // Some notes:
+        // We will be creating our transactions with startBackgroundTransaction
+        // because this application does not utilize frameworks New Relic already
+        // instruments. Thus, transactions are not automatically created for use.
+        // If you are already operating within an instrumented framework, you may
+        // omit the startBackgroundTransaction wrapper.
 
-    // Without instrumentation, executing this code will cause 'firstTransaction'
-    // to be the active transaction in both 'firstJob' and 'secondJob'. This is
-    // not the intended behavior. If we instrument queue.scheduleJob, the 
-    // functions will be correctly placed within their respective transactions.
+        // Without instrumentation, executing this code will cause 'firstTransaction'
+        // to be the active transaction in both 'firstJob' and 'secondJob'. This is
+        // not the intended behavior. After we instrument queue.scheduleJob, the 
+        // functions will be correctly placed within their respective transactions.
+
     newrelic.startBackgroundTransaction('firstTransaction', function () {
         const transaction = newrelic.getTransaction()
         queue.scheduleJob(async function firstJob() {

@@ -1,6 +1,6 @@
-# Example instrumentation of a basic app
+# Example instrumentation of a simple module
 
-This example application shows you how to use the [newrelic.instrument](https://newrelic.github.io/node-newrelic/API.html#instrument) and associated [shim](https://newrelic.github.io/node-newrelic/Shim.html) API. It instruments a simple module, a rudimentary job queue (`jobQueue`), and runs a series of basic jobs.
+This example application shows you how to use the [newrelic.instrument](https://newrelic.github.io/node-newrelic/API.html#instrument) and [shim.record](https://newrelic.github.io/node-newrelic/Shim.html#record) API. This API allows you to instrument virtually any module that New Relic does not already support. In this example, we will instrument a simple module, a rudimentary job queue (`jobQueue`) that schedules and runs a series of basic jobs.
 
 ## Getting Started
 
@@ -38,7 +38,7 @@ This example application shows you how to use the [newrelic.instrument](https://
 
 This application consists of the following files:
 
-* `index.js`: a simple app that schedules jobs and runs them
+* `index.js`: a simple app that utilizes our example module
 * `job-queue.js`: an example module that provides a queue class that you can use to run and schedule jobs
 * `instrumentation.js`: all of the New Relic instrumentation is in here; the `npm start` command makes sure this module is loaded first
 * `newrelic.js`: a basic, sample New Relic configurartion

@@ -5,6 +5,10 @@
 
 'use strict'
 
+// This is our example module, a job queue. After a job is scheduled, it is
+// pushed to the queue to be ran later. Once runJobs is called, all jobs
+// are ran in the order that they were pushed. 
+
 function Queue() {
   this.jobs = []
 }
