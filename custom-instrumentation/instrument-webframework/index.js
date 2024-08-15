@@ -5,6 +5,8 @@
 
 'use strict'
 
+// This is the file which uses our web framework.
+
 const { SimpleFramework } = require('./simple-framework')
 const { authenticate } = require('./lib/authenticate')
 
