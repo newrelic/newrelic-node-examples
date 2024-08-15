@@ -5,6 +5,8 @@
 
 'use strict'
 
+// This is our example messaging library. 
+
 const EventEmitter = require('node:events')
 
 class Client extends EventEmitter {

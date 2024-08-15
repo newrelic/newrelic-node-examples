@@ -5,6 +5,8 @@
 
 'use strict'
 
+// This is the file where we will use our instrumented message library.
+
 const express = require('express')
 const { PORT = '3000', HOST = 'localhost' } = process.env
 const { Client } = require('./nifty-messages')
