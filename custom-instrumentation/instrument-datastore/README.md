@@ -1,6 +1,16 @@
 # Example instrumentation of a datastore application
 
-This is an example application that uses the [newrelic.instrumentDatastore](https://newrelic.github.io/node-newrelic/API.html#instrumentDatastore) and associated [Datastore shim API](https://newrelic.github.io/node-newrelic/DatastoreShim.html) to instrument a hypothetical datastore. New Relic instruments only two things for datastores: queries and operations (NoSQL databases, etc.).
+This is an example application that uses the [newrelic.instrumentDatastore](https://newrelic.github.io/node-newrelic/API.html#instrumentDatastore) and associated [Datastore shim API](https://newrelic.github.io/node-newrelic/DatastoreShim.html) to instrument a hypothetical datastore. In this example, we will assume our datastore is SQL-like.
+
+For a datastore, there are just two types of things to record: operations and queries. Not all datastores have both actions, for example with Redis (and some other NoSQL datastores) you do not write queries, only operations (or commands in their terminology).
+
+**Operation**
+
+Operations are any actions that do not send a query to be executed by the datastore server. Examples for classic RDBs include connecting to the database, closing the connection, or setting configurations on the server. Often these are actions that modify the connection or datastore, but not the data. Operations are recoded using the `DatastoreShim` method `recordOperation`.
+
+**Queries**
+
+Queries are any action that manipulate or fetch data using a specialized query language. For a SQL database, this is any action that sends SQL code to the server for execution. These are recorded using the method `recordQuery`. In some cases, the datastore in use may support sending multiple queries in a single request. These are considered "batch queries" and are recorded using `recordBatchQuery`.
 
 ## Getting Started
 
