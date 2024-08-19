@@ -5,6 +5,11 @@
 
 'use strict'
 
+// This is our example datastore. It has common methods that
+// we would expect to see in a datastore, such as connect, close,
+// execute query, and batch queries. It is worth noting that
+// this datastore is assumed to be SQL-like.
+
 class SimpleDatastore {
   constructor (host, port, database=null) {
     this.client = null

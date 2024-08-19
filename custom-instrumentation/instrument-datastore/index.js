@@ -5,6 +5,8 @@
 
 'use strict'
 
+// This is the file where we will use our instrumented datastore.
+
 const SimpleDatastore = require('./simple-datastore')
 const fastify = require('fastify')({ logger: true })
 
