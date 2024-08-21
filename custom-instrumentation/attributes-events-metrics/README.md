@@ -38,7 +38,7 @@ Select 'Distributed tracing' on the left side of your screen. Then, select a tra
 
 Navigate to 'Query Your Data' in New Relic. Enter the following query. You should now see information about your custom event(s).
 
-```NRQL
+```SQL
 FROM `my_app:my_event` SELECT *
 ```
 
@@ -48,8 +48,14 @@ FROM `my_app:my_event` SELECT *
 
 Navigate to 'Query Your Data' in New Relic. Enter the following query. You should now see information about your custom event(s).
 
-```NRQL
-SELECT count(newrelic.timeslice.value) FROM Metric WHERE metricTimesliceName like 'Custom/%' AND entity.guid = '<guid>' FACET metricTimesliceName SINCE 30 MINUTES AGO TIMESERIES
+```SQL
+SELECT count(newrelic.timeslice.value) 
+FROM Metric 
+WHERE metricTimesliceName like 'Custom/%' 
+AND entity.guid = '<guid>' 
+FACET metricTimesliceName 
+SINCE 30 MINUTES AGO TIMESERIES
 ```
+
 ![metrics-query](./image/README/metrics-query.png)
 
