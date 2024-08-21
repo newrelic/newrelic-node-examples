@@ -38,6 +38,21 @@ fastify.post('/custom-event', async (request, reply) => {
     return reply.send({ status: 'Custom event recorded' });
 });
 
+fastify.post('/custom-metric', async (request, reply) => {
+    newrelic.incrementMetric('TestMetric')
+    newrelic.recordMetric('MyTestMetric', 100)
+    newrelic.recordMetric('MyComplexTestMetric', {
+      count: 1,
+      total: 2,
+      min: 1,
+      max: 2,
+      sumOfSquares: 4,
+      callCount: 1
+    })
+    newrelic.incrementMetric('TestMetric')
+    return reply.send({ status: 'Custom metric recorded' });
+});
+
 //Start the server
 const start = async () => {
     try {
@@ -49,3 +64,4 @@ const start = async () => {
 };
 
 start();
+

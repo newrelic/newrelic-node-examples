@@ -12,7 +12,7 @@
  * description of configuration variables and their potential values.
  */
 exports.config = {
-  app_name: ['Example Attributes & Events App'],
+  app_name: ['Example Attributes, Events & Metrics App'],
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
