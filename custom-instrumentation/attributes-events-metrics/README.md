@@ -7,7 +7,7 @@ This example provides an application to demonstrate how to share custom attribut
 1. Clone or fork this repository.
 2. Navigate to this example's sub directory
    ```
-   cd newrelic-node-examples/custom-instrumentation/attributes-and-events
+   cd newrelic-node-examples/custom-instrumentation/attributes-events-metrics
    ```
 3. Install dependencies and run application.
    ```

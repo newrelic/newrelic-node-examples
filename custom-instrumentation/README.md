@@ -2,14 +2,16 @@
 
 This folder contains example applications using the [Agent API](https://newrelic.github.io/node-newrelic/API.html) to do custom instrumentation.
 
-* [instrument](./instrument) - example application that uses the [newrelic.instrument API](https://newrelic.github.io/node-newrelic/API.html#instrument) and associated [shim API](https://newrelic.github.io/node-newrelic/Shim.html) to instrument a simple library
-* [instrumentDatastore](./instrument-datastore) - example application that uses the [newrelic.instrumentDatastore API](https://newrelic.github.io/node-newrelic/API.html#instrumentDatastore) and [datastore shim API](https://newrelic.github.io/node-newrelic/DatastoreShim.html) to instrument a toy datastore called Simple Datastore
-* [instrumentWebframework](./instrument-webframework) - example application that uses the [newrelic.instrumentWebframework API](https://newrelic.github.io/node-newrelic/API.html#instrumentWebframework) and associated [WebFramework shim API](https://newrelic.github.io/node-newrelic/WebFrameworkShim.html) to instrument a hypothetical web framework
-* [instrumentMessages](./instrument-messages) - example application that uses the [newrelic.instrumentMessages API](https://newrelic.github.io/node-newrelic/API.html#instrumentMessages) and associated [messaging shim API](https://newrelic.github.io/node-newrelic/MessageShim.html) to instrument a toy messaging library called Nifty Messages
+* Instrument library code
+  * [instrument](./instrument) - example application that uses the [newrelic.instrument API](https://newrelic.github.io/node-newrelic/API.html#instrument) and associated [shim API](https://newrelic.github.io/node-newrelic/Shim.html) to instrument a simple library
+  * [instrumentDatastore](./instrument-datastore) - example application that uses the [newrelic.instrumentDatastore API](https://newrelic.github.io/node-newrelic/API.html#instrumentDatastore) and [datastore shim API](https://newrelic.github.io/node-newrelic/DatastoreShim.html) to instrument a toy datastore called Simple Datastore
+  * [instrumentWebframework](./instrument-webframework) - example application that uses the [newrelic.instrumentWebframework API](https://newrelic.github.io/node-newrelic/API.html#instrumentWebframework) and associated [WebFramework shim API](https://newrelic.github.io/node-newrelic/WebFrameworkShim.html) to instrument a hypothetical web framework
+  * [instrumentMessages](./instrument-messages) - example application that uses the [newrelic.instrumentMessages API](https://newrelic.github.io/node-newrelic/API.html#instrumentMessages) and associated [messaging shim API](https://newrelic.github.io/node-newrelic/MessageShim.html) to instrument a toy messaging library called Nifty Messages
 * [Attributes, Events, and Metrics](./attributes-events-metrics) - example application that demonstrates how to create custom [attributes](https://newrelic.github.io/node-newrelic/API.html#addCustomAttribute), [events](https://newrelic.github.io/node-newrelic/API.html#recordCustomEvent), and [metrics](https://newrelic.github.io/node-newrelic/API.html#recordMetric).
 * [Background Transactions](./background-transactions) - example application that uses the newrelic API to create [background transactions](https://newrelic.github.io/node-newrelic/API.html#startBackgroundTransaction)
-* [Segments](./segments) - example application that demonstrates how to use the [newrelic.startSegment API](https://newrelic.github.io/node-newrelic/API.html#startSegment) in a variety of cases: callback-based, promise-based, asyncronously, and syncronously
 * [Distributed tracing](./distributed-tracing/) - example application that demonstrates distributed tracing
+* [Segments](./segments) - example application that demonstrates how to use the [newrelic.startSegment API](https://newrelic.github.io/node-newrelic/API.html#startSegment) in a variety of cases: callback-based, promise-based, asyncronously, and syncronously
+* [Start Web Transaction](./start-web-transaction/) - example application that demonstrates how to use [newrelic.startWebTransaction](https://newrelic.github.io/node-newrelic/API.html#startWebTransaction).
 
 ## Purpose of Instrumentation
 
