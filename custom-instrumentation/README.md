@@ -12,6 +12,7 @@ This folder contains example applications using the [Agent API](https://newrelic
 * [Distributed tracing](./distributed-tracing/) - example application that demonstrates distributed tracing
 * [Segments](./segments) - example application that demonstrates how to use the [newrelic.startSegment API](https://newrelic.github.io/node-newrelic/API.html#startSegment) in a variety of cases: callback-based, promise-based, asyncronously, and syncronously
 * [Start Web Transaction](./start-web-transaction/) - example application that demonstrates how to use [newrelic.startWebTransaction](https://newrelic.github.io/node-newrelic/API.html#startWebTransaction).
+* [URL Obfuscation](./url-obfuscation) - example application that demonstrates how to use [url_obfuscation rules](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/installation-configuration/nodejs-agent-configuration/#url-obfuscation) to scrub PII from span names and attributes.
 
 ## Purpose of Instrumentation
 
