@@ -27,7 +27,8 @@ up appropriately in the New Relic dashboard.
 1. Copy [.env.sample](./.env.sample) to `.env`.
 2. Edit `.env` to add your New Relic app name and license key
 (see "Enabling APM collection" below).
-3. Build the application: `npm run build`
-3. Start the application: `npm start`.
-4. Browse the application: http://127.0.0.1:3000/
+3. Install packages: `npm install`.
+4. Build the application: `npm run build`
+5. Start the application: `npm start`.
+6. Browse the application: http://127.0.0.1:3000/
 
