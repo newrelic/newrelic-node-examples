@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@prisma/client": "4.7.1",
-    "express": "4.19.2",
+    "express": "4.20.0",
     "newrelic": "^11.19.0"
   },
   "devDependencies": {
