@@ -5,8 +5,8 @@ This example application uses [express](https://github.com/expressjs/express) an
 ## Setup
 
  1. Run `npm install`
- 1. Start application with `NEW_RELIC_LICENSE_KEY=<your-key> node index.js`
-
+ 1. `cp env.sample .env` fill out `NEW_RELIC_LICENSE_KEY`.
+ 1. `npm start`
 
 ## Test
 
