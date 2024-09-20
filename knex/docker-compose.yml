@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  db:
+    container_name: pg_knex
+    image: postgres:15
+    ports:
+      - "5436:5436"
+    environment:
+      PGPORT: 5436
+      POSTGRES_PASSWORD: newrelic
+      POSTGRES_DB: knex
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 1s
+      timeout: 10s
+      retries: 30
+

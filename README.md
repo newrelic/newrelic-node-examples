@@ -13,6 +13,7 @@ This repository contains example applications and scripts that demonstrate funct
  * [ESM](./esm-app) - example demonstrating how to load the agent in an [ESM](https://nodejs.org/api/esm.html) application. It also demonstrates how to register custom instrumentation for an ESM package.
  * [GraphQL Dataloader](./graphql-koa-dataloader) - example using Apollo Server, koa and GraphQL dataloader
  * [Kafkajs](./kafkajs) - example demonstrating [kafkajs](https://kafka.js.org/) with the Node.js agent 
+ * [Knex](./knex) - example demonstrating knex with the Node.js agent
  * [Mock Infinite Tracing Server](./mock-infinite-tracing-server) - mock gRPC server to use to locally test [infinite tracing](https://docs.newrelic.com/docs/distributed-tracing/infinite-tracing/introduction-infinite-tracing/) with a Node.js applciation 
  * [Nest](./nestjs) - examples demonstrating Nestjs with the Node.js agent
  * [Next.js](./nextjs) - examples demonstrating Next.js with the Node.js agent
