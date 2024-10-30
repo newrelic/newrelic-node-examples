@@ -85,14 +85,13 @@ function instrumentNiftyMessages(shim, messages, moduleName) {
   shim.recordConsume(Client.prototype, 'getMessage', new shim.specs.MessageSpec({
     destinationName: shim.FIRST,
     callback: shim.LAST,
-    after({ args }) {
-      const [err, msg] = args
-      if (msg) {
+    after({ result, error }) {
+      if (result) {
         console.log(
-          `[NEWRELIC] getMessage on queue ${msg.queueName} returned a message: '${msg.msg}'`
+          `[NEWRELIC] getMessage on queue ${result.queueName} returned a message: '${result.msg}'`
         )
         // misc key/value parameters can be recorded as a part of the trace segment
-        const params = { message: msg.msg, queueName: msg.queueName }
+        const params = { message: result.msg, queueName: result.queueName }
 
         return {
           parameters: params
@@ -101,7 +100,7 @@ function instrumentNiftyMessages(shim, messages, moduleName) {
 
       console.log('[NEWRELIC] getMessage returned no message')
       return {
-        parameters: { err }
+        parameters: { err: error }
       }
     }
   }))
