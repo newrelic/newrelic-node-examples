@@ -4,8 +4,8 @@
   "description": "An example knex app structure.",
   "main": "server/index.js",
   "scripts": {
-    "start": "node -r @newrelic/opentelemetry-integration/start --env-file .env ./server/start.js",
-    "start:debug": "node --inspect-brk -r @newrelic/opentelemetry-integration/start  --env-file .env ./server/start.js",
+    "start": "node -r newrelic -r ./otel-instrumentation.js --env-file .env ./server/start.js",
+    "start:debug": "node --inspect-brk -r newrelic -r ./otel-instrumentation.js --env-file .env ./server/start.js",
     "db:migrate": "npx knex migrate:latest",
     "db:seed": "npx knex seed:run"
   },
@@ -15,6 +15,10 @@
     "node": ">=18"
   },
   "dependencies": {
+    "@opentelemetry/instrumentation": "^0.57.1",
+    "@opentelemetry/instrumentation-express": "^0.47.0",
+    "@opentelemetry/instrumentation-http": "^0.57.1",
+    "@opentelemetry/instrumentation-knex": "^0.44.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "express": "^4.21.0",

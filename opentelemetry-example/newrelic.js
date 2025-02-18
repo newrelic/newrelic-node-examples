@@ -19,14 +19,28 @@ exports.config = {
      * issues with the agent, 'info' and higher will impose the least overhead on
      * production applications.
      */
-    level: 'info'
+    level: 'trace'
   },
   /**
    * When true, all request headers except for those listed in attributes.exclude
    * will be captured for all traces, unless otherwise specified in a destination's
    * attributes include/exclude lists.
    */
+  instrumentation: {
+    http: {
+      enabled: false 
+    },
+    express: {
+      enabled: false 
+    },
+    pg: {
+      enabled: false 
+    }
+  },
   allow_all_headers: true,
+  feature_flag: {
+    opentelemetry_bridge: true
+  },
   attributes: {
     /**
      * Prefix of attributes to exclude from all destinations. Allows * as wildcard
