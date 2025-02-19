@@ -1,6 +1,6 @@
-# OpenTelemetry Example Aplication
+# OpenTelemetry Example AMQP Application
 
-This is an example app that uses the [New Relic agent](https://github.com/newrelic/node-newrelic) in the opentelemetry bridge mode for AMQP.
+This is an example app that uses the [New Relic agent](https://github.com/newrelic/node-newrelic) in the opentelemetry bridge mode with AMQP (`rabbitmq`).
 
 ## Setup
 

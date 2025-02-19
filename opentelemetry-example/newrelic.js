@@ -23,7 +23,7 @@ exports.config = {
   },
   /** 
    * Exclude the following libraries from agent instrumentation.
-   * If opentelemtry_bridge is enabled, these libraries will be 
+   * If opentelemetry_bridge is enabled, these libraries will be 
    * instrumented by OpenTelemetry instead.
    */ 
   instrumentation: {
