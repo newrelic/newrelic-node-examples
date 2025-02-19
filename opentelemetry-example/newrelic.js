@@ -21,12 +21,15 @@ exports.config = {
      */
     level: 'trace'
   },
-  /**
-   * When true, all request headers except for those listed in attributes.exclude
-   * will be captured for all traces, unless otherwise specified in a destination's
-   * attributes include/exclude lists.
-   */
+  /** 
+   * Exclude the following libraries from agent instrumentation.
+   * If opentelemtry_bridge is enabled, these libraries will be 
+   * instrumented by OpenTelemetry instead.
+   */ 
   instrumentation: {
+    knex: {
+      enabled: false 
+    },
     http: {
       enabled: false 
     },
@@ -37,7 +40,15 @@ exports.config = {
       enabled: false 
     }
   },
+  /**
+   * When true, all request headers except for those listed in attributes.exclude
+   * will be captured for all traces, unless otherwise specified in a destination's
+   * attributes include/exclude lists.
+   */
   allow_all_headers: true,
+  /**
+   * The below is required to enable the OpenTelemetry bridge.
+   */
   feature_flag: {
     opentelemetry_bridge: true
   },

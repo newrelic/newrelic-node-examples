@@ -1,7 +1,7 @@
 {
-  "name": "knex-test",
-  "version": "0.0.6",
-  "description": "An example knex app structure.",
+  "name": "otel-test",
+  "version": "0.0.1",
+  "description": "An example OTel app with knex and express.",
   "main": "server/index.js",
   "scripts": {
     "start": "node -r newrelic -r ./otel-instrumentation.js --env-file .env ./server/start.js",
