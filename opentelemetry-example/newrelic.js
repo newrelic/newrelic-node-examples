@@ -38,6 +38,9 @@ exports.config = {
     },
     pg: {
       enabled: false 
+    },
+    undici: {
+      enabled: false  
     }
   },
   /**

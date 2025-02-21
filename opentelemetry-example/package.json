@@ -17,9 +17,9 @@
   "dependencies": {
     "@opentelemetry/instrumentation": "^0.57.1",
     "@opentelemetry/instrumentation-express": "^0.47.0",
-    "@opentelemetry/instrumentation-fetch": "^0.57.2",
     "@opentelemetry/instrumentation-http": "^0.57.1",
     "@opentelemetry/instrumentation-knex": "^0.44.0",
+    "@opentelemetry/instrumentation-undici": "^0.10.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "express": "^4.21.0",
