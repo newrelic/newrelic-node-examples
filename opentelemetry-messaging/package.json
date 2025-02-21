@@ -4,8 +4,8 @@
   "description": "An example OTel AMQP app.",
   "main": "index.js",
   "scripts": {
-    "start": "node -r newrelic -r ./otel-instrumentation.js --env-file .env ./consumer.js",
-    "produce": "node -r newrelic -r ./otel-instrumentation.js --env-file .env ./producer.js"
+    "start": "node -r newrelic -r ./otel-instrumentation.js --env-file .env-c ./consumer.js",
+    "produce": "node -r newrelic -r ./otel-instrumentation.js --env-file .env-p ./producer.js"
   },
   "author": "",
   "license": "MIT",
@@ -15,7 +15,6 @@
   "dependencies": {
     "@opentelemetry/instrumentation": "^0.57.2",
     "@opentelemetry/instrumentation-amqplib": "^0.46.1",
-    "@opentelemetry/sdk-trace-node": "^1.30.1",
     "amqplib": "^0.10.3"
   }
 }

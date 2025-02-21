@@ -1,5 +1,6 @@
 'use strict'
 
+const newrelic = require('newrelic')
 const amqp = require('amqplib')
 
 const queue = "product_inventory"
@@ -25,4 +26,9 @@ async function sendMessage() {
   }
 }
 
-sendMessage()
+newrelic.startBackgroundTransaction('send-message', async function handleTransaction() {
+    const txn = newrelic.getTransaction()
+    await sendMessage()
+    txn.end()
+    newrelic.shutdown({ collectPendingData: true }, () => process.exit(0))
+});

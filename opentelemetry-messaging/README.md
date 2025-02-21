@@ -8,11 +8,12 @@ This is an example app that uses the [New Relic agent](https://github.com/newrel
 
 ```sh
 npm install
-cp env.sample .env
+cp env-p.sample .env-p # Producer env vars
+cp env-c.sample .env-c # Consumer env vars
 # Fill out `NEW_RELIC_LICENSE_KEY`
 docker compose up -d
-npm run start
-npm run produce # Run several times for more traffic
+npm run start # Start consumer
+npm run produce # Run producer a few times
 ```
 
 ## Exploring Telemetry
