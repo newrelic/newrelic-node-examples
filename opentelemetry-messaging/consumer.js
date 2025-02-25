@@ -6,7 +6,7 @@ const queue = "product_inventory"
 
 async function startConsumer() {
     try {
-        const connection = await amqp.connect("amqp://localhost:5672")
+        const connection = await amqp.connect("amqp://localhost:5673")
         const channel = await connection.createChannel()
 
         process.once("SIGINT", async function () {

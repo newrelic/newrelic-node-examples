@@ -1,5 +1,5 @@
 {
-  "name": "otel-amqp-test",
+  "name": "otel-messaging-test",
   "version": "0.0.1",
   "description": "An example OTel AMQP app.",
   "main": "index.js",

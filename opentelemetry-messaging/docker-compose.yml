@@ -1,9 +1,6 @@
 services:
   rabbitmq:
-    container_name: rabbitmq
+    container_name: otel_rabbitmq
     image: rabbitmq:3
     ports:
-      - "5672:5672"
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: 
+      - "5673:5672"
