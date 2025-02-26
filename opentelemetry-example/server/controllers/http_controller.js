@@ -4,7 +4,7 @@ const https = require('https')
 
 const httpAll = (req, res, next) => {
 
-    https.get('https://jsonplaceholder.typicode.com/posts', (httpRes) => {
+    https.get('https://jsonplaceholder.typicode.com/posts?foo=bar&baz=bat', (httpRes) => {
       let rawData = ''
       httpRes.on('data', (chunk) => rawData += chunk)
       httpRes.on('end', () => {
@@ -19,7 +19,7 @@ const httpAll = (req, res, next) => {
     })
 }
 
-const httpCross = async (req, res, next) => {
+const httpCross = (req, res, next) => {
     const port = req.headers.host.includes('3000') ? 3001 : 3000
     http.get(`http://localhost:${port}/users`, (httpRes) => {
       let rawData = ''

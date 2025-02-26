@@ -16,7 +16,7 @@ npm run db:seed
 npm start
 ```
 
-To view distributed tracing (`fetch-dt`), you'll want to start up the second server:
+To view distributed tracing `fetch-dt`, `http-dt`, you'll want to start up the second server:
 
 ```sh
 cp env2.sample .env2
@@ -32,7 +32,11 @@ Here are a few routes you can use to create traffic on the application.
 
 * `curl localhost:3000/projects/1`
 * `curl localhost:3000/users`
+* `curl localhost:3000/users/1`
+* `curl localhost:3000/users/1/projects`
 * `curl localhost:3000/fetch`
 * `curl localhost:3001/fetch-dt`
+* `curl localhost:3001/http`
+* `curl localhost:3001/http-dt`
 
 More to come later...

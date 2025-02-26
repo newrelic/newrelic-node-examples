@@ -2,7 +2,7 @@
 
 const fetchAll = async (req, res, next) => {
     try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts?foo=bar&baz=bat')
         const data = await response.json()
         res.json(data)
     } catch (error) {
