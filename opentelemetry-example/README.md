@@ -1,6 +1,6 @@
 # OpenTelemetry Example Application
 
-This is an example app that uses the [New Relic agent](https://github.com/newrelic/node-newrelic) in the opentelemetry bridge mode with `knex`, `express`, and `node-fetch`.
+This is an example app that uses the [New Relic agent](https://github.com/newrelic/node-newrelic) in the opentelemetry bridge mode with `knex`, `express`, and `fetch`.
 
 ## Setup
 
