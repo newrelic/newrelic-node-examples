@@ -12,14 +12,35 @@
  * description of configuration variables and their potential values. */
 
 exports.config = {
-  app_name: ['Example Knex App'],
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
      * issues with the agent, 'info' and higher will impose the least overhead on
      * production applications.
      */
-    level: 'info'
+    level: 'trace'
+  },
+  /** 
+   * Exclude the following libraries from agent instrumentation.
+   * If opentelemetry_bridge is enabled, these libraries will be 
+   * instrumented by OpenTelemetry instead.
+   */ 
+  instrumentation: {
+    knex: {
+      enabled: false 
+    },
+    http: {
+      enabled: false 
+    },
+    express: {
+      enabled: false 
+    },
+    pg: {
+      enabled: false 
+    },
+    undici: {
+      enabled: false  
+    }
   },
   /**
    * When true, all request headers except for those listed in attributes.exclude
@@ -27,6 +48,12 @@ exports.config = {
    * attributes include/exclude lists.
    */
   allow_all_headers: true,
+  /**
+   * The below is required to enable the OpenTelemetry bridge.
+   */
+  feature_flag: {
+    opentelemetry_bridge: true
+  },
   attributes: {
     /**
      * Prefix of attributes to exclude from all destinations. Allows * as wildcard

@@ -16,7 +16,6 @@ const selectableProps = [
 ]
 
 module.exports = knex => {
-  debugger
   const guts = createGuts({
     knex,
     name,

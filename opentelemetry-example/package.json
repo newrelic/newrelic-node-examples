@@ -1,0 +1,31 @@
+{
+  "name": "otel-example-test",
+  "version": "0.0.1",
+  "description": "An example OTel app with knex and express.",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node -r newrelic -r ./otel-instrumentation.js --env-file .env ./server/start.js",
+    "start:debug": "node --inspect-brk -r newrelic -r ./otel-instrumentation.js --env-file .env ./server/start.js",
+    "start:server2": "node -r newrelic -r ./otel-instrumentation.js --env-file .env2 ./server/start.js",
+    "start:server2:debug": "node --inspect-brk -r newrelic -r ./otel-instrumentation.js --env-file .env2 ./server/start.js",
+    "db:migrate": "npx knex migrate:latest",
+    "db:seed": "npx knex seed:run"
+  },
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@opentelemetry/instrumentation": "^0.57.1",
+    "@opentelemetry/instrumentation-express": "^0.47.0",
+    "@opentelemetry/instrumentation-http": "^0.57.1",
+    "@opentelemetry/instrumentation-knex": "^0.44.0",
+    "@opentelemetry/instrumentation-undici": "^0.10.1",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "express": "^4.21.0",
+    "knex": "^3.1.0",
+    "pg": "^8.12.0"
+  }
+}

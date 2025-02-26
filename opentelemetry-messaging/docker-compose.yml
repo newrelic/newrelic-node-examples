@@ -1,0 +1,6 @@
+services:
+  rabbitmq:
+    container_name: otel_rabbitmq
+    image: rabbitmq:3
+    ports:
+      - "5673:5672"
