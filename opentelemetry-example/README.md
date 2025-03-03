@@ -6,6 +6,10 @@ This is an example app that uses the [New Relic agent](https://github.com/newrel
 
 **Note**: This is used to demonstrate behavior between the New Relic Node.js agent in opentelemetry bridge.
 
+Requirements:
+  + Node.js >= 20.6.0
+
+
 ```sh
 npm install
 cp env.sample .env
