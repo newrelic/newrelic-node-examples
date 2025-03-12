@@ -9,6 +9,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "newrelic": "^12.15.0"
+    "newrelic": "file:newrelic-12.14.0.tgz"
   }
 }
