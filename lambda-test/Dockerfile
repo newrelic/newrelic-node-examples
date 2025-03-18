@@ -6,5 +6,5 @@ COPY . ${LAMBDA_TASK_ROOT}
 #RUN npm install
 
 # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
-ENV NODE_OPTIONS='--inspect-brk=0.0.0.0'
-CMD [ "newrelic-lambda-wrapper.handler" ]
+ENV NODE_OPTIONS='--inspect=0.0.0.0'
+CMD [ "app.handler" ]

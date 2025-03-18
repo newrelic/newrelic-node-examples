@@ -7,4 +7,4 @@ COPY . ${LAMBDA_TASK_ROOT}
 
 # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
 ENV NODE_OPTIONS='--inspect-brk=0.0.0.0'
-CMD [ "newrelic-esm-lambda-wrapper.handler" ]
+CMD [ "./node_modules/newrelic-esm-wrapper/index.handler" ]
