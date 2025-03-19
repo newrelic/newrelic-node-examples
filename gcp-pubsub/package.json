@@ -1,0 +1,19 @@
+{
+  "name": "gcp-pubsub-test",
+  "version": "0.0.1",
+  "description": "An example PubSub app.",
+  "main": "index.js",
+  "scripts": {
+    "subscribe": "node -r newrelic --env-file .env-s ./subscriber.js",
+    "publish": "node -r newrelic --env-file .env-p ./publisher.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "dependencies": {
+    "@google-cloud/pubsub": "^4.10.0",
+    "newrelic": "^12.16.0"
+  }
+}
