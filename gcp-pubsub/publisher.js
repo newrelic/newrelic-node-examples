@@ -30,7 +30,7 @@ async function main() {
         await publishMessage()
         txn.end()
         newrelic.shutdown({ collectPendingData: true }, () => process.exit(0))
-    });
+    })
 }
 
 main()

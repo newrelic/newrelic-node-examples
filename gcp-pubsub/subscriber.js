@@ -11,9 +11,10 @@ async function startSubscriber() {
     const subscription = subscriber.subscription(subscriptionName)
     console.log(`Listening for messages on ${subscriptionName}`)
     subscription.on('message', message => {
-        // TODO: wrap in transaction?
-        console.log(`Received message: ${message.data}`)
-        message.ack()
+        newrelic.startBackgroundTransaction('receive-message', async function handleTransaction() {
+            console.log(`Received message: ${message.data}`)
+            message.ack()
+        })
     })
 }
 

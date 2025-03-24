@@ -23,6 +23,8 @@ npm run subscribe # Start subscriber
 npm run publish # Run publisher a few times
 ```
 
+
+
 ## Exploring Telemetry
 
 More to come later...
