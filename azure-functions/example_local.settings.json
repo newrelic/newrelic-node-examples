@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "",
+    "languageWorkers__node__arguments": "--inspect",
+    "NODE_OPTIONS": "-r newrelic",
+    "NEW_RELIC_LICENSE_KEY": "",
+    "NEW_RELIC_APP_NAME": ""
+  }
+}
