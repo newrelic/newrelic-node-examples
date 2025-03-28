@@ -19,6 +19,12 @@ brew tap azure/azd && brew install azd
 brew upgrade azd
 ```
 
+Install the functions core tools:
+```
+brew tap azure/functions
+brew install azure-functions-core-tools@4
+```
+
 Let's add a function:
 ```
 func new --name HttpExample --template "HTTP trigger" --authlevel "anonymous"
@@ -59,26 +65,18 @@ az login
 # to get information from Azure via azd, you must authenticate with it as well:
 azd auth login
 ```
-Configure environment variables for deployment, using `az functionapp config`:
-```
-az functionapp config appsettings set --name MyFunctionApp --resource-group MyResourceGroup --settings foo=bar baz=bat 
-```
-Create a [resource group](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-cli) for the function. Or, if you already have a resource group to which you're adding this function, you can skip this step.
-```
-az group create --name <NAME_OF_RESOURCE_GROUP> --location <REGION>
-```
-Create a storage account for the function
-```
-az storage account create --name <STORAGE_NAME> --location <REGION> --resource-group <NAME_OF_RESOURCE_GROUP> --sku Standard_LRS --allow-blob-public-access false
-```
-Create the Function App entity in Azure (note the requirement for numerical version for runtime): 
-```
-az functionapp create --resource-group <NAME_OF_RESOURCE_GROUP> --consumption-plan-location <REGION> --runtime node --runtime-version 20 --functions-version 4 --name <APP_NAME> --storage-account <STORAGE_NAME>
-```
+
 Deploy the project: 
 ```
 func azure functionapp publish <APP_NAME>
 ```
+or, even more simply, 
+```
+azd up
+```
+if you've installed `azd`.
+
+Both of those approaches automatically create resources in Azure that you'd otherwise have to create individually before deployment. 
 
 ### Notes:
 
