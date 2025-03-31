@@ -9,7 +9,7 @@ async function publishMessage() {
         // https://cloud.google.com/pubsub/docs/publish-receive-messages-client-library#node.js
         const publisher = new PubSub({ enableOpenTelemetryTracing: true })
         // Create a topic, then publish a message to it
-        const topicName = 'my-topic'
+        const topicName = process.env.GCP_TOPIC
         const topic = publisher.topic(topicName)
         const messageId = await topic.publishMessage({ data: Buffer.from('Hello, world!') })
         console.log(`Message ${messageId} published.`)

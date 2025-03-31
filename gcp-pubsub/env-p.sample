@@ -4,3 +4,4 @@ NEW_RELIC_LICENSE_KEY=
 NEW_RELIC_HOST=staging-collector.newrelic.com
 NEW_RELIC_APP_NAME=gcp-pubsub-publisher
 NEW_RELIC_LOG=publisher.log
+GCP_TOPIC=my-topic

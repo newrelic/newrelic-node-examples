@@ -4,3 +4,4 @@ NEW_RELIC_LICENSE_KEY=
 NEW_RELIC_HOST=staging-collector.newrelic.com
 NEW_RELIC_APP_NAME=gcp-pubsub-subscriber
 NEW_RELIC_LOG=subscriber.log
+GCP_SUBSCRIPTION=my-sub
