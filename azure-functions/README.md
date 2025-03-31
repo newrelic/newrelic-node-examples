@@ -70,11 +70,11 @@ Deploy the project:
 ```
 func azure functionapp publish <APP_NAME>
 ```
-or, even more simply, 
+or, even more simply, use `azd` to configure and publish the project, if you've installed it:
 ```
+azd init
 azd up
 ```
-if you've installed `azd`.
 
 Both of those approaches automatically create resources in Azure that you'd otherwise have to create individually before deployment. 
 
