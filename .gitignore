@@ -1,5 +1,5 @@
 node_modules
-newrelic_agent.log
+*.log
 .idea
 dist
 **/*.log
