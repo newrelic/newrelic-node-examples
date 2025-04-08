@@ -1,8 +1,8 @@
 # OpenTelemetry Example PubSub App
 
-This is an example app that uses the [New Relic agent](https://github.com/newrelic/node-newrelic) in the opentelemetry bridge mode to instrument GCP PubSub.
+This is an example app that uses the [New Relic agent](https://github.com/newrelic/node-newrelic) in the OpenTelemetry bridge mode to instrument GCP Pub/Sub.
 
-## Setup
+## Example App Setup
 
 ### Setup GCP PubSub
 
@@ -23,6 +23,33 @@ npm run subscribe # Start subscriber
 npm run publish # Run publisher a few times
 ```
 
-## Exploring Telemetry
+## Instrumenting your Application
 
-More to come later...
+If you already have a GCP Pub/Sub application that you would like to instrument with our agent's OpenTelemetry bridge, here are the steps that you need to do:
+
+1. Install `newrelic` normally. Please refer to our [installation docs](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/installation-configuration/install-nodejs-agent/) if you need help.
+2. In your `newrelic.js` file, set the `opentelemetry_bridge` flag to `true` inside `exports.config`:
+   ```javascript
+   exports.config = {
+        // ...
+        feature_flag: {
+            opentelemetry_bridge: true
+        },
+        // ...
+   }
+   ```
+3. In every file that instantiates the `PubSub` class, give it the config of `enableOpenTelemetryTracing:true`.
+   ```javascript
+   const { PubSub } = require('@google-cloud/pubsub')
+   const pubsubClient = new PubSub({ enableOpenTelemetryTracing: true })
+   ```
+4. Wrap the code that publishes messages in a background transaction. This is not necessary for the subscriber.
+   ```javascript
+   const newrelic = require('newrelic')
+   // ...
+   newrelic.startBackgroundTransaction('transaction name', async function handleTransaction() {
+        const txn = newrelic.getTransaction()
+        await publishMessage() // replace with your function
+        txn.end()
+   })
+   ```
