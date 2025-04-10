@@ -10,37 +10,57 @@ const pkgDef = protoLoader.loadSync('./inifinite-trace.proto', {
 
 const proto = grpc.loadPackageDefinition(pkgDef)
 const traceApi = proto.com.newrelic.trace.v1
+const failCount = process.env.NR_FAIL_N_CALLS ?? 10
+const fails = process.env.NR_FAILS
+const serverTimeout = process.env.NR_TIMEOUT ?? 30000
+let calls = 0
 
 // Simply just reflect back the data getting passed from client stream
 let spans = 0
 const infiniteTraceServer = {
-  recordSpan: function(call) {
+  recordSpan: function(call, cb) {
     console.log('recordSpan')
-    const { metadata } = call
-    console.log('meta', metadata)
-    call.on('data', (clientStream) => {
+    call.on('data', () => {
+      if (fails && calls % failCount === 0) {
+        calls++
+        call.emit('error', { code: 14, message: 'bob-test'})
+        return
+      }
+      calls++
       spans++
-      console.log(`got span ${clientStream.trace_id}`)
+      call.pendingStatus = { code: 0 , details: 'OK'}
       console.log(`processed ${spans} spans thus far`)
       call.write({ messages_seen: 1 })
     })
-
-    call.on('end', () => {
+    
+    setTimeout(() => {
+      console.log('calling server stream end')
       call.end()
-    })
+    }, serverTimeout)
   },
-  recordSpanBatch: function(call) {
+  recordSpanBatch: function(call, cb) {
     console.log('recordSpanBatch')
-    const { metadata } = call
-    console.log('meta', metadata)
     call.on('data', (clientStream) => {
-      console.log(`saw ${clientStream.spans.length} spans`)
+      if (fails && calls % failCount === 0) {
+        calls++
+        console.log('emit error')
+        call.emit('error', {
+          code: 14,
+          message: 'bob-test'
+        })
+        return
+      }
+      calls++
+      call.pendingStatus = { code: 0 , details: 'OK'}
+      spans += clientStream.spans.length
+      console.log(`processed ${spans} spans thus far`)
       call.write({ messages_seen: clientStream.spans.length })
     })
 
-    call.on('end', () => {
+    setTimeout(() => {
+      console.log('calling server stream end')
       call.end()
-    })
+    }, serverTimeout)
   }
 }
 
@@ -55,7 +75,6 @@ async function connect() {
       } else resolve(port)
     })
   })
-  server.start()
   console.log('started at localhost:50051!')
 }
 

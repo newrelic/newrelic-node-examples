@@ -22,10 +22,21 @@ exports.config = {
   license_key: <your-license-key>,
   infinite_tracing: {
     trace_observer: {
-      host: 'localhost:50051
+      host: 'localhost',
+      port: 50051
     }
   }
 }
 ```
 
 As you use the application the mock gPRC server will log to console the number of spans seen.
+
+**Note**: You have to swap out the credentials in agent with insecure creds [here](https://github.com/newrelic/node-newrelic/blob/main/lib/grpc/connection.js#L380)
+
+
+## Testing errors
+You can have the mock server respond with an error every n calls.  The agent has client retries built in and this can verify it is working. Below is an example that fails every 10th call:
+
+```sh
+NR_FAILS=true NR_FAIL_N_CALLS=10 node index.js
+```
