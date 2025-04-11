@@ -25,6 +25,9 @@ exports.config = {
             host: 'localhost',
             port: 50051,
             insecure: true
+        },
+        span_events: {
+            force_capture_trace: true
         }
     }
 }
