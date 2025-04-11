@@ -19,13 +19,22 @@ Once the gPRC server is started, you can use it in an example application and se
 
 ```js
 exports.config = {
-  license_key: <your-license-key>,
-  infinite_tracing: {
-    trace_observer: {
-      host: 'localhost:50051
+    license_key: <your-license-key>,
+    infinite_tracing: {
+        trace_observer: {
+            host: 'localhost',
+            port: 50051,
+            insecure: true
+        }
     }
-  }
 }
 ```
 
 As you use the application the mock gPRC server will log to console the number of spans seen.
+
+## Testing errors
+You can have the mock server respond with an error every n calls.  The agent has client retries built in and this can verify it is working. Below is an example that fails every 10th call:
+
+```sh
+NR_FAILS=true NR_FAIL_N_CALLS=10 node index.js
+```
