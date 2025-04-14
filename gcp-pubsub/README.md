@@ -6,7 +6,7 @@ This is an example app that uses the [New Relic agent](https://github.com/newrel
 
 ### Setup GCP PubSub
 
-In the [PubSub Getting Started guide](https://cloud.google.com/pubsub/docs/publish-receive-messages-client-library#before-you-begin), follow the steps in the "Before you begin" and "Create a topic and subscription" sections. `my-topic` is the default topic name and `my-sub` is the default subscription name (matches the guide), but this can be changed in `env-p.sample` and `env-s.sample` respectively.
+In the [PubSub Getting Started guide](https://web.archive.org/web/20250401131419/https://cloud.google.com/pubsub/docs/publish-receive-messages-client-library#before-you-begin), follow the steps in the "Before you begin" and "Create a topic and subscription" sections. `my-topic` is the default topic name and `my-sub` is the default subscription name (matches the guide), but this can be changed in `env-p.sample` and `env-s.sample` respectively.
 
 ### Run Example
 
