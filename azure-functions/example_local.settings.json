@@ -1,0 +1,16 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "",
+    "languageWorkers__node__arguments": "--inspect",
+    "NODE_OPTIONS": "-r newrelic",
+    "NEW_RELIC_LICENSE_KEY": "",
+    "NEW_RELIC_APP_NAME": "",
+    "NEW_RELIC_HOST": "staging-collector.newrelic.com",
+    "REGION_NAME": "East US",
+    "WEBSITE_OWNER_NAME": "a123b123-c4a1-4321-abcd-0123456789ab+flex-1234567890abcdefabcdef-webspace",
+    "WEBSITE_SITE_NAME": "my-function-abcdef1234567"
+  }
+}
+
