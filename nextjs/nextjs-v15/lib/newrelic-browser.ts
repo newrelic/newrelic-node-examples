@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 /**
  * Generates the New Relic Browser timing header (RUM script) for injection into HTML <head>.
  *
