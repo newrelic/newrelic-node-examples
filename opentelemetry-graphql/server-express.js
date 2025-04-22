@@ -1,7 +1,5 @@
 'use strict';
 
-const newrelic = require('newrelic');
-
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const buildSchema = require('./schema');

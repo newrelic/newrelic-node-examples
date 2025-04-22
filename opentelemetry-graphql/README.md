@@ -32,7 +32,7 @@ npm install
 
    ```shell
    # from this directory
-   cp env.sample .env
+   cp env-server.sample .env-server
    # fill out New Relic license key
    npm run server:express
    // or
@@ -43,6 +43,8 @@ npm install
 
    ```shell
    # from this directory
+   cp env-client.sample .env-client
+   # fill out New Relic license key
    npm run client
    ```
 5. You can also write your own queries, open page `http://localhost:4000/graphql`
@@ -59,7 +61,7 @@ npm install
 If you already have a GraphQL application that you would like to instrument with our agent's OpenTelemetry bridge, here are the steps that you need to do:
 
 1. Install `newrelic` normally. Please refer to our [installation docs](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/installation-configuration/install-nodejs-agent/) if you need help.
-2. In your `newrelic.js` file, set the `opentelemetry_bridge` flag to `true` inside `exports.config`:
+2. In your `newrelic.js` file, set the `opentelemetry_bridge` flag to `true` inside `exports.config`. Also, disable `graphql`
 
    ```javascript
    exports.config = {
@@ -91,6 +93,6 @@ If you already have a GraphQL application that you would like to instrument with
    ```json
    // Example package.json 
    "scripts" : {
-       "myapp:start": "node -r newrelic -r ./otel-instrumentation.js ./myapp.js
+       "myapp:start": "node -r newrelic -r ./otel-instrumentation.js ./myapp.js"
    }
    ```

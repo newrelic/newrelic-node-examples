@@ -1,7 +1,5 @@
 'use strict';
 
-const newrelic = require('newrelic');
-
 const { ApolloServer } = require('apollo-server');
 const buildSchema = require('./schema');
 

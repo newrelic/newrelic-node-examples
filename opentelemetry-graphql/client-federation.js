@@ -1,6 +1,5 @@
 'use strict';
 
-const newrelic = require('newrelic');
 const url = require('url');
 const http = require('http');
 // Construct a schema, using GraphQL schema language

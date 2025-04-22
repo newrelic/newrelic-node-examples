@@ -38,12 +38,6 @@ exports.config = {
     },
     express: {
       enabled: false
-    },
-    apollo: {
-      enabled: false
-    },
-    graphql: {
-      enabled: false
     }
   },
   /**
