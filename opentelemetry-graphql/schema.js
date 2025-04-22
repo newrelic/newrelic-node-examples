@@ -1,45 +1,45 @@
-'use strict';
+'use strict'
 
-const https = require('https');
-const graphql = require('graphql');
+const https = require('https')
+const graphql = require('graphql')
 
-const url1 = 'https://raw.githubusercontent.com/open-telemetry/opentelemetry-js/main/package.json';
+const url1 = 'https://raw.githubusercontent.com/open-telemetry/opentelemetry-js/main/package.json'
 
 function getData(url) {
   return new Promise((resolve, reject) => {
     https.get(url, (response) => {
-      let data = '';
+      let data = ''
       response.on('data', (chunk) => {
-        data += chunk;
-      });
+        data += chunk
+      })
       response.on('end', () => {
-        resolve(JSON.parse(data));
-      });
+        resolve(JSON.parse(data))
+      })
     }).on('error', (err) => {
-      reject(err);
-    });
-  });
+      reject(err)
+    })
+  })
 }
 
-const authors = [];
-const books = [];
+const authors = []
+const books = []
 
 function addBook(name, authorIds) {
-  let authorIdsLocal = authorIds;
+  let authorIdsLocal = authorIds
   if (typeof authorIdsLocal === 'string') {
-    authorIdsLocal = authorIdsLocal.split(',').map((id) => parseInt(id, 10));
+    authorIdsLocal = authorIdsLocal.split(',').map((id) => parseInt(id, 10))
   }
-  const id = books.length;
+  const id = books.length
   books.push({
     id,
     name,
     authorIds: authorIdsLocal,
-  });
-  return books[books.length - 1];
+  })
+  return books[books.length - 1]
 }
 
 function addAuthor(name, country, city) {
-  const id = authors.length;
+  const id = authors.length
   authors.push({
     id,
     name,
@@ -47,29 +47,29 @@ function addAuthor(name, country, city) {
       country,
       city,
     },
-  });
-  return authors[authors.length - 1];
+  })
+  return authors[authors.length - 1]
 }
 
 function getBook(id) {
-  return books[id];
+  return books[id]
 }
 
 function getAuthor(id) {
-  return authors[id];
+  return authors[id]
 }
 
 function prepareData() {
-  addAuthor('John', 'Poland', 'Szczecin');
-  addAuthor('Alice', 'Poland', 'Warsaw');
-  addAuthor('Bob', 'England', 'London');
-  addAuthor('Christine', 'France', 'Paris');
-  addBook('First Book', [0, 1]);
-  addBook('Second Book', [2]);
-  addBook('Third Book', [3]);
+  addAuthor('John', 'Poland', 'Szczecin')
+  addAuthor('Alice', 'Poland', 'Warsaw')
+  addAuthor('Bob', 'England', 'London')
+  addAuthor('Christine', 'France', 'Paris')
+  addBook('First Book', [0, 1])
+  addBook('Second Book', [2])
+  addBook('Third Book', [3])
 }
 
-prepareData();
+prepareData()
 module.exports = function buildSchema() {
   const Author = new graphql.GraphQLObjectType({
     name: 'Author',
@@ -77,13 +77,13 @@ module.exports = function buildSchema() {
       id: {
         type: graphql.GraphQLString,
         resolve(obj, _args) {
-          return obj.id;
+          return obj.id
         },
       },
       name: {
         type: graphql.GraphQLString,
         resolve(obj, _args) {
-          return obj.name;
+          return obj.name
         },
       },
       description: {
@@ -91,9 +91,9 @@ module.exports = function buildSchema() {
         resolve(_obj, _args) {
           return new Promise((resolve, reject) => {
             getData(url1).then((response) => {
-              resolve(response.description);
-            }, reject);
-          });
+              resolve(response.description)
+            }, reject)
+          })
         },
       },
       address: {
@@ -103,23 +103,23 @@ module.exports = function buildSchema() {
             country: {
               type: graphql.GraphQLString,
               resolve(obj, _args) {
-                return obj.country;
+                return obj.country
               },
             },
             city: {
               type: graphql.GraphQLString,
               resolve(obj, _args) {
-                return obj.city;
+                return obj.city
               },
             },
           },
         }),
         resolve(obj, _args) {
-          return obj.address;
+          return obj.address
         },
       },
     },
-  });
+  })
 
   const Book = new graphql.GraphQLObjectType({
     name: 'Book',
@@ -127,23 +127,23 @@ module.exports = function buildSchema() {
       id: {
         type: graphql.GraphQLInt,
         resolve(obj, _args) {
-          return obj.id;
+          return obj.id
         },
       },
       name: {
         type: graphql.GraphQLString,
         resolve(obj, _args) {
-          return obj.name;
+          return obj.name
         },
       },
       authors: {
         type: new graphql.GraphQLList(Author),
         resolve(obj, _args) {
-          return obj.authorIds.map((id) => authors[id]);
+          return obj.authorIds.map((id) => authors[id])
         },
       },
     },
-  });
+  })
 
   const query = new graphql.GraphQLObjectType({
     name: 'Query',
@@ -154,13 +154,13 @@ module.exports = function buildSchema() {
           id: { type: graphql.GraphQLInt },
         },
         resolve(obj, args, _context) {
-          return Promise.resolve(getAuthor(args.id));
+          return Promise.resolve(getAuthor(args.id))
         },
       },
       authors: {
         type: new graphql.GraphQLList(Author),
         resolve(_obj, _args, _context) {
-          return Promise.resolve(authors);
+          return Promise.resolve(authors)
         },
       },
       book: {
@@ -169,17 +169,17 @@ module.exports = function buildSchema() {
           id: { type: graphql.GraphQLInt },
         },
         resolve(obj, args, _context) {
-          return Promise.resolve(getBook(args.id));
+          return Promise.resolve(getBook(args.id))
         },
       },
       books: {
         type: new graphql.GraphQLList(Book),
         resolve(_obj, _args, _context) {
-          return Promise.resolve(books);
+          return Promise.resolve(books)
         },
       },
     },
-  });
+  })
 
   const mutation = new graphql.GraphQLObjectType({
     name: 'Mutation',
@@ -191,12 +191,12 @@ module.exports = function buildSchema() {
           authorIds: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
         },
         resolve(obj, args, _context) {
-          return Promise.resolve(addBook(args.name, args.authorIds));
+          return Promise.resolve(addBook(args.name, args.authorIds))
         },
       },
     },
-  });
+  })
 
-  const schema = new graphql.GraphQLSchema({ query, mutation });
-  return schema;
-};
+  const schema = new graphql.GraphQLSchema({ query, mutation })
+  return schema
+}

@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server')
 const {
   ApolloGateway,
   RemoteGraphQLDataSource,
   LocalGraphQLDataSource,
-} = require('@apollo/gateway');
+} = require('@apollo/gateway')
 
-const getCountriesSchema = require('./countries-service');
+const getCountriesSchema = require('./countries-service')
 
 const setupGateway = async () => {
-  const countriesSchema = await getCountriesSchema();
+  const countriesSchema = await getCountriesSchema()
 
   const gateway = new ApolloGateway({
     serviceList: [{ name: 'countries', url: 'http://countries' }],
@@ -20,19 +20,19 @@ const setupGateway = async () => {
 
     buildService: ({ url }) => {
       if (url === 'http://countries') {
-        return new LocalGraphQLDataSource(countriesSchema);
+        return new LocalGraphQLDataSource(countriesSchema)
       }
       return new RemoteGraphQLDataSource({
         url,
-      });
+      })
     },
-  });
+  })
 
-  return gateway;
-};
+  return gateway
+}
 
 (async () => {
-  const gateway = await setupGateway();
+  const gateway = await setupGateway()
 
   const server = new ApolloServer({
     gateway,
@@ -44,9 +44,9 @@ const setupGateway = async () => {
 
     // Subscriptions are unsupported but planned for a future Gateway version.
     subscriptions: false,
-  });
+  })
 
   server.listen().then(({ url }) => {
-    console.log(`🚀 Server ready at ${url}`);
-  });
-})();
+    console.log(`🚀 Server ready at ${url}`)
+  })
+})()

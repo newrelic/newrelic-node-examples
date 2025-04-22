@@ -1,7 +1,8 @@
-'use strict';
+'use strict'
 
-const url = require('url');
-const http = require('http');
+const newrelic = require('newrelic')
+const url = require('url')
+const http = require('http')
 // Construct a schema, using GraphQL schema language
 
 const source = `
@@ -11,13 +12,13 @@ const source = `
     name
   }
 }
-`;
+`
 
-makeRequest(source).then(console.log);
+makeRequest(source).then(console.log)
 
 function makeRequest(query) {
   return new Promise((resolve, reject) => {
-    const parsedUrl = new url.URL('http://localhost:4000/graphql');
+    const parsedUrl = new url.URL('http://localhost:4000/graphql')
     const options = {
       hostname: parsedUrl.hostname,
       port: parsedUrl.port,
@@ -26,19 +27,24 @@ function makeRequest(query) {
       headers: {
         'Content-Type': 'application/json',
       },
-    };
-    const req = http.request(options, (res) => {
-      const data = [];
-      res.on('data', (chunk) => data.push(chunk));
-      res.on('end', () => {
-        resolve(data.toString());
-      });
-      res.on('error', (err) => {
-        reject(err);
-      });
-    });
+    }
+    newrelic.startBackgroundTransaction('send-federation-request', () => {
+      const txn = newrelic.getTransaction()
+      const req = http.request(options, (res) => {
+        const data = []
+        res.on('data', (chunk) => data.push(chunk))
+        res.on('end', () => {
+          resolve(data.toString())
+        })
+        res.on('error', (err) => {
+          reject(err)
+        })
+      })
 
-    req.write(JSON.stringify({ query }));
-    req.end();
-  });
+      req.write(JSON.stringify({ query }))
+      req.end()
+      txn.end()
+      newrelic.shutdown({ collectPendingData: true }, () => process.exit(0))
+    })
+  })
 }
