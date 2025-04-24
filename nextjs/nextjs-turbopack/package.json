@@ -1,0 +1,22 @@
+{
+  "scripts": {
+    "dev": "NODE_OPTIONS='--require=dotenv/config --loader newrelic/esm-loader.mjs --require=newrelic' next dev --turbopack",
+    "build": "NODE_OPTIONS='--require dotenv/config' next build",
+    "start": "NODE_OPTIONS='--require dotenv/config --loader newrelic/esm-loader.mjs --require newrelic' next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "newrelic": "^12.18.0",
+    "next": "^15.3.1",
+    "pino": "^8.19.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.30",
+    "@types/react": "18.2.73",
+    "eslint": "8.57.0",
+    "eslint-config-next": "^15.3.1"
+  }
+}
