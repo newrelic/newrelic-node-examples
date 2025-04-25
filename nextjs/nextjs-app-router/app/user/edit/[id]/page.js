@@ -1,4 +1,6 @@
 'use client'
+// If instrumenting client pages, do not import or require the New Relic APM agent. 
+// Instead, use the New Relic Browser agent to instrument client pages. See below. 
 
 // See https://nextjs.org/docs/pages/building-your-application/data-fetching/client-side#client-side-data-fetching-with-useeffect
 // See https://react.dev/reference/react/useState
@@ -24,6 +26,11 @@ export default function Page({ params }) {
 
   if (isLoading === true) return <p>Loading...</p>
   if (!user) return notFound()
+
+  // Instrumenting client pages:
+  // Using New Relic API methods in client pages will require the New Relic Browser Agent, 
+  // which is available on the global `window` object:
+  // window.newrelic.setCustomAttribute("customAttribute", 'custom attribute value')
 
   async function onSubmit(event) {
     event.preventDefault()
