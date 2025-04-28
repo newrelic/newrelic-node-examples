@@ -11,9 +11,4 @@ server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`)
 })
 
-// app.use('/graphql', server)
-// app.listen(4000)
-
-// server.applyMiddleware({ app })
-
 console.log('Running a GraphQL API server at http://localhost:4000/graphql')
