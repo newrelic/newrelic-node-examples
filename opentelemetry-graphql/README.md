@@ -22,16 +22,16 @@ npm install
 
 ### Run the Application
 
+Unless specified otherwsie, all shell commands should be executed within this example's directory.
+
 1. Run docker
 
    ```shell
-   # from this directory
    npm run docker:start
    ```
 2. Run server - depends on your preference
 
    ```shell
-   # from this directory
    cp env-server.sample .env-server
    # fill out New Relic license key
    npm run server:express
@@ -42,7 +42,6 @@ npm install
 4. Run example client
 
    ```shell
-   # from this directory
    cp env-client.sample .env-client
    # fill out New Relic license key
    npm run client
@@ -51,7 +50,6 @@ npm install
 6. You can also test a `graphql-transform-federation`
 
    ```shell
-   # from this directory
    npm run server:federation
    npm run client:federation
    ```
