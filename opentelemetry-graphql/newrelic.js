@@ -27,19 +27,6 @@ exports.config = {
   feature_flag: {
     opentelemetry_bridge: true
   },
-  /** 
-   * Exclude the following libraries from agent instrumentation.
-   * If opentelemetry_bridge is enabled, these libraries will be 
-   * instrumented by OpenTelemetry instead.
-   */
-  instrumentation: {
-    http: {
-      enabled: false
-    },
-    express: {
-      enabled: false
-    }
-  },
   /**
    * When true, all request headers except for those listed in attributes.exclude
    * will be captured for all traces, unless otherwise specified in a destination's
