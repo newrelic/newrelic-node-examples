@@ -1,0 +1,4 @@
+NEW_RELIC_LICENSE_KEY=
+NEW_RELIC_APP_NAME=otel-graphql-client
+NEW_RELIC_LOG=client.log
+# NEW_RELIC_HOST=staging-collector.newrelic.com
