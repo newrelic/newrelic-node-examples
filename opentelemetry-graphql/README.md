@@ -24,12 +24,7 @@ npm install
 
 Unless specified otherwsie, all shell commands should be executed within this example's directory.
 
-1. Run docker
-
-   ```shell
-   npm run docker:start
-   ```
-2. Run server - depends on your preference
+1. Run server - depends on your preference
 
    ```shell
    cp env-server.sample .env-server
@@ -38,28 +33,21 @@ Unless specified otherwsie, all shell commands should be executed within this ex
    // or
    npm run server:apollo
    ```
-3. Open page at [http://localhost:9411/zipkin/](http://localhost:9411/zipkin/) -  you should be able to see the spans in zipkin
-4. Run example client
+1. Run example client
 
    ```shell
    cp env-client.sample .env-client
    # fill out New Relic license key
    npm run client
    ```
-5. You can also write your own queries, open page `http://localhost:4000/graphql`
-6. You can also test a `graphql-transform-federation`
-
-   ```shell
-   npm run server:federation
-   npm run client:federation
-   ```
+1. You can also write your own queries, open page `http://localhost:4000/graphql`
 
 ## Instrumenting your GraphQL App
 
 If you already have a GraphQL application that you would like to instrument with our agent's OpenTelemetry bridge, here are the steps that you need to do:
 
 1. Install `newrelic` normally. Please refer to our [installation docs](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/installation-configuration/install-nodejs-agent/) if you need help.
-2. In your `newrelic.js` file, set the `opentelemetry_bridge` flag to `true` inside `exports.config`.
+1. In your `newrelic.js` file, set the `opentelemetry_bridge` flag to `true` inside `exports.config`.
 
    ```javascript
    exports.config = {
@@ -70,7 +58,7 @@ If you already have a GraphQL application that you would like to instrument with
         // ...
    }
    ```
-3. Create a `otel-instrumentation.js` file in the same directory as `newrelic.js`. The minimum required file for GraphQL instrumentation is shown below. See [`./otel-instrumentation.js`](./otel-instrumentation.js) for a more fleshed out example.
+1. Create a `otel-instrumentation.js` file in the same directory as `newrelic.js`. The minimum required file for GraphQL instrumentation is shown below. See [`./otel-instrumentation.js`](./otel-instrumentation.js) for a more fleshed out example.
 
    ```javascript
    'use strict'
@@ -86,10 +74,9 @@ If you already have a GraphQL application that you would like to instrument with
      ],
    })
    ```
-4. In your `package.json`, include `-r newrelic -r ./otel-instrumentation.js` (assuming `otel-instrumentation.js` and `package.json` are in the same directory) in your application start script.
+1. In your `package.json`, include `-r newrelic -r ./otel-instrumentation.js` (assuming `otel-instrumentation.js` and `package.json` are in the same directory) in your application start script.
 
    ```json
-   // Example package.json 
    "scripts" : {
        "myapp:start": "node -r newrelic -r ./otel-instrumentation.js ./myapp.js"
    }
