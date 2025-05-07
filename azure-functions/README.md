@@ -1,6 +1,6 @@
 # Azure Function Examples
 
-This is a simple repo to get started with Azure Functions through local testing and development, into deployment to Azure. The example is this directory assumes `enableHttpStream` is disabled (default); if you would like to test Azure Functions with HTTP streaming enabled, see [./streaming-enabled](./streaming-enabled/README.md).
+This is a simple repo to get started with Azure Functions through local testing and development, into deployment to Azure. The example is this directory assumes `enableHttpStream` is disabled (default); if you would like to test Azure Functions with HTTP streaming enabled, see [./streaming-enabled](./streaming-enabled).
 
 ### Install Developer Tools
 

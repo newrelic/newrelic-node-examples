@@ -2,6 +2,8 @@
 
 ### Running the Application
 
+The streaming example currently can only be tested locally.
+
 1. Make sure all of the developer tools are installed (see [parent README](../README.md)).
 2. Fill out `local.settings.json`.
    ```zsh
