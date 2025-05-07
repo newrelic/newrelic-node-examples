@@ -1,4 +1,3 @@
-const newrelic = require('newrelic');
 const { app } = require('@azure/functions');
 
 // HTTP Trigger`.get` with a handler as the second argument to the `.get` method instead of an `HTTPOptions` object.

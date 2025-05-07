@@ -4,14 +4,14 @@
     "description": "",
     "main": "src/functions/*.js",
     "scripts": {
-      "start": "func start",
-      "test": "echo \"No tests yet...\""
+        "start": "func start",
+        "test": "echo \"No tests yet...\""
     },
     "dependencies": {
-      "@azure/functions": "^4.0.0",
-      "newrelic": "^12.18.0"
+        "@azure/functions": "^4.0.0",
+        "newrelic": "^12.18.2"
     },
     "devDependencies": {
-      "azure-functions-core-tools": "^4.x"
+        "azure-functions-core-tools": "^4.x"
     }
-  }
+}

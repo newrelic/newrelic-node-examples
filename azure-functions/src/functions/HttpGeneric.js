@@ -1,4 +1,3 @@
-const newrelic = require('newrelic');
 const { app, output, trigger } = require('@azure/functions');
 
 // HTTP Trigger example using `generic` to respond to an HTTP Get

@@ -1,4 +1,3 @@
-const newrelic = require('newrelic');
 const { app } = require('@azure/functions');
 const { Transform } = require('stream');
 const { createReadStream } = require('fs');

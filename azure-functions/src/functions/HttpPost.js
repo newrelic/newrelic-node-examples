@@ -1,4 +1,3 @@
-const newrelic = require('newrelic');
 const { app } = require('@azure/functions');
 
 // An HTTP trigger using the `post` method

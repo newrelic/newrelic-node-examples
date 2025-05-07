@@ -1,4 +1,3 @@
-const newrelic = require('newrelic');
 const { app } = require('@azure/functions');
 
 // HTTP trigger handling multiple methods
