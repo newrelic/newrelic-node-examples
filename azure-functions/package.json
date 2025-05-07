@@ -1,5 +1,5 @@
 {
-    "name": "",
+    "name": "Azure Functions example app",
     "version": "1.0.0",
     "description": "",
     "main": "src/functions/*.js",

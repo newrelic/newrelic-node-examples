@@ -1,3 +1,4 @@
+const newrelic = require('newrelic');
 const { app } = require('@azure/functions');
 
 // The built-in `get` method using an `HTTPOptions` argument containing the handler
