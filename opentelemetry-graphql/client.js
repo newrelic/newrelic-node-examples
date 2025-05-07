@@ -19,7 +19,16 @@ query {
 }
 `
 
-makeRequest(source).then(console.log)
+async function main() {
+  await newrelic.startBackgroundTransaction('send-request', async () => {
+    const txn = newrelic.getTransaction()
+    const res = await makeRequest(source)
+    console.log(res)
+    txn.end()
+  })
+      
+  newrelic.shutdown({ collectPendingData: true }, () => process.exit(0))
+}
 
 function makeRequest(query) {
   return new Promise((resolve, reject) => {
@@ -34,23 +43,20 @@ function makeRequest(query) {
       },
     }
 
-    newrelic.startBackgroundTransaction('send-request', () => {
-      const txn = newrelic.getTransaction()
-      const req = http.request(options, (res) => {
-        const data = []
-        res.on('data', (chunk) => data.push(chunk))
-        res.on('end', () => {
-          resolve(data.toString())
-        })
-        res.on('error', (err) => {
-          reject(err)
-        })
+    const req = http.request(options, (res) => {
+      const data = []
+      res.on('data', (chunk) => data.push(chunk))
+      res.on('end', () => {
+        resolve(data.toString())
       })
-
-      req.write(JSON.stringify({ query }))
-      req.end()
-      txn.end()
-      newrelic.shutdown({ collectPendingData: true }, () => process.exit(0))
+      res.on('error', (err) => {
+        reject(err)
+      })
     })
+
+    req.write(JSON.stringify({ query }))
+    req.end()
   })
 }
+
+main()
