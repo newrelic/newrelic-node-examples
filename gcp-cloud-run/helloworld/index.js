@@ -1,9 +1,14 @@
+const newrelic = require('newrelic');
 const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-  const name = process.env.NAME || 'World';
-  res.send(`Hello ${name}!`);
+  newrelic.startBackgroundTransaction('helloworld', () => {
+    const txn = newrelic.getTransaction();
+    const name = process.env.NAME || 'World';
+    res.send(`Hello ${name}!`);
+    txn.end();
+  });
 });
 
 const port = parseInt(process.env.PORT) || 8080;

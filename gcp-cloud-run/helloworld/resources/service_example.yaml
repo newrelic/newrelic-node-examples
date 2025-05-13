@@ -1,0 +1,10 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: cloud-run-service
+spec:
+  template:
+    spec:
+      containers:
+      # Same image name from skaffold.yaml file
+      - image: GCP_REGION-docker.pkg.dev/GCP_PROJECT_ID/cloud-run-source-deploy/helloworld

@@ -8,7 +8,8 @@ build:
   platforms: ["linux/amd64"] # <- Specific platform supported by Cloud Run
 
   artifacts:
-    - image: us-west1-docker.pkg.dev/YOUR_PROJECT_ID/cloud-run-source-deploy/helloworld # <- Should match the image name in the Cloud Run service.yaml
+    # Image should match the image name in the Cloud Run service.yaml
+    - image: GCP_REGION-docker.pkg.dev/GCP_PROJECT_ID/cloud-run-source-deploy/helloworld
       docker:
         dockerfile: ./Dockerfile
 
@@ -18,8 +19,8 @@ manifests:
 
 deploy:
   cloudrun:
-    projectid: YOUR_PROJECT_ID
-    region: us-west1
+    projectid: GCP_PROJECT_ID
+    region: GCP_REGION
 
 # Added to change local port used
 portForward:
