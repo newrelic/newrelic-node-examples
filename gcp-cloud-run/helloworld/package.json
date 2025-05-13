@@ -1,17 +1,13 @@
 {
     "name": "helloworld",
-    "description": "Simple hello world sample in Node",
     "version": "1.0.0",
-    "private": true,
     "main": "index.js",
-    "type": "commonjs",
     "scripts": {
         "start": "node -r newrelic --env-file .env index.js"
     },
     "engines": {
         "node": ">=18.0.0"
     },
-    "license": "Apache-2.0",
     "dependencies": {
         "express": "^4.17.1",
         "newrelic": "^12.18.2"
