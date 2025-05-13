@@ -6,3 +6,6 @@ dist
 .DS_Store
 # For custom environment
 .env*
+# For GCP Cloud Run
+skaffold.yaml
+service.yaml

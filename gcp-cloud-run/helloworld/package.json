@@ -3,10 +3,10 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "start": "node -r newrelic --env-file .env index.js"
+        "start": "node -r newrelic --env-file .env --inspect=9229 index.js"
     },
     "engines": {
-        "node": ">=18.0.0"
+        "node": ">=20.0.0"
     },
     "dependencies": {
         "express": "^4.17.1",

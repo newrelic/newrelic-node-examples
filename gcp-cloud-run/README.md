@@ -17,7 +17,7 @@
    ```zsh
    # from ./helloworld
    cp skaffold_example.yaml skaffold.yaml
-   # replace GCP_REGION with your region
+   # replace GCP_REGION with your region e.g. 'us-east1'
    # replace GCP_PROJECT_ID with your project id
 
    cd resources
