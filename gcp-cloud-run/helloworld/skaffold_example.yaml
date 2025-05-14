@@ -1,0 +1,29 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+
+build:
+  local:
+    push: true # <- We need to push the images so Cloud Run can deploy them
+
+  platforms: ["linux/amd64"] # <- Specific platform supported by Cloud Run
+
+  artifacts:
+    # Image should match the image name in the Cloud Run service.yaml
+    - image: GCP_REGION-docker.pkg.dev/GCP_PROJECT_ID/cloud-run-source-deploy/helloworld
+      docker:
+        dockerfile: ./Dockerfile
+
+manifests:
+  rawYaml:
+    - resources/service.yaml
+
+deploy:
+  cloudrun:
+    projectid: GCP_PROJECT_ID
+    region: GCP_REGION
+
+# Added to change local port used
+portForward:
+  - resourceType: service
+    resourceName: cloud-run-service-name
+    localPort: 9001
