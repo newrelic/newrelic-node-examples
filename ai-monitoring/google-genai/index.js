@@ -18,8 +18,11 @@ async function generateContent(aiClient) {
     const response = await aiClient.models.generateContent({
       model: 'gemini-2.0-flash',
       contents: 'why is the sky blue?',
+      config: {
+        candidateCount: 2,
+      }
     });
-    console.log(response.text);
+    console.log(response);
     txn.end();
     newrelic.shutdown({ collectPendingData: true }, () => {
       process.exit(0);
@@ -27,15 +30,42 @@ async function generateContent(aiClient) {
   })
 }
 
-async function embedContent() {
-  const aiClient = new GoogleGenAI({ vertexai: false, apiKey: GEMINI_API_KEY });
+async function generateContentStream(aiClient) {
+  newrelic.startBackgroundTransaction('embedContent', async () => {
+    const txn = newrelic.getTransaction();
+    const response = await aiClient.models.generateContentStream({
+      model: 'gemini-2.0-flash',
+      contents: 'why is the sky blue?',
+      config: {
+        maxOutputTokens: 200,
+        // force to use generateContentStreamInternal
+        automaticFunctionCalling: {
+          disable: true,
+        }
+      }
+    });
+    console.log(response);
+    txn.end();
+    newrelic.shutdown({ collectPendingData: true }, () => {
+      process.exit(0);
+    });
+  })
+}
+
+async function embedContent(aiClient) {
   newrelic.startBackgroundTransaction('embedContent', async () => {
     const txn = newrelic.getTransaction();
     const response = await aiClient.models.embedContent({
-      model: 'gemini-embedding-exp-03-07',
-      contents: 'What is the meaning of life?',
+      model: 'text-embedding-004',
+      contents: [
+        'What is your name?',
+        'What is your favorite color?',
+      ],
+      config: {
+        outputDimensionality: 64,
+      },
     });
-    console.log(response.embeddings);
+    console.log(response);
     txn.end();
     newrelic.shutdown({ collectPendingData: true }, () => {
       process.exit(0);
@@ -56,8 +86,9 @@ async function main() {
     aiClient = new GoogleGenAI({ vertexai: false, apiKey: GEMINI_API_KEY });
   }
 
-  await generateContent(aiClient);
-  // await embedContent();
+  // await generateContent(aiClient);
+  await generateContentStream(aiClient);
+  // await embedContent(aiClient);
 }
 
 main();

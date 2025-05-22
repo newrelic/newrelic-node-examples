@@ -9,3 +9,5 @@ dist
 # For GCP Cloud Run
 skaffold.yaml
 service.yaml
+# IDE
+.vscode
