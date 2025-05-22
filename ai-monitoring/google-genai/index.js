@@ -21,6 +21,9 @@ async function generateContent(aiClient) {
     });
     console.log(response.text);
     txn.end();
+    newrelic.shutdown({ collectPendingData: true }, () => {
+      process.exit(0);
+    });
   })
 }
 
@@ -29,11 +32,14 @@ async function embedContent() {
   newrelic.startBackgroundTransaction('embedContent', async () => {
     const txn = newrelic.getTransaction();
     const response = await aiClient.models.embedContent({
-        model: 'gemini-embedding-exp-03-07',
-        contents: 'What is the meaning of life?',
+      model: 'gemini-embedding-exp-03-07',
+      contents: 'What is the meaning of life?',
     });
     console.log(response.embeddings);
     txn.end();
+    newrelic.shutdown({ collectPendingData: true }, () => {
+      process.exit(0);
+    });
   })
 }
 
@@ -50,17 +56,8 @@ async function main() {
     aiClient = new GoogleGenAI({ vertexai: false, apiKey: GEMINI_API_KEY });
   }
 
-  // Call google genai APIs
-  try {
-    await generateContent(aiClient);
-    await embedContent();
-  } catch (e) {
-    console.error('got error', e);
-  } finally {
-    newrelic.shutdown({ collectPendingData: true }, () => {
-      process.exit(0);
-    });
-  }
+  await generateContent(aiClient);
+  // await embedContent();
 }
 
 main();
