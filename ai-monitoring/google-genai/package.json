@@ -6,7 +6,6 @@
   "engines": {
     "node": ">=20"
   },
-  "type": "module",
   "scripts": {
     "start": "node --env-file .env -r newrelic index.js",
     "start:debug": "node --inspect-brk --env-file .env -r newrelic index.js",
