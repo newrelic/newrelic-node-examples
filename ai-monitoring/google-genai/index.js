@@ -15,14 +15,18 @@ const GOOGLE_GENAI_USE_VERTEXAI = process.env.GOOGLE_GENAI_USE_VERTEXAI;
 async function generateContent(aiClient) {
   newrelic.startBackgroundTransaction('generateContent', async () => {
     const txn = newrelic.getTransaction();
-    const response = await aiClient.models.generateContent({
+    const response = await ai.models.generateContent({
       model: 'gemini-2.0-flash',
-      contents: 'why is the sky blue?',
+      contents: 'Why is the sky blue?',
       config: {
-        candidateCount: 2,
-      }
+        candidateCount: 1,
+        stopSequences: ['x'],
+        maxOutputTokens: 20,
+        temperature: 1.0,
+      },
     });
-    console.log(response);
+    console.debug(response);
+    console.log(response.text);
     txn.end();
     newrelic.shutdown({ collectPendingData: true }, () => {
       process.exit(0);
@@ -31,20 +35,23 @@ async function generateContent(aiClient) {
 }
 
 async function generateContentStream(aiClient) {
-  newrelic.startBackgroundTransaction('embedContent', async () => {
+  newrelic.startBackgroundTransaction('generateContentStream', async () => {
     const txn = newrelic.getTransaction();
     const response = await aiClient.models.generateContentStream({
       model: 'gemini-2.0-flash',
-      contents: 'why is the sky blue?',
+      contents: 'Write a story about a magic backpack.',
       config: {
-        maxOutputTokens: 200,
-        // force to use generateContentStreamInternal
+        // force to use generateContentStreamInternal?
         automaticFunctionCalling: {
           disable: true,
         }
       }
     });
-    console.log(response);
+    let text = "";
+    for await (const chunk of response) {
+      console.log(chunk.text);
+      text += chunk.text;
+    }
     txn.end();
     newrelic.shutdown({ collectPendingData: true }, () => {
       process.exit(0);
@@ -55,17 +62,17 @@ async function generateContentStream(aiClient) {
 async function embedContent(aiClient) {
   newrelic.startBackgroundTransaction('embedContent', async () => {
     const txn = newrelic.getTransaction();
-    const response = await aiClient.models.embedContent({
+    const result = await aiClient.models.embedContent({
       model: 'text-embedding-004',
       contents: [
         'What is your name?',
         'What is your favorite color?',
       ],
       config: {
-        outputDimensionality: 64,
+        /** config here */
       },
     });
-    console.log(response);
+    console.log(result.embeddings);
     txn.end();
     newrelic.shutdown({ collectPendingData: true }, () => {
       process.exit(0);
@@ -86,8 +93,8 @@ async function main() {
     aiClient = new GoogleGenAI({ vertexai: false, apiKey: GEMINI_API_KEY });
   }
 
-  // await generateContent(aiClient);
-  await generateContentStream(aiClient);
+  await generateContent(aiClient);
+  // await generateContentStream(aiClient);
   // await embedContent(aiClient);
 }
 
