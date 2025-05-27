@@ -2,6 +2,7 @@
 
 const fetchAll = async (req, res, next) => {
     try {
+        console.log('downstream traceparent', req.headers?.traceparent)
         const response = await fetch('https://jsonplaceholder.typicode.com/posts?foo=bar&baz=bat')
         const data = await response.json()
         res.json(data)

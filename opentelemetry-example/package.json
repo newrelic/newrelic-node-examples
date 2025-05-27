@@ -5,8 +5,10 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node -r newrelic -r ./otel-instrumentation.js --env-file .env ./server/start.js",
+    "start:agent": "node -r newrelic --env-file .env-agent ./server/start.js",
     "start:debug": "node --inspect-brk -r newrelic -r ./otel-instrumentation.js --env-file .env ./server/start.js",
     "start:server2": "node -r newrelic -r ./otel-instrumentation.js --env-file .env2 ./server/start.js",
+    "start:server2:agent": "node -r newrelic --env-file .env2-agent ./server/start.js",
     "start:server2:debug": "node --inspect-brk -r newrelic -r ./otel-instrumentation.js --env-file .env2 ./server/start.js",
     "db:migrate": "npx knex migrate:latest",
     "db:seed": "npx knex seed:run"

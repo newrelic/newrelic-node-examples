@@ -25,6 +25,18 @@ exports.config = {
    * If opentelemetry_bridge is enabled, these libraries will be 
    * instrumented by OpenTelemetry instead.
    */ 
+  distributed_tracing: {
+    exclude_newrelic_header: true,
+    sampler: {
+      remote_parent_sampled: 'always_on'
+    }
+  },
+  span_events: {
+    enabled: false,
+  },
+  transaction_tracer: {
+    enabled: false
+  },
   instrumentation: {
     knex: {
       enabled: false 
