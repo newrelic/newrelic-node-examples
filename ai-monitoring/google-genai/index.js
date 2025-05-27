@@ -15,13 +15,13 @@ const GOOGLE_GENAI_USE_VERTEXAI = process.env.GOOGLE_GENAI_USE_VERTEXAI;
 async function generateContent(aiClient) {
   newrelic.startBackgroundTransaction('generateContent', async () => {
     const txn = newrelic.getTransaction();
-    const response = await ai.models.generateContent({
+    const response = await aiClient.models.generateContent({
       model: 'gemini-2.0-flash',
       contents: 'Why is the sky blue?',
       config: {
         candidateCount: 1,
         stopSequences: ['x'],
-        maxOutputTokens: 20,
+        maxOutputTokens: 100000,
         temperature: 1.0,
       },
     });
@@ -72,7 +72,7 @@ async function embedContent(aiClient) {
         /** config here */
       },
     });
-    console.log(result.embeddings);
+    console.debug(result.embeddings);
     txn.end();
     newrelic.shutdown({ collectPendingData: true }, () => {
       process.exit(0);
@@ -93,8 +93,8 @@ async function main() {
     aiClient = new GoogleGenAI({ vertexai: false, apiKey: GEMINI_API_KEY });
   }
 
-  await generateContent(aiClient);
-  // await generateContentStream(aiClient);
+  // await generateContent(aiClient);
+  await generateContentStream(aiClient);
   // await embedContent(aiClient);
 }
 
