@@ -32,9 +32,8 @@ app.get('/', async (req, res) => {
       model: 'gemini-2.0-flash',
       contents: 'Why is the sky blue?',
       config: {
-        candidateCount: 1,
-        stopSequences: ['x'],
-        maxOutputTokens: 100000,
+        candidateCount: 2,
+        maxOutputTokens: 1000,
         temperature: 1.0,
       },
     });
@@ -54,9 +53,8 @@ app.get('/stream', async (req, res) => {
       model: 'gemini-2.0-flash',
       contents: 'Write a story about a magic backpack.',
       config: {
-        automaticFunctionCalling: {
-          disable: true,
-        },
+        maxOutputTokens: 10000,
+        temperature: 0.5,
       },
     });
     let text = '';

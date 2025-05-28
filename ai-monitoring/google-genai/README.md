@@ -8,8 +8,9 @@ This app supports both Gemini AI and Vertex AI. Specify with one you want with e
 
 **Note**: This application requires the use of Node.js v20+.
 
-1. Clone or fork this repository.
-2. Install dependencies and run application
+1. Make a [Google Cloud project](https://console.cloud.google.com/) and a [Gemini API Key](https://aistudio.google.com/app/apikey).
+2. Clone or fork this repository.
+3. Install dependencies and run application
 
 ```sh
 npm i
@@ -25,3 +26,20 @@ curl http://localhost:3000/ # Basic generate content example
 curl http://localhost:3000/stream # Generate content stream example
 curl http://localhost:3000/embed # Embed content example
 ```
+
+
+## Inspecting AI Responses
+
+After sending a few requests, navigate to your application in `APM & Services`.  Select `AI Monitoring` > `AI Responses`:
+
+![AI Responses Landing](./images/ai-home.png?raw=true "AI Responses Landing")
+
+If you click the details of a response you will see metrics, trace information and LLM specific information:
+
+
+![AI Response](./images/response-details.png?raw=true "AI Response Details")
+
+Click the metadata tab to see more information about the raw events:
+
+
+![AI Response Meta](./images/response-metadata.png?raw=true "AI Response Meta")
