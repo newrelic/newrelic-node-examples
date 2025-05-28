@@ -1,6 +1,6 @@
 # Sample Google GenAI Application
 
-This application demonstrates using the agent to instrument `@google/gen-ai` and record spans for chat completions and embeddings.  It also will generate LlmChatCompletionMessage, LlmChatCompletionSummary, LlmEmbedding, and LlmFeedbackMessage to be used in the [New Relic AI Monitoring](https://newrelic.com/platform/ai-monitoring).
+This application demonstrates using the agent to instrument `@google/genai` and record spans for chat completions and embeddings.  It also will generate LlmChatCompletionMessage, LlmChatCompletionSummary, LlmEmbedding, and LlmFeedbackMessage to be used in the [New Relic AI Monitoring](https://newrelic.com/platform/ai-monitoring).
 
 This app supports both Gemini AI and Vertex AI. Specify with one you want with environment variable `GOOGLE_GENAI_USE_VERTEXAI`.
 
@@ -27,7 +27,6 @@ curl http://localhost:3000/stream # Generate content stream example
 curl http://localhost:3000/embed # Embed content example
 ```
 
-
 ## Inspecting AI Responses
 
 After sending a few requests, navigate to your application in `APM & Services`.  Select `AI Monitoring` > `AI Responses`:
@@ -36,10 +35,8 @@ After sending a few requests, navigate to your application in `APM & Services`. 
 
 If you click the details of a response you will see metrics, trace information and LLM specific information:
 
-
 ![AI Response](./images/response-details.png?raw=true "AI Response Details")
 
 Click the metadata tab to see more information about the raw events:
-
 
 ![AI Response Meta](./images/response-metadata.png?raw=true "AI Response Meta")
