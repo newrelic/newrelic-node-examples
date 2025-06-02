@@ -14,7 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google/genai": "^1.1.0",
+    "@google/genai": "^1.2.0",
+    "newrelic": "^12.20.0",
     "express": "^5.1.0"
   }
 }
