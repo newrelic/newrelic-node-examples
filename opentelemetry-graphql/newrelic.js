@@ -24,8 +24,11 @@ exports.config = {
   /**
  * The below is required to enable the OpenTelemetry bridge.
  */
-  feature_flag: {
-    opentelemetry_bridge: true
+  opentelemetry_bridge: {
+    enabled: true,
+    traces: { 
+      enabled: true
+    }
   },
   /**
    * When true, all request headers except for those listed in attributes.exclude

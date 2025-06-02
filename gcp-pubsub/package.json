@@ -13,7 +13,7 @@
     "node": ">=20.6.0"
   },
   "dependencies": {
-    "@google-cloud/pubsub": "^4.10.0",
+    "@google-cloud/pubsub": "^5.0.0",
     "newrelic": "^12.17.0"
   }
 }
