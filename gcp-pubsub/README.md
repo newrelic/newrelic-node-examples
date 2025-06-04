@@ -28,12 +28,15 @@ npm run publish # Run publisher a few times
 If you already have a GCP Pub/Sub application that you would like to instrument with our agent's OpenTelemetry bridge, here are the steps that you need to do:
 
 1. Install `newrelic` normally. Please refer to our [installation docs](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/installation-configuration/install-nodejs-agent/) if you need help.
-2. In your `newrelic.js` file, set the `opentelemetry_bridge` flag to `true` inside `exports.config`:
+2. In your `newrelic.js` file, enable OpenTelemetry bridge w/ traces. inside `exports.config`:
    ```javascript
    exports.config = {
         // ...
-        feature_flag: {
-            opentelemetry_bridge: true
+        opentelemetry_bridge: {
+            enabled: true,
+            traces: {
+                enabled: true,
+            }
         },
         // ...
    }

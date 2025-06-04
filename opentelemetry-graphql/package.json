@@ -26,6 +26,6 @@
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
     "graphql": "^15.3.0",
-    "newrelic": "^12.18.0"
+    "newrelic": "^12.21.0"
   }
 }
