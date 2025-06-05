@@ -6,9 +6,16 @@
 'use strict'
 const fastify = require('fastify')({ logger: true })
 const { Kafka } = require('kafkajs')
+const logger = () => ({ namespace, level, label, log }) => {
+  if (log?.message?.startsWith('Request Produce')) {
+    console.log('Message size: ', log.size)
+  }
+}
 const kafka = new Kafka({
   clientId: 'example-producer',
-  brokers: ['localhost:9093']
+  brokers: ['localhost:9093'],
+  logLevel: 'debug',
+  logCreator: logger
 })
 const producer = kafka.producer()
 const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env

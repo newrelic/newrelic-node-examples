@@ -11,7 +11,7 @@
  * description of configuration variables and their potential values.
  */
 exports.config = {
-  app_name: ['kafkajs-producer'],
+  app_name: ['bob-kafkajs-producer'],
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
@@ -26,6 +26,23 @@ exports.config = {
    * attributes include/exclude lists.
    */
   allow_all_headers: true,
+  instrumentation: {
+    timers: {
+      enabled: false
+    }
+  },
+  distributed_tracing: {
+    exclude_newrelic_header: true,
+    sampler: {
+      remote_parent_sampled: 'always_on'
+    }
+  },
+  span_events: {
+    enabled: false,
+  },
+  transaction_tracer: {
+    enabled: false
+  },
   feature_flag: {
     kafkajs_instrumentation: true
   },
