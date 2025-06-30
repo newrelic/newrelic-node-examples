@@ -5,14 +5,16 @@ const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
 const {
   BedrockRuntimeClient,
   InvokeModelCommand,
-  InvokeModelWithResponseStreamCommand
+  InvokeModelWithResponseStreamCommand,
+  ConverseCommand,
+  ConverseStreamCommand
 } = require('@aws-sdk/client-bedrock-runtime');
 
 const requests = require('./requests')
 const responses = new Map();
 
 const client = new BedrockRuntimeClient({
-  region: 'us-east-1',
+  region: process.env.AWS_REGION || 'us-east-1',
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
@@ -171,3 +173,64 @@ fastify.post('/feedback', (request, reply) => {
   return reply.send('Feedback recorded');
 })
 
+
+fastify.post('/converse', async (request, reply) => {
+  try {
+    const { message = 'Say this is a test', modelId = "anthropic.claude-instant-v1" } = request.body || {};
+    const conversation = [
+      {
+        role: 'user',
+        content: [{ text: message }]
+      }
+    ]
+    const response = await client.send(
+      new ConverseCommand({ modelId, messages: conversation })
+    )
+    const responseText = response.output.message.content[0].text
+    const { requestId } = response.$metadata
+    const { traceId } = newrelic.getTraceMetadata()
+    responses.set(requestId, { traceId })
+
+    return reply.send({ requestId, responseText });
+  } catch (error) {
+    const code = error?.$metadata?.httpStatusCode || 500
+    return reply.code(code).send({ error });
+  }
+})
+
+fastify.post('/converse-stream', async (request, reply) => {
+  try {
+    const { message = 'Say this is a test.', modelId = "anthropic.claude-instant-v1" } = request.body || {};
+    const conversation = [
+      { role: 'user', content: [{ text: message }] }
+    ];
+
+    const command = new ConverseStreamCommand({
+      modelId,
+      messages: conversation
+    });
+    const response = await client.send(command);
+
+    reply.raw.writeHead(200, { 'Content-Type': 'text/plain' });
+    reply.raw.write(`requestId: ${response.$metadata.requestId}\n`);
+
+    let traceId;
+    for await (const event of response.output.message.content) {
+      if (event.contentBlockDelta && event.contentBlockDelta.delta.text) {
+        const text = event.contentBlockDelta.delta.text;
+        reply.raw.write(text);
+      }
+
+      if (!traceId) {
+        traceId = newrelic.getTraceMetadata().traceId;
+      }
+    }
+
+    responses.set(response.$metadata.requestId, { traceId });
+    reply.raw.end();
+    return reply;
+  } catch (error) {
+    const code = error?.$metadata?.httpStatusCode || 500;
+    return reply.code(code).send({ error });
+  }
+})

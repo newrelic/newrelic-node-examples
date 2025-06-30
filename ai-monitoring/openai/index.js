@@ -89,3 +89,45 @@ fastify.post('/feedback', (request, reply) => {
 
   return reply.send('Feedback recorded')
 })
+
+
+fastify.post('/responses-create', async (request, reply) => {
+  const { message = 'Say this is a test', model = 'gpt-4' } = request.body || {}
+
+  // assign conversation_id via custom attribute API
+  const conversationId = uuid()
+  newrelic.addCustomAttribute('llm.conversation_id', conversationId)
+
+  const response = await openai.responses.create({
+    model: model,
+    input: message,
+  });
+
+  const { traceId } = newrelic.getTraceMetadata()
+  responses.set(response.id, { traceId })
+  return reply.send(response.output_text)
+})
+
+fastify.post('/responses-create-stream', async (request, reply) => {
+  const { message = 'Say this is a test.', model = 'gpt-4' } = request.body || {}
+
+  // assign conversation_id via custom attribute API
+  const conversationId = uuid()
+  newrelic.addCustomAttribute('llm.conversation_id', conversationId)
+
+  const stream = await openai.responses.create({
+    model: model,
+    input: message,
+    stream: true,
+  });
+
+  let responseText = ''
+  let event = {}
+  for await (event of stream){
+    responseText = event.response?.output?.[0]?.content?.[0]?.text ?? ''
+  }
+
+  const { traceId } = newrelic.getTraceMetadata()
+  responses.set(event.response?.id, { traceId })
+  return reply.send(responseText)
+})
