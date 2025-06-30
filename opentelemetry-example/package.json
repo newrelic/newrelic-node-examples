@@ -17,6 +17,7 @@
     "node": ">=18"
   },
   "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/instrumentation": "^0.57.1",
     "@opentelemetry/instrumentation-express": "^0.47.0",
     "@opentelemetry/instrumentation-http": "^0.57.1",

@@ -20,26 +20,26 @@ exports.config = {
      */
     level: 'trace'
   },
-  /** 
+  /**
    * Exclude the following libraries from agent instrumentation.
-   * If opentelemetry_bridge is enabled, these libraries will be 
+   * If opentelemetry_bridge is enabled, these libraries will be
    * instrumented by OpenTelemetry instead.
-   */ 
+   */
   instrumentation: {
     knex: {
-      enabled: false 
+      enabled: false
     },
     http: {
-      enabled: false 
+      enabled: false
     },
     express: {
-      enabled: false 
+      enabled: false
     },
     pg: {
-      enabled: false 
+      enabled: false
     },
     undici: {
-      enabled: false  
+      enabled: false
     }
   },
   /**
@@ -53,7 +53,10 @@ exports.config = {
    */
   opentelemetry_bridge: {
     enabled: true,
-    traces: { 
+    traces: {
+      enabled: true
+    },
+    metrics: {
       enabled: true
     }
   },
