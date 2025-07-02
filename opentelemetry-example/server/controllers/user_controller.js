@@ -1,8 +1,17 @@
 'use strict'
 
 const { User } = require('../models')
+const {
+  deleteUserCounter,
+  getUserCounter,
+  getUsersCounter,
+  postUsersCounter,
+  putUserCounter
+} = require('../otel/metrics')
 
 const postUsers = (req, res, next) => {
+  postUsersCounter.add(1)
+
   const props = req.body.user
 
   User.create(props)
@@ -15,6 +24,8 @@ const postUsers = (req, res, next) => {
 }
 
 const getUsers = (req, res, next) => {
+  getUsersCounter.add(1)
+
   User.findAll()
     .then(users => res.json({
       ok: true,
@@ -25,6 +36,8 @@ const getUsers = (req, res, next) => {
 }
 
 const getUser = (req, res, next) => {
+  getUserCounter.add(1)
+
   const userId = req.params.id
 
   User.findById(userId)
@@ -37,6 +50,8 @@ const getUser = (req, res, next) => {
 }
 
 const putUser = (req, res, next) => {
+  putUserCounter.add(1)
+
   const userId = req.params.id
   const props = req.body.user
 
@@ -50,6 +65,8 @@ const putUser = (req, res, next) => {
 }
 
 const deleteUser = (req, res, next) => {
+  deleteUserCounter.add(1)
+  
   const userId = req.params.id
 
   User.destroy(userId)

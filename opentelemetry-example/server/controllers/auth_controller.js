@@ -6,8 +6,14 @@ const {
   BAD_REQUEST,
   UNAUTHORIZED
 } = require('../helpers/error_helper')
+const {
+  authPostLoginCounter,
+  authPostRegisterCounter
+} = require('../otel/metrics')
 
 const postLogin = (req, res, next) => {
+  authPostLoginCounter.add(1)
+
   const username = String(req.body.username)
   const password = String(req.body.password)
 
@@ -29,6 +35,8 @@ const postLogin = (req, res, next) => {
 }
 
 const postRegister = (req, res, next) => {
+  authPostRegisterCounter.add(1)
+
   const props = req.body.user
 
   User.findOne({ username: props.username })

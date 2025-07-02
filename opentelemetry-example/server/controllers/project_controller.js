@@ -1,8 +1,17 @@
 'use strict'
 
-const { Project, User } = require('../models')
+const { Project } = require('../models')
+const {
+  deleteProjectCounter,
+  getProjectCounter,
+  getProjectsCounter,
+  postProjectsCounter,
+  putProjectCounter
+} = require('../otel/metrics')
 
 const postProjects = (req, res, next) => {
+  postProjectsCounter.add(1)
+
   const userId = req.params.id
   const props = req.body.project
 
@@ -17,6 +26,8 @@ const postProjects = (req, res, next) => {
 }
 
 const getProjects = (req, res, next) => {
+  getProjectsCounter.add(1)
+
   const userId = req.params.id
 
   Project.findAll()
@@ -30,6 +41,8 @@ const getProjects = (req, res, next) => {
 }
 
 const getProject = (req, res, next) => {
+  getProjectCounter.add(1)
+
   const projectId = req.params.id
 
   Project.findById(projectId)
@@ -42,6 +55,8 @@ const getProject = (req, res, next) => {
 }
 
 const putProject = (req, res, next) => {
+  putProjectCounter.add(1)
+
   const projectId = req.params.id
   const props = req.body.project
 
@@ -55,6 +70,8 @@ const putProject = (req, res, next) => {
 }
 
 const deleteProject = (req, res, next) => {
+  deleteProjectCounter.add(1)
+
   const projectId = req.params.id
 
   Project.destroy(projectId)

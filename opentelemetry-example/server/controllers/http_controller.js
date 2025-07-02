@@ -2,7 +2,13 @@
 const http = require('http')
 const https = require('https')
 
+const {
+  httpAllCounter,
+  httpCrossCounter
+} = require('../otel/metrics')
+
 const httpAll = (req, res, next) => {
+  httpAllCounter.add(1)
 
     https.get('https://jsonplaceholder.typicode.com/posts?foo=bar&baz=bat', (httpRes) => {
       let rawData = ''
@@ -20,6 +26,8 @@ const httpAll = (req, res, next) => {
 }
 
 const httpCross = (req, res, next) => {
+  httpCrossCounter.add(1)
+
     const port = req.headers.host.includes('3000') ? 3001 : 3000
     http.get(`http://localhost:${port}/users`, (httpRes) => {
       let rawData = ''
