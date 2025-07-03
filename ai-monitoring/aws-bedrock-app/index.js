@@ -15,7 +15,8 @@ const client = new BedrockRuntimeClient({
   region: 'us-east-1',
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    sessionToken: process.env.AWS_SESSION_TOKEN
   }
 })
 
@@ -55,19 +56,17 @@ fastify.post('/chat-completion', async (request, reply) => {
         outputText = parsedResBody.results[0].outputText;
         break;
       case 'anthropic':
-        outputText = parsedResBody.completion;
+      case 'claude3':
+        outputText = parsedResBody.content[0].text;
         break;
       case 'ai21':
         outputText = parsedResBody.completions[0].data.text;
         break;
-      case 'cohere':
-        outputText = parsedResBody.generations[0].text;
-        break;
-      case 'llama2':
-        outputText = parsedResBody.generation
-        break;
       case 'llama3':
         outputText = parsedResBody.generation
+        break;
+      case 'nova-micro':
+        outputText = parsedResBody?.output?.message?.content[0].text;
         break;
     }
 
