@@ -1,11 +1,11 @@
 # Sample AWS Bedrock Application
 
 ## Getting started
+
 **Note**: This application requires the use of Node.js v20+.
 
- 1. Clone or fork this repository.
-
- 1. Install dependencies and run application
+1. Clone or fork this repository.
+2. Install dependencies and run application
 
 ```sh
 npm ci
@@ -14,9 +14,9 @@ cp .env.sample .env
 npm start
 ```
 
- 1. Make requests to application.
+1. Make requests to application.
 
- ```sh
+```sh
 # make a request to chat completions - provide a model to use or the default amazon-titan model will be used
 # model options are: amazon-titan, anthropic, ai21, cohere, llama2, and llama3
 curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"message":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?", "model": "amazon-titan"}'
@@ -30,4 +30,7 @@ curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -
 # model options are: amazon-titan-embed, cohere-embed
 curl -XPOST -H 'Content-type: application/json' http://localhost:3000/embedding -d '{"message":"Test embedding", "model": "amazon-titan-embed"}'
 
+# to test the Converse API
+curl -XPOST http://localhost:3000/converse
+curl -XPOST http://localhost:3000/converse-stream
 ```
