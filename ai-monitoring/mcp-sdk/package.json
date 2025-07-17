@@ -1,20 +1,17 @@
 {
-  "name": "mcp-example",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "engines": {
-    "node": ">=20"
-  },
-  "scripts": {
-    "server": "node --env-file .env -r newrelic server.js",
-    "client": "node --env-file .env -r newrelic client.js"
-  },
-  "author": "'",
-  "license": "ISC",
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.15.1",
-    "express": "^5.1.0",
-    "openai": "^5.10.0"
-  }
+    "name": "mcp-example",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "engines": {
+        "node": ">=20"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.15.1",
+        "@openai/agents": "^0.0.11"
+    },
+    "scripts": {
+        "server": "node --env-file .env -r newrelic server.js",
+        "client": "node --env-file .env -r newrelic client.js"
+    }
 }

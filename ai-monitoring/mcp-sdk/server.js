@@ -1,98 +1,201 @@
-const { McpServer, ResourceTemplate } = require("@modelcontextprotocol/sdk/server/mcp.js");
+const { McpServer } = require("@modelcontextprotocol/sdk/server/mcp.js");
 const { StdioServerTransport } = require("@modelcontextprotocol/sdk/server/stdio.js");
-const z = require('zod');
-const OpenAI = require('openai');
-const OPENAI_MODEL = "gpt-4";
-const { OPENAI_API_KEY: apiKey } = process.env
-const openai = new OpenAI({
-    apiKey
-})
+const { z } = require("zod");
 
-// Create MCP server for stdio transport
-const server = new McpServer(
-    {
-        name: "example-server",
-        version: "1.0.0"
-    }
-);
+const NWS_API_BASE = "https://api.weather.gov";
+const USER_AGENT = "weather-app/1.0";
 
-// Async tool that mocks a weather API
-server.registerTool(
-    "fetch-weather",
-    {
-        title: "Weather Fetcher",
-        description: "Get weather data for a city",
-        inputSchema: { city: z.string() }
-    },
-    async ({ city }) => {
-        try {
-            const completion = await openai.chat.completions.create({
-                model: OPENAI_MODEL,
-                messages: [
-                    {
-                        role: "system",
-                        content: "You are a weather service. Provide current weather information for the requested city. Format your response with temperature in both Celsius and Fahrenheit, conditions, humidity, wind, and pressure. If you don't have real-time data, provide realistic weather information for the location and season."
-                    },
-                    {
-                        role: "user",
-                        content: `What's the current weather in ${city}?`
-                    }
-                ],
-                max_tokens: 200,
-                temperature: 0.7
-            });
-
-            const weatherResponse = completion.choices[0].message.content;
-
-            return {
-                content: [{ type: "text", text: weatherResponse }]
-            };
-        }
-        catch (error) {
-            console.error("Error fetching weather:", error);
-        }
-    }
-);
-
-// Register a resource that echoes back messages
-server.registerResource(
-    "echo",
-    new ResourceTemplate("echo://{message}", { list: undefined }),
-    {
-        title: "Echo Resource",
-        description: "Echoes back messages as resources"
-    },
-    async (uri, { message }) => ({
-        contents: [{
-            uri: uri.href,
-            text: `Resource echo: ${message}`
-        }]
-    })
-);
-
-server.registerPrompt(
-    "echo",
-    {
-        title: "Echo Prompt",
-        description: "Creates a prompt to process a message",
-        argsSchema: { message: z.string() }
-    },
-    ({ message }) => ({
-        messages: [{
-            role: "user",
-            content: {
-                type: "text",
-                text: `Please process this message: ${message}`
-            }
-        }]
-    })
-);
-
-
-// Start the server with stdio transport
 async function main() {
-    const transport = new StdioServerTransport();
-    await server.connect(transport);
+  // Create server instance
+  const server = new McpServer({
+    name: "weather",
+    version: "1.0.0",
+    capabilities: {
+      resources: {},
+      tools: {},
+    },
+  });
+
+  registerWeatherTools(server);
+
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.error("Weather MCP Server running on stdio");
 }
 
-main();
+main().catch((error) => {
+  console.error("Fatal error in main():", error);
+  process.exit(1);
+});
+
+// Helper function for making NWS API requests
+async function makeNWSRequest(url) {
+  const headers = {
+    "User-Agent": USER_AGENT,
+    Accept: "application/geo+json",
+  };
+
+  try {
+    const response = await fetch(url, { headers });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return (await response.json());
+  } catch (error) {
+    console.error("Error making NWS request:", error);
+    return null;
+  }
+}
+
+function registerWeatherTools(server) {
+  // Register weather tools
+  server.tool(
+    "get_alerts",
+    "Get weather alerts for a state",
+    {
+      state: z.string().length(2).describe("Two-letter state code (e.g. CA, NY)"),
+    },
+    async ({ state }) => {
+      const stateCode = state.toUpperCase();
+      const alertsUrl = `${NWS_API_BASE}/alerts?area=${stateCode}`;
+      const alertsData = await makeNWSRequest(alertsUrl);
+
+      if (!alertsData) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: "Failed to retrieve alerts data",
+            },
+          ],
+        };
+      }
+
+      const features = alertsData.features || [];
+      if (features.length === 0) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `No active alerts for ${stateCode}`,
+            },
+          ],
+        };
+      }
+
+      const formattedAlerts = features.map(formatAlert);
+      const alertsText = `Active alerts for ${stateCode}:\n\n${formattedAlerts.join("\n")}`;
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: alertsText,
+          },
+        ],
+      };
+    },
+  );
+
+  server.tool(
+    "get_forecast",
+    "Get weather forecast for a location",
+    {
+      latitude: z.number().min(-90).max(90).describe("Latitude of the location"),
+      longitude: z
+        .number()
+        .min(-180)
+        .max(180)
+        .describe("Longitude of the location"),
+    },
+    async ({ latitude, longitude }) => {
+      // Get grid point data
+      const pointsUrl = `${NWS_API_BASE}/points/${latitude.toFixed(4)},${longitude.toFixed(4)}`;
+      const pointsData = await makeNWSRequest(pointsUrl);
+
+      if (!pointsData) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Failed to retrieve grid point data for coordinates: ${latitude}, ${longitude}. This location may not be supported by the NWS API (only US locations are supported).`,
+            },
+          ],
+        };
+      }
+
+      const forecastUrl = pointsData.properties?.forecast;
+      if (!forecastUrl) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: "Failed to get forecast URL from grid point data",
+            },
+          ],
+        };
+      }
+
+      // Get forecast data
+      const forecastData = await makeNWSRequest(forecastUrl);
+      if (!forecastData) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: "Failed to retrieve forecast data",
+            },
+          ],
+        };
+      }
+
+      const periods = forecastData.properties?.periods || [];
+      if (periods.length === 0) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: "No forecast periods available",
+            },
+          ],
+        };
+      }
+
+      // Format forecast periods
+      const formattedForecast = periods.map((period) =>
+        [
+          `${period.name || "Unknown"}:`,
+          `Temperature: ${period.temperature || "Unknown"}°${period.temperatureUnit || "F"}`,
+          `Wind: ${period.windSpeed || "Unknown"} ${period.windDirection || ""}`,
+          `${period.shortForecast || "No forecast available"}`,
+          "---",
+        ].join("\n"),
+      );
+
+      const forecastText = `Forecast for ${latitude}, ${longitude}:\n\n${formattedForecast.join("\n")}`;
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: forecastText,
+          },
+        ],
+      };
+    },
+  );
+
+}
+
+// Format alert data
+function formatAlert(feature) {
+  const props = feature.properties;
+  return [
+    `Event: ${props.event || "Unknown"}`,
+    `Area: ${props.areaDesc || "Unknown"}`,
+    `Severity: ${props.severity || "Unknown"}`,
+    `Status: ${props.status || "Unknown"}`,
+    `Headline: ${props.headline || "No headline"}`,
+    "---",
+  ].join("\n");
+}
