@@ -12,6 +12,7 @@
     },
     "scripts": {
         "server": "node --env-file .env -r newrelic server.js",
+        "server:debug": "node --env-file .env -r newrelic --inspect server.js",
         "client": "node --env-file .env -r newrelic client.js"
     }
 }
