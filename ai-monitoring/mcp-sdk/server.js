@@ -1,6 +1,8 @@
 const { McpServer } = require("@modelcontextprotocol/sdk/server/mcp.js");
 const { StdioServerTransport } = require("@modelcontextprotocol/sdk/server/stdio.js");
 const { z } = require("zod");
+const fs = require("fs").promises;
+const path = require("path");
 
 const NWS_API_BASE = "https://api.weather.gov";
 const USER_AGENT = "weather-app/1.0";
@@ -13,10 +15,13 @@ async function main() {
     capabilities: {
       resources: {},
       tools: {},
+      prompts: {}
     },
   });
 
   registerWeatherTools(server);
+  registerWeatherPrompts(server);
+  registerWeatherResources(server);
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
@@ -198,4 +203,57 @@ function formatAlert(feature) {
     `Headline: ${props.headline || "No headline"}`,
     "---",
   ].join("\n");
+}
+
+function registerWeatherResources(server) {
+  server.resource(
+    "weather_tips", // The name of the resource, matching the capability defined above
+    async () => {
+      // In a real application, you might read this from a database or external API.
+      // For this example, let's read it from a simple text file.
+      const filePath = path.join(process.cwd(), 'weather_tips.txt'); // Assuming weather_tips.txt is in the same directory
+      try {
+        const content = await fs.readFile(filePath, 'utf-8');
+        return {
+          content: [
+            {
+              type: "text",
+              text: content,
+            },
+          ],
+        };
+      } catch (error) {
+        console.error("Error reading weather_tips.txt:", error);
+        return {
+          content: [
+            {
+              type: "text",
+              text: "Could not retrieve weather safety tips.",
+            },
+          ],
+        };
+      }
+    },
+  );
+}
+
+function registerWeatherPrompts(server) {
+  server.prompt(
+    "summarize_forecast", // The name of the prompt, matching the capability defined above
+    async () => {
+      const promptTemplate = `
+      Please summarize the following weather forecast in a concise and easy-to-understand manner. Highlight key information such as temperature, wind, and any notable conditions.
+
+      Forecast: {{forecast_data}}
+      `;
+      return {
+        content: [
+          {
+            type: "text",
+            text: promptTemplate,
+          },
+        ],
+      };
+    },
+  );
 }
