@@ -4,15 +4,15 @@
     "description": "",
     "main": "index.js",
     "engines": {
-        "node": ">=20"
-    }, 
+        "node": ">=22"
+    },
     "dependencies": {
         "@modelcontextprotocol/sdk": "^1.15.1",
-        "@openai/agents": "^0.0.11"
+        "@openai/agents": "^0.0.13"
     },
     "scripts": {
         "server": "node --env-file .env -r newrelic server.js",
         "server:debug": "node --env-file .env -r newrelic --inspect server.js",
-        "client": "node --env-file .env -r newrelic client.js"
+        "client": "node --env-file .env --import newrelic/esm-loader.mjs -r newrelic client.js"
     }
 }
