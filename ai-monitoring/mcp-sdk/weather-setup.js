@@ -233,5 +233,5 @@ function registerWeatherPrompts(server) {
 module.exports = {
     registerWeatherTools,
     registerWeatherResources,
-    registerWeatherPrompts,
+    registerWeatherPrompts
 };

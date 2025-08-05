@@ -7,7 +7,7 @@ This example application demonstrates how an `@openai/agents` agent leverages th
 **Note**: This application requires the use of Node.js v20+.
 
 1. Clone or fork this repository.
-2. Install dependencies and run application
+2. Install dependencies and configure application environment variables.
 
    ```zsh
    npm ci
