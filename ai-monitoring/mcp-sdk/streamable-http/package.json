@@ -1,0 +1,24 @@
+{
+    "name": "mcp-streamable-http-example",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "engines": {
+        "node": ">=22"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.13.0",
+        "@openai/agents": "^0.0.13",
+        "ajv": "^8.17.1",
+        "cors": "^2.8.5",
+        "express": "^5.1.0",
+        "newrelic": "^13.2.0",
+        "zod": "^3.25.67"
+    },
+    "scripts": {
+        "server": "node --env-file .env -r newrelic server.js",
+        "server:debug": "node --env-file .env -r newrelic --inspect server.js",
+        "client": "node --env-file .env -r newrelic client.js",
+        "openai": "node --env-file .env --import newrelic/esm-loader.mjs -r newrelic openai.js"
+    }
+}
