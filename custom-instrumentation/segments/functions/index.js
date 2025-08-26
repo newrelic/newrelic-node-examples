@@ -8,4 +8,4 @@ const { somePromiseTask } = require('./promise.js')
 const { someAsyncTask } = require('./async.js')
 const { someSyncAssignTask } = require('./sync-assign.js')
 
-module.exports =  { someCbTask, somePromiseTask, someAsyncTask, someSyncAssignTask };
+module.exports = { someCbTask, somePromiseTask, someAsyncTask, someSyncAssignTask }

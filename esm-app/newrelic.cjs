@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 /**
  * New Relic agent configuration.
@@ -13,7 +18,7 @@ exports.config = {
   /**
    * Your New Relic license key.
    */
-  license_key: '<your license key>', 
+  license_key: '<your license key>',
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing

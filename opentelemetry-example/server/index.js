@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -17,4 +22,3 @@ app.use('/', [
 app.use(require('./middleware/error_middleware').all)
 
 module.exports = app
- 

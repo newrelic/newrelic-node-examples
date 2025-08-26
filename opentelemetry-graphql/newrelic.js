@@ -9,7 +9,8 @@
  * New Relic agent configuration.
  *
  * See lib/config/default.js in the agent distribution for a more complete
- * description of configuration variables and their potential values. */
+ * description of configuration variables and their potential values.
+ */
 
 exports.config = {
   app_name: 'opentelemetry-graphql',
@@ -22,11 +23,11 @@ exports.config = {
     level: 'trace'
   },
   /**
- * The below is required to enable the OpenTelemetry bridge.
- */
+   * The below is required to enable the OpenTelemetry bridge.
+   */
   opentelemetry_bridge: {
     enabled: true,
-    traces: { 
+    traces: {
       enabled: true
     }
   },

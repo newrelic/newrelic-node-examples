@@ -35,7 +35,7 @@ for (let i = 1; i < 21; i++) {
 setInterval(() => {
   if (responses === 41) {
     console.log('done processing events from server')
-    // eslint-disable-next-line no-process-exit
+
     process.exit(0)
   }
 }, 500)

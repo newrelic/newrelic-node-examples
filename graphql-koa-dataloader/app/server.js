@@ -33,8 +33,8 @@ app.use(cors())
 app.use(bodyParser())
 app.use(
   koaMiddleware(server, {
-    context: async ({ ctx }) => ({ token: ctx.headers.token, ...getContext() })
+    context: async ({ ctx }) => { return { token: ctx.headers.token, ...getContext() } }
   })
 )
 await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve))
-console.log(`🚀 Server ready at http://localhost:4000`)
+console.log('🚀 Server ready at http://localhost:4000')

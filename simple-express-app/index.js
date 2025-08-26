@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const express = require('express')
 const app = express()
 const { PORT = 3000 } = process.env
@@ -12,8 +17,6 @@ app.get('/sns', async (req, res) => {
   const cmd = new lib.ListTopicsCommand({})
   const result = await sns.send(cmd)
   res.send(result)
-
 })
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
-

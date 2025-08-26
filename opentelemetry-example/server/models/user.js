@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 const bcrypt = require('bcrypt')
@@ -18,21 +23,21 @@ const selectableProps = [
 
 // Bcrypt functions used for hashing password and later verifying it.
 const SALT_ROUNDS = 10
-const hashPassword = password => bcrypt.hash(password, SALT_ROUNDS)
+const hashPassword = (password) => bcrypt.hash(password, SALT_ROUNDS)
 const verifyPassword = (password, hash) => bcrypt.compare(password, hash)
 
 // Always perform this logic before saving to db. This includes always hashing
 // the password field prior to writing so it is never saved in plain text.
-const beforeSave = user => {
+const beforeSave = (user) => {
   if (!user.password) return Promise.resolve(user)
 
   // `password` will always be hashed before being saved.
   return hashPassword(user.password)
-    .then(hash => ({ ...user, password: hash }))
-    .catch(err => `Error hashing password: ${ err }`)
+    .then((hash) => { return { ...user, password: hash } })
+    .catch((err) => `Error hashing password: ${err}`)
 }
 
-module.exports = knex => {
+module.exports = (knex) => {
   const guts = createGuts({
     knex,
     name,
@@ -41,8 +46,8 @@ module.exports = knex => {
   })
 
   // Augment default `create` function to include custom `beforeSave` logic.
-  const create = props => beforeSave(props)
-    .then(user => guts.create(user))
+  const create = (props) => beforeSave(props)
+    .then((user) => guts.create(user))
 
   const verify = (username, password) => {
     const matchErrorMsg = 'Username or password do not match'
@@ -51,12 +56,12 @@ module.exports = knex => {
       .from(tableName)
       .where({ username })
       .timeout(guts.timeout)
-      .then(user => {
+      .then((user) => {
         if (!user) throw matchErrorMsg
 
         return user
       })
-      .then(user => Promise.all([user, verifyPassword(password, user.password)]))
+      .then((user) => Promise.all([user, verifyPassword(password, user.password)]))
       .then(([user, isMatch]) => {
         if (!isMatch) throw matchErrorMsg
 

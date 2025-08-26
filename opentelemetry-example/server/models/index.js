@@ -1,12 +1,17 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 const fs = require('fs')
 const path = require('path')
 const knex = require('../../config/database')
 
-const getModelFiles = dir => fs.readdirSync(dir)
-  .filter(file => (file.indexOf('.') !== 0) && (file !== 'index.js'))
-  .map(file => path.join(dir, file))
+const getModelFiles = (dir) => fs.readdirSync(dir)
+  .filter((file) => (file.indexOf('.') !== 0) && (file !== 'index.js'))
+  .map((file) => path.join(dir, file))
 
 // Gather up all model files (i.e., any file present in the current directory
 // that is not this file) and export them as properties of an object such that

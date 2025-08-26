@@ -1,25 +1,29 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 const newrelic = require('newrelic')
 const fastify = require('fastify')({ logger: true })
 
 const { ChatOpenAI, OpenAIEmbeddings } = require('@langchain/openai')
-const { Client } = require("@elastic/elasticsearch")
-const { createRetrievalChain } = require("langchain/chains/retrieval")
-const { ChatPromptTemplate } = require("@langchain/core/prompts")
+const { Client } = require('@elastic/elasticsearch')
+const { createRetrievalChain } = require('langchain/chains/retrieval')
+const { ChatPromptTemplate } = require('@langchain/core/prompts')
 const { StringOutputParser } = require('@langchain/core/output_parsers')
-const { Document } = require("@langchain/core/documents")
-const { createStuffDocumentsChain } = require("langchain/chains/combine_documents")
+const { Document } = require('@langchain/core/documents')
+const { createStuffDocumentsChain } = require('langchain/chains/combine_documents')
 
-const { MemoryVectorStore } = require("langchain/vectorstores/memory")
+const { MemoryVectorStore } = require('langchain/vectorstores/memory')
 const {
   ElasticVectorSearch
-} = require("@langchain/community/vectorstores/elasticsearch")
+} = require('@langchain/community/vectorstores/elasticsearch')
 
 const TestTool = require('./custom-tool')
 
-const { PORT: port = 3000, HOST: host = '127.0.0.1' , OPENAI_API_KEY: openAIApiKey = 'fake-key'} = process.env
+const { PORT: port = 3000, HOST: host = '127.0.0.1', OPENAI_API_KEY: openAIApiKey = 'fake-key' } = process.env
 const responses = new Map()
-
 
 fastify.listen({ host, port }, function (err, address) {
   if (err) {
@@ -35,7 +39,7 @@ fastify.post('/chat-completion', async(request, reply) => {
     temperature = 0.5
   } = request.body || {}
 
-  const prompt = ChatPromptTemplate.fromMessages([["human", '{topic}.']])
+  const prompt = ChatPromptTemplate.fromMessages([['human', '{topic}.']])
   const chatModel = new ChatOpenAI({
     openAIApiKey,
     model,
@@ -50,7 +54,7 @@ fastify.post('/chat-completion', async(request, reply) => {
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(traceId, { traceId })
 
-  return reply.send({response, feedbackId: traceId})
+  return reply.send({ response, feedbackId: traceId })
 })
 
 fastify.post('/chat-completion-stream', async(request, reply) => {
@@ -60,7 +64,7 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
     temperature = 0.5
   } = request.body || {}
 
-  const prompt = ChatPromptTemplate.fromMessages([["human", '{topic}.']])
+  const prompt = ChatPromptTemplate.fromMessages([['human', '{topic}.']])
 
   const chatModel = new ChatOpenAI({
     model,
@@ -80,7 +84,7 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(traceId, { traceId })
 
-  reply.raw.writeHead(200, { 'Content-Type': 'text/plain'})
+  reply.raw.writeHead(200, { 'Content-Type': 'text/plain' })
   reply.raw.write('\n-------- MESSAGE ---------\n')
   reply.raw.write(`'${chunks.join('')}'\n`)
   reply.raw.write('\n-------- END OF MESSAGE ---------\n')
@@ -108,7 +112,6 @@ fastify.post('/feedback', (request, reply) => {
   return reply.send('Feedback recorded')
 })
 
-
 fastify.post('/tools', async (request, reply) => {
   const {
     topic = 'Say this is a test.'
@@ -133,16 +136,16 @@ fastify.post('/memory_vector', async (request, reply) => {
   } = request.body || {}
 
   const vectorStore = await MemoryVectorStore.fromTexts(
-      [
-          "A bridge is a structure linking two places elevated over another.",
-          "A smidge is a small amount of something.",
-          "A midge is a tiny flying insect.",
-          "A tunnel is a passage which allows access underground or through an elevated geographic feature or human-made structure.",
-          "The Chunnel is a tunnel under the English Channel.",
-          "A funnel is a shape consisting of a partial cone and a cylinder, for directing solids or fluids from a wider to a narrower opening."
-      ],
-      [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }],
-      new OpenAIEmbeddings()
+    [
+      'A bridge is a structure linking two places elevated over another.',
+      'A smidge is a small amount of something.',
+      'A midge is a tiny flying insect.',
+      'A tunnel is a passage which allows access underground or through an elevated geographic feature or human-made structure.',
+      'The Chunnel is a tunnel under the English Channel.',
+      'A funnel is a shape consisting of a partial cone and a cylinder, for directing solids or fluids from a wider to a narrower opening.'
+    ],
+    [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }],
+    new OpenAIEmbeddings()
   )
 
   const vectorResponse = await vectorStore.similaritySearch(topic, results)
@@ -169,7 +172,7 @@ Question: {input}`)
 
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(traceId, { traceId })
-  return reply.send({feedbackId: traceId,  vectorResponse, response1 })
+  return reply.send({ feedbackId: traceId, vectorResponse, response1 })
 })
 
 // Before running this endpoint, make sure to start an ElasticSearch container with `docker-compose up -d --build`.
@@ -180,34 +183,34 @@ fastify.post('/elastic_vector', async (request, reply) => {
   } = request.body || {}
 
   const config = {
-    node: process.env.ELASTIC_URL ?? "http://localhost:9200",
+    node: process.env.ELASTIC_URL ?? 'http://localhost:9200',
   }
   const clientArgs = {
     client: new Client(config),
-    indexName: process.env.ELASTIC_INDEX ?? "test_vectorstore",
+    indexName: process.env.ELASTIC_INDEX ?? 'test_vectorstore',
   }
 
   const embeddings = new OpenAIEmbeddings()
   const vectorStore = new ElasticVectorSearch(embeddings, clientArgs)
 
   const documentSource = [
-    "A bridge is a structure linking two places elevated over another.",
-    "A smidge is a small amount of something.",
-    "A midge is a tiny flying insect.",
-    "A tunnel is a passage which allows access underground or through an elevated geographic feature or human-made structure.",
-    "The Chunnel is a tunnel under the English Channel.",
-    "A funnel is a shape consisting of a partial cone and a cylinder, for directing solids or fluids from a wider to a narrower opening.",
-    "Elasticsearch is a powerful vector db.",
-    "the quick brown fox jumped over the lazy dog",
-    "lorem ipsum dolor sit amet",
-    "Elasticsearch a distributed, RESTful search engine optimized for speed and relevance on production-scale workloads."
+    'A bridge is a structure linking two places elevated over another.',
+    'A smidge is a small amount of something.',
+    'A midge is a tiny flying insect.',
+    'A tunnel is a passage which allows access underground or through an elevated geographic feature or human-made structure.',
+    'The Chunnel is a tunnel under the English Channel.',
+    'A funnel is a shape consisting of a partial cone and a cylinder, for directing solids or fluids from a wider to a narrower opening.',
+    'Elasticsearch is a powerful vector db.',
+    'the quick brown fox jumped over the lazy dog',
+    'lorem ipsum dolor sit amet',
+    'Elasticsearch a distributed, RESTful search engine optimized for speed and relevance on production-scale workloads.'
   ]
 
   const docs = []
   for await (const doc of documentSource) {
     const id = (docs.length + 1)
     const d = new Document({
-      metadata: { id: id },
+      metadata: { id },
       pageContent: doc,
     })
     docs.push(d)
@@ -244,7 +247,5 @@ Question: {input}`)
   responses.set(traceId, { traceId })
   const feedbackId = traceId
 
-  return reply.send({feedbackId, vectorResults, response1, response2})
+  return reply.send({ feedbackId, vectorResults, response1, response2 })
 })
-
-

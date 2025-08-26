@@ -9,8 +9,8 @@
 
 const http = require('http')
 const url = require('url')
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
 class SimpleFramework {
   constructor() {
@@ -57,12 +57,12 @@ class SimpleFramework {
 
   render(viewName) {
     try {
-      const viewPath = path.join(__dirname, 'lib', 'views', `${viewName}.html`);
-      const data = fs.readFileSync(viewPath, 'utf8');
-      return data;
+      const viewPath = path.join(__dirname, 'lib', 'views', `${viewName}.html`)
+      const data = fs.readFileSync(viewPath, 'utf8')
+      return data
     } catch (err) {
-      console.error(err);
-      return null; 
+      console.error(err)
+      return null
     }
   }
 }

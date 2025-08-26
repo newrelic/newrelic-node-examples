@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 // ref: https://devhints.io/knex
@@ -11,13 +16,13 @@ module.exports = {
       user: 'postgres',
       password: 'newrelic',
       database: 'knex'
-    }, 
+    },
     migrations: {
       tableName: 'knex_migrations',
-      directory: `${ __dirname }/db/migrations`
+      directory: `${__dirname}/db/migrations`
     },
     seeds: {
-      directory: `${ __dirname }/db/seeds`
+      directory: `${__dirname}/db/seeds`
     }
   }
 }

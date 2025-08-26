@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import './custom-instrumentation/index.js'
 import express from 'express'
 const { PORT = '3000', HOST = 'localhost' } = process.env
@@ -8,7 +13,7 @@ const app = express()
 app.listen(PORT, HOST, function() {
   const addr = this.address()
   const host = addr.family === 'IPv6' ? `[${addr.address}]` : addr.address
-  console.log('Server started at http://%s:%s', host, addr.port) 
+  console.log('Server started at http://%s:%s', host, addr.port)
 })
 
 app.get('/', function(req, res) {

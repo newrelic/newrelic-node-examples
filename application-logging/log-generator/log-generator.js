@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /*
  * Copyright 2022 New Relic Corporation. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
@@ -146,9 +145,7 @@ function runOneBatchOfLogs(logger, interval, count, size) {
 
 function run(logger, interval, count, size) {
   newrelic
-    .startBackgroundTransaction('loggingTransaction', () => {
-      return runOneBatchOfLogs(logger, interval, count, size)
-    })
+    .startBackgroundTransaction('loggingTransaction', () => runOneBatchOfLogs(logger, interval, count, size))
     .then(() => {
       run(logger, interval, count, size)
     })
@@ -156,7 +153,7 @@ function run(logger, interval, count, size) {
 
 function shutdown() {
   newrelic.shutdown({ collectPendingData: true }, () => {
-    process.exit(0) // eslint-disable-line no-process-exit
+    process.exit(0)
   })
 }
 

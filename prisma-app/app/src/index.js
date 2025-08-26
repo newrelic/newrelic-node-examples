@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const express = require('express')
 const { PrismaClient } = require('@prisma/client')
 
@@ -6,13 +11,13 @@ const app = express()
 
 app.use(express.json())
 
-app.post(`/signup`, async (req, res) => {
+app.post('/signup', async (req, res) => {
   const { name, email, posts } = req.body
 
   const postData = posts
     ? posts.map((post) => {
-        return { title: post.title, content: post.content || undefined }
-      })
+      return { title: post.title, content: post.content || undefined }
+    })
     : []
 
   const result = await prisma.user.create({
@@ -27,7 +32,7 @@ app.post(`/signup`, async (req, res) => {
   res.json(result)
 })
 
-app.post(`/post`, async (req, res) => {
+app.post('/post', async (req, res) => {
   const { title, content, authorEmail } = req.body
   const result = await prisma.post.create({
     data: {
@@ -79,7 +84,7 @@ app.put('/publish/:id', async (req, res) => {
   }
 })
 
-app.delete(`/post/:id`, async (req, res) => {
+app.delete('/post/:id', async (req, res) => {
   const { id } = req.params
   const post = await prisma.post.delete({
     where: {
@@ -110,7 +115,7 @@ app.get('/user/:id/drafts', async (req, res) => {
   res.json(drafts)
 })
 
-app.get(`/post/:id`, async (req, res) => {
+app.get('/post/:id', async (req, res) => {
   const { id } = req.params
 
   const post = await prisma.post.findUnique({
@@ -147,8 +152,6 @@ app.get('/feed', async (req, res) => {
   res.json(posts)
 })
 
-const server = app.listen(3000, () =>
-  console.log(`
+const server = app.listen(3000, () => console.log(`
 🚀 Server ready at: http://localhost:3000
-⭐️ See sample requests: http://pris.ly/e/js/rest-express#3-using-the-rest-api`),
-)
+⭐️ See sample requests: http://pris.ly/e/js/rest-express#3-using-the-rest-api`))

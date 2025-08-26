@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 const {
@@ -26,7 +31,7 @@ const fetchCross = async (req, res, next) => {
     const response = await fetch(`http://localhost:${port}/fetch`)
     const data = await response.json()
     res.json(data)
-  } catch (error){
+  } catch (error) {
     console.error('Error fetching data:', error)
     next(error)
   }
