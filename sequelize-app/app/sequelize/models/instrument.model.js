@@ -22,12 +22,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
     // type: {
-    // 	allowNull: false,
-    // 	type: DataTypes.STRING,
-    // 	validate: {
-    // 		isIn: [['string', 'wind', 'percussion']]
-    // 	}
-    // },
+    //  allowNull: false,
+    //  type: DataTypes.STRING,
+    //  validate: {
+    //    isIn: [['string', 'wind', 'percussion']]
+    //  },
     purchaseDate: {
       allowNull: false,
       type: DataTypes.DATE

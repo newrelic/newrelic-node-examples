@@ -1,110 +1,12 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // See https://nextjs.org/docs/pages/building-your-application/data-fetching/forms-and-mutations
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * Copyright 2025 New Relic Corporation. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
 
 import logger from '../../../lib/logger.js'
 import getDatabase from '../../../lib/database.js'
-
-// See https://react.dev/reference/react/useState
-import { useState } from 'react'
 
 export default function Page({ user }) {
   return (

@@ -7,7 +7,7 @@
 
 const { performJob } = require('./job-thing')
 
-function proclaimResults(err, { n, nthPrime }) {
+function proclaimResults(_, { n, nthPrime }) {
   console.log(`The prime at position ${n} is ${nthPrime}`)
 }
 

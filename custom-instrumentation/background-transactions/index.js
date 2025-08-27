@@ -62,15 +62,6 @@ function groupingBackgroundTransaction() {
         resolve()
       })
     })
-
-    /*
-         * Function to simulate async work.
-         */
-    function doSomeWork(callback) {
-      setTimeout(function work() {
-        callback()
-      }, 500)
-    }
   })
 }
 

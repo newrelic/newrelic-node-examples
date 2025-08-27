@@ -27,7 +27,7 @@ export async function POST(req, { params }) {
   }
 
   const payload = await req.json()
-  if (dbUser.age != payload.age) {
+  if (dbUser.age !== payload.age) {
     return NextResponse.json(
       'updating age is not implemented',
       { status: 501 }

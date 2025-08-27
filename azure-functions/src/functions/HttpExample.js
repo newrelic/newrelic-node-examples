@@ -17,10 +17,11 @@ app.http('HttpExample', {
         break
       case 'POST':
       case 'PUT':
-      case 'PATCH':
+      case 'PATCH': {
         const input = await request.text()
         name = JSON.parse(input).name
         break
+      }
       case 'DELETE':
         name = request.query.get('name')
     }

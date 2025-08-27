@@ -10,7 +10,7 @@ const { User, Project } = require('../../server/models')
 exports.seed = (knex) => knex(Project.tableName).del()
   .then(() => User.findAll())
   .then((users) => {
-    if (users.length <= 0) throw 'No users found'
+    if (users.length <= 0) throw new Error('No users found')
 
     return users[0].id
   })

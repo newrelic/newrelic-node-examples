@@ -17,15 +17,15 @@ const httpAll = (req, res, next) => {
 
   https.get('https://jsonplaceholder.typicode.com/posts?foo=bar&baz=bat', (httpRes) => {
     let rawData = ''
-    httpRes.on('data', (chunk) => rawData += chunk)
+    httpRes.on('data', (chunk) => { rawData += chunk })
     httpRes.on('end', () => {
       const data = JSON.parse(rawData)
       res.json(data)
     })
 
     httpRes.on('error', (err) => {
-      console.error(error)
-      next(error)
+      console.error(err)
+      next(err)
     })
   })
 }
@@ -36,15 +36,15 @@ const httpCross = (req, res, next) => {
   const port = req.headers.host.includes('3000') ? 3001 : 3000
   http.get(`http://localhost:${port}/users`, (httpRes) => {
     let rawData = ''
-    httpRes.on('data', (chunk) => rawData += chunk)
+    httpRes.on('data', (chunk) => { rawData += chunk })
     httpRes.on('end', () => {
       const data = JSON.parse(rawData)
       res.json(data)
     })
 
     httpRes.on('error', (err) => {
-      console.error(error)
-      next(error)
+      console.error(err)
+      next(err)
     })
   })
 }

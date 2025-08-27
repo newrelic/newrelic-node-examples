@@ -46,9 +46,9 @@ async function reset() {
 
       // The following would be equivalent in this case:
       // await sequelize.models.instrument.create({
-      // 	type: type,
-      // 	purchaseDate: randomDate(),
-      // 	orchestraId: orchestra.id
+      //  type: type,
+      //  purchaseDate: randomDate(),
+      //  orchestraId: orchestra.id
       // });
     }
   }

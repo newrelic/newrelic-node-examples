@@ -21,12 +21,12 @@ class Database {
   }
 
   userById(id) {
-    return this.#users.find((user) => user.id == id)
+    return this.#users.find((user) => user.id === id)
   }
 
   updateUserById(id, data) {
     for (let i = 0; i < this.#users.length; i += 1) {
-      if (this.#users[i].id != id) {
+      if (this.#users[i].id !== id) {
         continue
       }
       this.#users[i] = data

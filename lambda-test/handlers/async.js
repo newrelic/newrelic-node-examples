@@ -5,8 +5,6 @@
 
 'use strict'
 module.exports = async function lambdaHandler() {
-  const req = await new Promise((resolve) => {
-    resolve({ hello: 'world' })
-  })
+  const req = await Promise.resolve({ hello: 'world' })
   return req
 }

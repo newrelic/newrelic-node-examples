@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   }
 
   const payload = req.body
-  if (dbUser.age != payload.age) {
+  if (dbUser.age !== payload.age) {
     return res.status(501).send('updating age is not implemented')
   }
 

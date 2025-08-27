@@ -59,7 +59,7 @@ app.put('/post/:id/views', async (req, res) => {
 
     res.json(post)
   } catch (error) {
-    res.json({ error: `Post with ID ${id} does not exist in the database` })
+    res.json({ error: `Post with ID ${id} does not exist in the database: ${error.message}` })
   }
 })
 
@@ -80,7 +80,7 @@ app.put('/publish/:id', async (req, res) => {
     })
     res.json(updatedPost)
   } catch (error) {
-    res.json({ error: `Post with ID ${id} does not exist in the database` })
+    res.json({ error: `Post with ID ${id} does not exist in the database: ${error.message}` })
   }
 })
 
@@ -152,6 +152,6 @@ app.get('/feed', async (req, res) => {
   res.json(posts)
 })
 
-const server = app.listen(3000, () => console.log(`
+app.listen(3000, () => console.log(`
 🚀 Server ready at: http://localhost:3000
 ⭐️ See sample requests: http://pris.ly/e/js/rest-express#3-using-the-rest-api`))

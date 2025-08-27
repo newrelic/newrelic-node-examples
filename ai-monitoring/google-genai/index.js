@@ -11,7 +11,7 @@ const { GoogleGenAI } = require('@google/genai')
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY
 const GOOGLE_CLOUD_PROJECT = process.env.GOOGLE_CLOUD_PROJECT
 const GOOGLE_CLOUD_LOCATION = process.env.GOOGLE_CLOUD_LOCATION
-const GOOGLE_GENAI_USE_VERTEXAI = false || process.env.GOOGLE_GENAI_USE_VERTEXAI
+const GOOGLE_GENAI_USE_VERTEXAI = process.env.GOOGLE_GENAI_USE_VERTEXAI ?? false
 
 const app = express()
 const port = 3000
