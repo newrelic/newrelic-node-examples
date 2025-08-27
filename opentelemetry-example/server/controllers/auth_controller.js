@@ -9,7 +9,8 @@ const { User } = require('../models')
 const {
   createError,
   BAD_REQUEST,
-  UNAUTHORIZED
+  UNAUTHORIZED,
+  CONFLICT
 } = require('../helpers/error_helper')
 const {
   authPostLoginCounter,

@@ -6,6 +6,16 @@
 'use strict'
 const newrelic = require('newrelic')
 
+/**
+ * Function to simulate async work with a callback.
+ * @param callback
+ */
+function doSomeWorkCb(callback) {
+  setTimeout(function work() {
+    callback()
+  }, 500)
+}
+
 // example1-basic
 function basicBackgroundTransaction() {
   return new Promise((resolve) => {
@@ -27,20 +37,11 @@ function basicBackgroundTransaction() {
     // Here is an example for the first case.
     newrelic.startBackgroundTransaction(transactionName, function handle() {
       const transaction = newrelic.getTransaction()
-      doSomeWork(function cb() {
+      doSomeWorkCb(function cb() {
         transaction.end()
         resolve()
       })
     })
-
-    /*
-         * Function to simulate async work.
-         */
-    function doSomeWork(callback) {
-      setTimeout(function work() {
-        callback()
-      }, 500)
-    }
   })
 }
 
@@ -57,12 +58,7 @@ function groupingBackgroundTransaction() {
 
     newrelic.startBackgroundTransaction(transactionName, groupName, function handle() {
       const transaction = newrelic.getTransaction()
-      function doSomeWork(callback) {
-        setTimeout(function work() {
-          callback()
-        }, 500)
-      }
-      doSomeWork(function cb() {
+      doSomeWorkCb(function cb() {
         transaction.end()
         resolve()
       })

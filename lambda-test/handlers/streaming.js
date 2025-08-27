@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/* eslint-disable no-undef */
+
 'use strict'
 module.exports = awslambda.streamifyResponse(
   async (event, responseStream, context) => {

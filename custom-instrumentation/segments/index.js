@@ -25,7 +25,7 @@ fastify.post('/callback-segment', (request, reply) => {
   })
 })
 
-fastify.post('/promise-segment', (_request, reply) =>
+fastify.post('/promise-segment', (_request, reply) => {
   // `startSegment()` takes a segment name, a boolean if a metric should be
   // created for this segment, the handler function, and an optional callback.
   // The handler is the function that will be wrapped with the new segment. If
@@ -35,7 +35,8 @@ fastify.post('/promise-segment', (_request, reply) =>
     function thenAfter(output) {
       return reply.send({ status: output })
     }
-  ))
+  )
+})
 
 fastify.post('/async-segment', async (request, reply) => {
   // `startSegment()` takes a segment name, a boolean if a metric should be
