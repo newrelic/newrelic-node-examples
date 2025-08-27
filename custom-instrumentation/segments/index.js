@@ -26,14 +26,16 @@ fastify.post('/callback-segment', (request, reply) => {
 })
 
 fastify.post('/promise-segment', (_request, reply) =>
-// `startSegment()` takes a segment name, a boolean if a metric should be
-// created for this segment, the handler function, and an optional callback.
-// The handler is the function that will be wrapped with the new segment. If
-// a promise is returned from the handler, the segment's ending will be tied
-// to that promise resolving or rejecting.
-  newrelic.startSegment('myPromiseSegment', false, somePromiseTask).then(function thenAfter(output) {
-    return reply.send({ status: output })
-  }))
+  // `startSegment()` takes a segment name, a boolean if a metric should be
+  // created for this segment, the handler function, and an optional callback.
+  // The handler is the function that will be wrapped with the new segment. If
+  // a promise is returned from the handler, the segment's ending will be tied
+  // to that promise resolving or rejecting.
+  newrelic.startSegment('myPromiseSegment', false, somePromiseTask).then(
+    function thenAfter(output) {
+      return reply.send({ status: output })
+    }
+  ))
 
 fastify.post('/async-segment', async (request, reply) => {
   // `startSegment()` takes a segment name, a boolean if a metric should be

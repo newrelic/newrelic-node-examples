@@ -57,6 +57,11 @@ function groupingBackgroundTransaction() {
 
     newrelic.startBackgroundTransaction(transactionName, groupName, function handle() {
       const transaction = newrelic.getTransaction()
+      function doSomeWork(callback) {
+        setTimeout(function work() {
+          callback()
+        }, 500)
+      }
       doSomeWork(function cb() {
         transaction.end()
         resolve()

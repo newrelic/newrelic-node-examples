@@ -66,5 +66,25 @@ module.exports = [
 
   sharedConfig.configs.baselineNewRelicConfig,
   newrelicConfigOverrides,
-  globalIgnores
+  globalIgnores,
+
+  {
+    rules: {
+      'n/no-missing-require': 'warn',
+      'n/no-missing-import': 'warn'
+    }
+  },
+
+  {
+    settings: {
+      node: {
+        version: '>=21.2',
+      }
+    },
+    rules: {
+      'n/no-unsupported-features/node-builtins': ['error', {
+        ignores: []
+      }]
+    }
+  }
 ]
