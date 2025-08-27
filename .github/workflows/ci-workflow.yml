@@ -18,8 +18,6 @@ env:
 
 jobs:
   lint:
-    needs:
-      - should_run
     if: github.event_name == 'workflow_dispatch' ||
       (needs.should_run.outputs.javascript_changed == 'true' ||
       needs.should_run.outputs.deps_changed == 'true')
