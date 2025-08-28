@@ -8,7 +8,7 @@ const newrelic = require('newrelic')
 
 /**
  * Function to simulate async work with a callback.
- * @param callback
+ * @param {function} callback
  */
 function doSomeWorkCb(callback) {
   setTimeout(function work() {
