@@ -19,11 +19,20 @@ const globalIgnores = {
   ignores: [
     '**/node_modules/**',
     'out/', // Compiled jsdocs directory.
+    // To avoid parsing HTML
+    'nextjs/nextjs-app-router/**',
+    'nextjs/nextjs-legacy/pages/404.js'
   ]
 }
 
-const newrelicConfigOverrides = {
-  files: ['**/newrelic.js', '**/newrelic.mjs'],
+const configOverrides = {
+  files: [
+    '**/newrelic.js',
+    '**/newrelic.mjs',
+    '**/newrelic.cjs',
+    '**/.eslintrc.js',
+    '**/next.config.js'
+  ],
   rules: {
     'header/header': 'off'
   }
@@ -65,7 +74,7 @@ module.exports = [
   },
 
   sharedConfig.configs.baselineNewRelicConfig,
-  newrelicConfigOverrides,
+  configOverrides,
   globalIgnores,
 
   {
@@ -82,9 +91,17 @@ module.exports = [
       }
     },
     rules: {
-      'n/no-unsupported-features/node-builtins': ['error', {
-        ignores: []
-      }]
+      'n/no-unsupported-features/node-builtins':
+        ['error', {
+          ignores: []
+        }]
+    }
+  },
+
+  {
+    files: ['eslint.config.js'],
+    rules: {
+      'n/no-unpublished-require': 'off'
     }
   }
 ]
