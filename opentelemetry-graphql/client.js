@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 const newrelic = require('newrelic')
@@ -26,7 +31,7 @@ async function main() {
     console.log(res)
     txn.end()
   })
-      
+
   newrelic.shutdown({ collectPendingData: true }, () => process.exit(0))
 }
 

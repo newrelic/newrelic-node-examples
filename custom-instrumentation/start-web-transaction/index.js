@@ -40,7 +40,7 @@ function onUpdate(data) {
   newrelic.startWebTransaction('/websocket/update', function transactionHandler() {
     // Must manually end transaction after the callback is invoked
     const transaction = newrelic.getTransaction()
-    updateChatWindow(data, function chatWinCb(err, results) {
+    updateChatWindow(data, function chatWinCb(_, results) {
       socket.emit('update-done', results)
       transaction.end()
     })
@@ -52,7 +52,7 @@ function onNewMsg(data) {
   newrelic.startWebTransaction('/websocket/new-message', function transactionHandler() {
     // Returning a promise
     return new Promise((resolve) => {
-      addMessageToChat(data, function addMsgCb(err, results) {
+      addMessageToChat(data, function addMsgCb(_, results) {
         socket.emit('message-received', results)
         resolve()
       })

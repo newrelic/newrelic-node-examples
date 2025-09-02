@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import fs from 'node:fs/promises'
 import url from 'node:url'
 import path from 'node:path'
@@ -16,11 +21,15 @@ class Database {
   }
 
   userById(id) {
-    return this.#users.find(user => user.id == id)
+    // Coercive check
+    // eslint-disable-next-line eqeqeq
+    return this.#users.find((user) => user.id == id)
   }
 
   updateUserById(id, data) {
     for (let i = 0; i < this.#users.length; i += 1) {
+      // Coercive check
+      // eslint-disable-next-line eqeqeq
       if (this.#users[i].id != id) {
         continue
       }

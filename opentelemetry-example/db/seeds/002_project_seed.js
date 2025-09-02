@@ -1,15 +1,20 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 const { User, Project } = require('../../server/models')
 
-exports.seed = knex => knex(Project.tableName).del()
+exports.seed = (knex) => knex(Project.tableName).del()
   .then(() => User.findAll())
-  .then(users => {
-    if (users.length <= 0) throw 'No users found'
+  .then((users) => {
+    if (users.length <= 0) throw new Error('No users found')
 
     return users[0].id
   })
-  .then(userId => [
+  .then((userId) => [
     {
       user_id: userId,
       name: 'Sample Project',
@@ -22,5 +27,5 @@ exports.seed = knex => knex(Project.tableName).del()
       completed_at: knex.fn.now()
     }
   ])
-  .then(newProjects => Promise.all(newProjects.map(project => Project.create(project))))
-  .catch(err => console.log('err: ', err))
+  .then((newProjects) => Promise.all(newProjects.map((project) => Project.create(project))))
+  .catch((err) => console.log('err: ', err))

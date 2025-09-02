@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 const { Project } = require('../models')
@@ -16,7 +21,7 @@ const postProjects = (req, res, next) => {
   const props = req.body.project
 
   Project.create({ ...props, user_id: userId })
-    .then(project => res.json({
+    .then((project) => res.json({
       ok: true,
       message: 'Project created',
       project,
@@ -31,7 +36,7 @@ const getProjects = (req, res, next) => {
   const userId = req.params.id
 
   Project.findAll()
-    .then(projects => res.json({
+    .then((projects) => res.json({
       ok: true,
       message: 'Projects found',
       projects,
@@ -46,7 +51,7 @@ const getProject = (req, res, next) => {
   const projectId = req.params.id
 
   Project.findById(projectId)
-    .then(project => res.json({
+    .then((project) => res.json({
       ok: true,
       message: 'Project found',
       project
@@ -61,7 +66,7 @@ const putProject = (req, res, next) => {
   const props = req.body.project
 
   Project.update(projectId, props)
-    .then(project => res.json({
+    .then((project) => res.json({
       ok: true,
       message: 'Project updated',
       project
@@ -75,7 +80,7 @@ const deleteProject = (req, res, next) => {
   const projectId = req.params.id
 
   Project.destroy(projectId)
-    .then(deleteCount => res.json({
+    .then((deleteCount) => res.json({
       ok: true,
       message: 'Project deleted',
       deleteCount

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // See https://nextjs.org/docs/pages/building-your-application/data-fetching/forms-and-mutations
 
 import logger from '../../../lib/logger.js'
@@ -12,7 +17,7 @@ export default function Page({ user }) {
   async function onSubmit(event) {
     event.preventDefault()
     try {
-      const response = await fetch("/api/users/" + user.id, {
+      const response = await fetch('/api/users/' + user.id, {
         method: 'POST',
         headers: {
           'content-type': 'application/json'
@@ -40,19 +45,19 @@ export default function Page({ user }) {
       </p>
       {errorState && <p style={{ color: 'red' }}>{errorState}</p>}
       <div>
-        <label htmlFor={"user.firstName"}>First name: </label>
-        <input id={"user.firstName"} name={"firstName"} defaultValue={user.firstName}></input>
+        <label htmlFor='user.firstName'>First name: </label>
+        <input id='user.firstName' name='firstName' defaultValue={user.firstName} />
       </div>
       <div>
-        <label htmlFor={"user.lastName"}>Last name: </label>
-        <input id={"user.lastName"} name={"lastName"} defaultValue={user.lastName}></input>
+        <label htmlFor='user.lastName'>Last name: </label>
+        <input id='user.lastName' name='lastName' defaultValue={user.lastName} />
       </div>
       <div>
-        <label htmlFor={"user.age"}>Age: </label>
-        <input id={"user.age"} name={"age"} defaultValue={user.age}></input>
+        <label htmlFor='user.age'>Age: </label>
+        <input id='user.age' name='age' defaultValue={user.age} />
       </div>
 
-      <button type="submit">Update</button>
+      <button type='submit'>Update</button>
     </form>
   )
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // This file provides the overall layout of the site via the `render` method.
 
 import Document, { Html, Head, Main, NextScript } from 'next/document'
@@ -13,7 +18,7 @@ class RootDocument extends Document {
 
     if (newrelic.agent.collector.isConnected() === false) {
       await new Promise((resolve) => {
-        newrelic.agent.on("connected", resolve)
+        newrelic.agent.on('connected', resolve)
       })
     }
 
@@ -33,7 +38,7 @@ class RootDocument extends Document {
       <Html>
         <Head>
           <script
-            type="text/javascript"
+            type='text/javascript'
             // The body of the script element comes from the async evaluation
             // of `getInitialProps`. We use the special
             // `dangerouslySetInnerHTML` to provide that element body. Since
@@ -41,7 +46,7 @@ class RootDocument extends Document {
             // object literal.
             dangerouslySetInnerHTML={{ __html: this.props.browserTimingHeader }}
           />
-          <link rel="stylesheet" href="/style.css" />
+          <link rel='stylesheet' href='/style.css' />
         </Head>
         <body>
         <Main />

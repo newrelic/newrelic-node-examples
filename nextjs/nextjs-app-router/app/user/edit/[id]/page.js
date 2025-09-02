@@ -1,6 +1,11 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use client'
-// If instrumenting client pages, do not import or require the New Relic APM agent. 
-// Instead, use the New Relic Browser agent to instrument client pages. See below. 
+// If instrumenting client pages, do not import or require the New Relic APM agent.
+// Instead, use the New Relic Browser agent to instrument client pages. See below.
 
 // See https://nextjs.org/docs/pages/building-your-application/data-fetching/client-side#client-side-data-fetching-with-useeffect
 // See https://react.dev/reference/react/useState
@@ -15,20 +20,20 @@ export default function Page({ params }) {
     fetch(
         `/api/users/${params.id}`,
         { method: 'GET' }
-      )
-      .then(r => r.json())
-      .then(user => {
+    )
+      .then((r) => r.json())
+      .then((user) => {
         setUser(user)
         setLoading(false)
       })
-    }
-    , [])
+  }
+  , [])
 
   if (isLoading === true) return <p>Loading...</p>
   if (!user) return notFound()
 
   // Instrumenting client pages:
-  // Using New Relic API methods in client pages will require the New Relic Browser Agent, 
+  // Using New Relic API methods in client pages will require the New Relic Browser Agent,
   // which is available on the global `window` object:
   // window.newrelic.setCustomAttribute("customAttribute", 'custom attribute value')
 
@@ -63,19 +68,19 @@ export default function Page({ params }) {
       </p>
       {errorState && <p style={{ color: 'red' }}>{errorState}</p>}
       <div>
-        <label htmlFor={"user.firstName"}>First name: </label>
-        <input id={"user.firstName"} name={"firstName"} defaultValue={user.firstName}></input>
+        <label htmlFor='user.firstName'>First name: </label>
+        <input id='user.firstName' name='firstName' defaultValue={user.firstName} />
       </div>
       <div>
-        <label htmlFor={"user.lastName"}>Last name: </label>
-        <input id={"user.lastName"} name={"lastName"} defaultValue={user.lastName}></input>
+        <label htmlFor='user.lastName'>Last name: </label>
+        <input id='user.lastName' name='lastName' defaultValue={user.lastName} />
       </div>
       <div>
-        <label htmlFor={"user.age"}>Age: </label>
-        <input id={"user.age"} name={"age"} defaultValue={user.age}></input>
+        <label htmlFor='user.age'>Age: </label>
+        <input id='user.age' name='age' defaultValue={user.age} />
       </div>
 
-      <button type="submit">Update</button>
+      <button type='submit'>Update</button>
     </form>
   )
 }

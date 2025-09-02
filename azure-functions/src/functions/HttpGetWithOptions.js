@@ -1,13 +1,18 @@
-const { app } = require('@azure/functions');
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+const { app } = require('@azure/functions')
 
 // The built-in `get` method using an `HTTPOptions` argument containing the handler
 app.get('HttpGet', {
-    authLevel: 'anonymous',
-    handler: async (request, context) => {
-        context.log(`Http function processed request for url "${request.url}"`);
+  authLevel: 'anonymous',
+  handler: async (request, context) => {
+    context.log(`Http function processed request for url "${request.url}"`)
 
-        const name = request.query.get('name') || await request.text() || 'world';
+    const name = request.query.get('name') || await request.text() || 'world'
 
-        return { body: `Hello, ${name}! This response is from a .get endpoint with HTTP options` };
-    }
-});
+    return { body: `Hello, ${name}! This response is from a .get endpoint with HTTP options` }
+  }
+})

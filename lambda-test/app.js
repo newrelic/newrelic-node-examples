@@ -1,7 +1,12 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 const newrelic = require('newrelic')
 const mode = process.env.FUNCTION_MODE
-const agentEnabled = process.env.NEW_RELIC_ENABLED 
+const agentEnabled = process.env.NEW_RELIC_ENABLED
 const asyncHandler = require('./handlers/async')
 const cbHandler = require('./handlers/cb')
 const contextHandler = require('./handlers/context')
@@ -11,19 +16,19 @@ let lambdaHandler
 
 console.log('RUNNING LAMBDA IN MODE', mode)
 
-switch(mode) {
+switch (mode) {
   case 'async':
     lambdaHandler = asyncHandler
-    break;
+    break
   case 'cb':
     lambdaHandler = cbHandler
-    break;
+    break
   case 'context':
     lambdaHandler = contextHandler
-    break;
+    break
   case 'streaming':
     lambdaHandler = streamHandler
-    break;
+    break
   default:
     lambdaHandler = asyncHandler
 }

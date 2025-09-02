@@ -38,7 +38,6 @@ const handler = function (_req, res) {
   res.send('phew, that was a lot of hops')
 }
 
-// eslint-disable-next-line
 app.get('/chained', function mw1(_req, _res, next) { next() }, function(_req, _res, next) { next() }, (_req, _res, next) => { next() }, mw4, handler)
 // The above is deliberately ugly and in one line, with named,
 // anonymous, and arrow functions all in one big mess.

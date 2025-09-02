@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import logger from '../../lib/logger.js'
 import getDatabase from '../../lib/database.js'
 

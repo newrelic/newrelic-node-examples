@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NextResponse } from 'next/server'
 
 import newrelic from 'newrelic'
@@ -22,6 +27,8 @@ export async function POST(req, { params }) {
   }
 
   const payload = await req.json()
+  // Coercive check
+  // eslint-disable-next-line eqeqeq
   if (dbUser.age != payload.age) {
     return NextResponse.json(
       'updating age is not implemented',

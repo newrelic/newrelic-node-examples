@@ -1,4 +1,3 @@
-'use strict'
 /**
  * New Relic agent configuration.
  *
@@ -13,7 +12,7 @@ exports.config = {
   /**
    * Your New Relic license key.
    */
-  license_key: '<your license key>', 
+  license_key: '<your license key>',
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing

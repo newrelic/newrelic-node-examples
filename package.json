@@ -1,0 +1,15 @@
+{
+    "name": "newrelic-examples",
+    "version": "1.0.0",
+    "author": "New Relic Node.js agent team <nodejs@newrelic.com>",
+    "license": "Apache-2.0",
+    "scripts": {
+        "lint": "eslint --quiet .",
+        "lint:verbose": "eslint .",
+        "lint:fix": "eslint --fix ."
+    },
+    "devDependencies": {
+        "@newrelic/eslint-config": "^0.6.0",
+        "eslint-plugin-jsdoc": "^54.1.1"
+    }
+}

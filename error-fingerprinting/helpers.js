@@ -19,10 +19,10 @@ async function randomlyFail(type) {
     let error
 
     if (randomNumber % 2 === 0) {
-      error = new Error(`Encountered expected application error`)
+      error = new Error('Encountered expected application error')
       error.isExpected = true
     } else {
-      error = new Error(`Encountered unexpected application error`)
+      error = new Error('Encountered unexpected application error')
       error.isExpected = false
     }
 

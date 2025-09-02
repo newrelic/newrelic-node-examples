@@ -5,7 +5,7 @@
 'use strict'
 
 function authenticate() {
-  return true;
+  return true
 }
 
 module.exports = { authenticate }

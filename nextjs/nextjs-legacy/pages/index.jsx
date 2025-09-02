@@ -1,7 +1,13 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import logger from '../lib/logger.js'
 
 export default function Page() {
-    return <div>
+  return (
+<div>
         <p>
             This application shows how to instrument Next.js applications with
             the New Relic Node.js agent for server-side instrumentation, along
@@ -13,15 +19,16 @@ export default function Page() {
             instrumentation works.
         </p>
         <ul>
-            <li>The <a href={"/users"}>Users</a> page provides a list users.</li>
+            <li>The <a href='/users'>Users</a> page provides a list users.</li>
             <li>Clicking on a user goes to the user update page.</li>
             <li>Updating a user&apos;s first or last name will result in a successful transaction.</li>
             <li>Updating a user&apos;s age will demonstrate an error condition.</li>
         </ul>
-    </div>
+</div>
+  )
 }
 
 export async function getServerSideProps() {
-    logger.info('rendering index page')
-    return { props: {} }
+  logger.info('rendering index page')
+  return { props: {} }
 }

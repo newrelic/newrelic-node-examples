@@ -1,8 +1,13 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 const { User } = require('../../server/models')
 
-exports.seed = knex => knex(User.tableName).del()
+exports.seed = (knex) => knex(User.tableName).del()
   .then(() => [
     {
       username: 'admin',
@@ -15,5 +20,5 @@ exports.seed = knex => knex(User.tableName).del()
       email: 'first-user@email.com'
     }
   ])
-  .then(newUsers => Promise.all(newUsers.map(user => User.create(user))))
-  .catch(err => console.log('err: ', err))
+  .then((newUsers) => Promise.all(newUsers.map((user) => User.create(user))))
+  .catch((err) => console.log('err: ', err))

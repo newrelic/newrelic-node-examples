@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 const {
@@ -101,7 +106,7 @@ const exportables = {
 }
 
 // All exportables stored as an array (e.g., for including in Express app.use())
-const all = Object.keys(exportables).map(key => exportables[key])
+const all = Object.keys(exportables).map((key) => exportables[key])
 
 module.exports = {
   ...exportables,

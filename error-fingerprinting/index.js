@@ -37,7 +37,7 @@ newrelic.setErrorGroupCallback(function groupErrors(errMetadata) {
 })
 
 app.use(function setUser(req, res, next) {
-  const id = req.query.user_id || uuidv4() 
+  const id = req.query.user_id || uuidv4()
   newrelic.setUserID(id)
   next()
 })
@@ -51,19 +51,13 @@ app.get('/error/expected', function expectedController(_req, res) {
         newrelic.noticeError(err, err.metadata, false)
       }
     })
-    .finally(() => {
-      return res.status(200).json({ message: 'OK' })
-    })
+    .finally(() => res.status(200).json({ message: 'OK' }))
 })
 
 app.get('/error/unexpected', function unexpectedController(_req, res) {
   return Promise.all([interactWithAPI(), interactWithDatabase()])
-    .then(() => {
-      return res.status(200).json({ message: 'OK' })
-    })
-    .catch((err) => {
-      return res.status(500).json({ message: err.message })
-    })
+    .then(() => res.status(200).json({ message: 'OK' }))
+    .catch((err) => res.status(500).json({ message: err.message }))
 })
 
 app.listen(3000, () => {

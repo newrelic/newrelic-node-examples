@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 const newrelic = require('newrelic')
@@ -10,7 +15,6 @@ const openai = new OpenAI({
 const { randomUUID: uuid } = require('node:crypto')
 
 const responses = new Map()
-
 
 fastify.listen({ host, port }, function (err, address) {
   if (err) {
@@ -39,7 +43,7 @@ fastify.post('/chat-completion', async(request, reply) => {
     temperature: 0.5,
     messages: [{ role: 'user', content: message }],
     model
-  });
+  })
 
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(chatCompletion.id, { traceId })
@@ -53,9 +57,9 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
     temperature: 0.5,
     messages: [{ role: 'user', content: message }],
     model
-  });
-    
-  reply.raw.writeHead(200, { 'Content-Type': 'text/plain'})
+  })
+
+  reply.raw.writeHead(200, { 'Content-Type': 'text/plain' })
   let chunk
   for await (chunk of stream) {
     if (chunk.choices[0]?.delta?.content) {
@@ -68,7 +72,7 @@ fastify.post('/chat-completion-stream', async(request, reply) => {
   reply.raw.write('\n-------- END OF MESSAGE ---------\n')
   reply.raw.write(`Use this id to record feedback '${chunk.id}'\n`)
   reply.raw.end()
-  
+
   return reply
 })
 
@@ -90,7 +94,6 @@ fastify.post('/feedback', (request, reply) => {
   return reply.send('Feedback recorded')
 })
 
-
 fastify.post('/responses-create', async (request, reply) => {
   const { message = 'Say this is a test', model = 'gpt-4' } = request.body || {}
 
@@ -99,9 +102,9 @@ fastify.post('/responses-create', async (request, reply) => {
   newrelic.addCustomAttribute('llm.conversation_id', conversationId)
 
   const response = await openai.responses.create({
-    model: model,
+    model,
     input: message,
-  });
+  })
 
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(response.id, { traceId })
@@ -116,14 +119,14 @@ fastify.post('/responses-create-stream', async (request, reply) => {
   newrelic.addCustomAttribute('llm.conversation_id', conversationId)
 
   const stream = await openai.responses.create({
-    model: model,
+    model,
     input: message,
     stream: true,
-  });
+  })
 
   let responseText = ''
   let event = {}
-  for await (event of stream){
+  for await (event of stream) {
     responseText = event.response?.output?.[0]?.content?.[0]?.text ?? ''
   }
 

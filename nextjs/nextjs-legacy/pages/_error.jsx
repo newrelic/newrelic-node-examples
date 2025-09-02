@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // This customization of Next.js's default error page allows us to send
 // unexpected errors to New Relic so that they can be viewed in the dashboard.
 //

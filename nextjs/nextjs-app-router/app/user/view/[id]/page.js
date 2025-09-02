@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // See https://nextjs.org/docs/pages/building-your-application/data-fetching/forms-and-mutations
 
 import logger from '../../../../lib/logger.js'

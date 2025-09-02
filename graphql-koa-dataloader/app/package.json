@@ -20,7 +20,7 @@
     "newrelic": "^11.8.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.0"
   },
   "devDependencies": {
     "@newrelic/eslint-config": "^0.2.0"

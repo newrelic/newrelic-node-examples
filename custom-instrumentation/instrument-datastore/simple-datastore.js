@@ -11,7 +11,7 @@
 // this datastore is assumed to be SQL-like.
 
 class SimpleDatastore {
-  constructor (host, port, database=null) {
+  constructor (host, port, database = null) {
     this.client = null
     this.connected = false
     this.host = host
@@ -60,4 +60,4 @@ class SimpleDatastore {
   }
 }
 
-module.exports = SimpleDatastore 
+module.exports = SimpleDatastore

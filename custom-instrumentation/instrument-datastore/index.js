@@ -11,7 +11,7 @@ const SimpleDatastore = require('./simple-datastore')
 const fastify = require('fastify')({ logger: true })
 
 const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
-const datastore = new SimpleDatastore(host, port, "DUMMY_DATABASE")
+const datastore = new SimpleDatastore(host, port, 'DUMMY_DATABASE')
 
 // We will be using the fastify web framework to host the
 // datastore, but any host (Docker, web framework, etc.) can be used

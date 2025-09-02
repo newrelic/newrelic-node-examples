@@ -15,16 +15,16 @@ const getUsers = () => {
     { id: 1, username: 'user1', email: 'user1@example.com' },
     { id: 2, username: 'user2', email: 'user2@example.com' },
     { id: 3, username: 'user3', email: 'user3@example.com' }
-  ];
+  ]
 
-  return JSON.stringify(users);
+  return JSON.stringify(users)
 }
 
-let server = new SimpleFramework()
+const server = new SimpleFramework()
 
 server.all(function authenticateMiddleware(req, res) {
   if (authenticate()) {
-    console.log("Authenticated!")
+    console.log('Authenticated!')
   } else {
     res.statusCode = 403
     res.end()
