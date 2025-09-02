@@ -38,6 +38,15 @@ const configOverrides = {
   }
 }
 
+const executableOverrides = {
+  files: [
+    'application-logging/log-generator/log-generator.js'
+  ],
+  rules: {
+    'n/hashbang': 'off'
+  }
+}
+
 const jsdocConfig = {
   plugins: { jsdoc },
   rules: {
@@ -103,5 +112,7 @@ module.exports = [
     rules: {
       'n/no-unpublished-require': 'off'
     }
-  }
+  },
+
+  executableOverrides
 ]
