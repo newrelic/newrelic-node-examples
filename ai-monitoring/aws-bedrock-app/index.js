@@ -15,6 +15,8 @@ const {
   ConverseStreamCommand
 } = require('@aws-sdk/client-bedrock-runtime')
 
+const CONVERSE_API_MODEL_ID = 'anthropic.claude-instant-v1'
+
 const requests = require('./requests')
 const responses = new Map()
 
@@ -179,7 +181,7 @@ fastify.post('/feedback', (request, reply) => {
 
 fastify.post('/converse', async (request, reply) => {
   try {
-    const { message = 'Say this is a test', modelId = 'anthropic.claude-instant-v1' } = request.body || {}
+    const { message = 'Say this is a test', modelId = CONVERSE_API_MODEL_ID } = request.body || {}
     const conversation = [
       {
         role: 'user',
@@ -203,7 +205,7 @@ fastify.post('/converse', async (request, reply) => {
 
 fastify.post('/converse-stream', async (request, reply) => {
   try {
-    const { message = 'Say this is a test.', modelId = 'anthropic.claude-instant-v1' } = request.body || {}
+    const { message = 'Say this is a test.', modelId = CONVERSE_API_MODEL_ID } = request.body || {}
     const conversation = [
       { role: 'user', content: [{ text: message }] }
     ]
