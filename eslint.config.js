@@ -97,7 +97,7 @@ module.exports = [
   {
     settings: {
       node: {
-        version: '>=21.2',
+        version: '>=22.16',
       }
     },
     rules: {
