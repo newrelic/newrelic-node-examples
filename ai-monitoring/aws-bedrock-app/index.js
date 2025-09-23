@@ -21,7 +21,7 @@ const requests = require('./requests')
 const responses = new Map()
 
 const client = new BedrockRuntimeClient({
-  region: process.env.AWS_REGION || 'us-west-2',
+  region: process.env.AWS_REGION || 'us-east-1',
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
