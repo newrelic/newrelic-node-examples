@@ -18,7 +18,8 @@ const sharedConfig = require('@newrelic/eslint-config')
 const globalIgnores = {
   ignores: [
     '**/node_modules/**',
-    'out/', // Compiled jsdocs directory.
+    '**/out/**', // Compiled jsdocs directory.
+    '**/.next/**', // Compiled Next.js directory.
     // To avoid parsing HTML
     'nextjs/nextjs-app-router/**',
     'nextjs/nextjs-legacy/pages/404.js'
@@ -96,7 +97,7 @@ module.exports = [
   {
     settings: {
       node: {
-        version: '>=21.2',
+        version: '>=22.16',
       }
     },
     rules: {

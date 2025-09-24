@@ -15,7 +15,7 @@ const {
   ConverseStreamCommand
 } = require('@aws-sdk/client-bedrock-runtime')
 
-const CONVERSE_API_MODEL_ID = 'anthropic.claude-instant-v1'
+const CONVERSE_API_MODEL_ID = 'us.amazon.nova-micro-v1:0'
 
 const requests = require('./requests')
 const responses = new Map()
