@@ -92,3 +92,44 @@ fastify.post('/chat-stream', async (request, reply) => {
         return reply.code(code).send( error )
     }
 })
+
+fastify.post('/embedding', async (request, reply) => {
+  const { message = 'Hello world!', model = 'amazon.titan-embed-text-v1' } = request.body || {}
+  const modelConfig = {
+    model,
+    temperature: 0,
+    maxTokens: undefined,
+    timeout: undefined,
+    maxRetries: 2,
+  }
+  try {
+    const llm = new BedrockEmbeddings({ ...modelConfig, ...modelAuth })
+    const response = await llm.embedQuery(message)
+
+    const { traceId } = newrelic.getTraceMetadata()
+    responses.set('requestId', { traceId })
+
+    return reply.code(200).send({ response })
+  } catch (error) {
+    const code = error?.httpStatusCode || 500
+    return reply.code(code).send(error)
+  }
+})
+
+fastify.post('/feedback', (request, reply) => {
+  const { category = 'feedback-test', rating = 1, message = 'Good talk', metadata, id } = request.body || {}
+  const { traceId } = responses.get(id)
+  if (!traceId) {
+    return reply.code(404).send(`No trace id found for ${message}`)
+  }
+
+  newrelic.recordLlmFeedbackEvent({
+    traceId,
+    category,
+    rating,
+    message,
+    metadata
+  })
+
+  return reply.send('Feedback recorded')
+})
