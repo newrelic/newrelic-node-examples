@@ -51,7 +51,7 @@ If you already have a GraphQL application that you would like to instrument with
    ```javascript
    exports.config = {
         // ...
-        opentelemetry_bridge: {
+        opentelemetry: {
             enabled: true,
             traces: {
                 enabled: true,
@@ -79,7 +79,7 @@ If you already have a GraphQL application that you would like to instrument with
 1. In your `package.json`, include `-r newrelic -r ./otel-instrumentation.js` (assuming `otel-instrumentation.js` and `package.json` are in the same directory) in your application start script.
 
    ```json
-   "scripts" : {
+   "scripts": {
        "myapp:start": "node -r newrelic -r ./otel-instrumentation.js ./myapp.js"
    }
    ```
