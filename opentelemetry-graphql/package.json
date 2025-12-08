@@ -20,12 +20,12 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@opentelemetry/instrumentation": "~0.26.0",
-    "@opentelemetry/instrumentation-graphql": "~0.26.0",
+    "@opentelemetry/instrumentation": "^0.208.0",
+    "@opentelemetry/instrumentation-graphql": "^0.56.0",
     "apollo-server": "^2.18.1",
     "express": "^4.17.1",
-    "express-graphql": "^0.11.0",
+    "express-graphql": "^0.12.0",
     "graphql": "^15.3.0",
-    "newrelic": "^12.21.0"
+    "newrelic": "^13.7.0"
   }
 }

@@ -40,7 +40,7 @@ exports.config = {
   /**
    * The below is required to enable the OpenTelemetry bridge.
    */
-  opentelemetry_bridge: {
+  opentelemetry: {
     enabled: true,
     traces: {
       enabled: true
