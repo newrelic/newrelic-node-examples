@@ -220,7 +220,7 @@ fastify.post('/converse-stream', async (request, reply) => {
     reply.raw.write(`requestId: ${response.$metadata.requestId}\n`)
 
     let traceId
-    for await (const event of response.output.message.content) {
+    for await (const event of response.stream) {
       if (event.contentBlockDelta && event.contentBlockDelta.delta.text) {
         const text = event.contentBlockDelta.delta.text
         reply.raw.write(text)
