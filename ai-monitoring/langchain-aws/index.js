@@ -15,6 +15,8 @@ const { ElasticVectorSearch } = require('@langchain/community/vectorstores/elast
 const responses = new Map()
 
 const chatModel = 'us.amazon.nova-micro-v1:0'
+const input = { topic: 'test' }
+const options = { metadata: { key: 'value', hello: 'world' }, tags: ['tag1', 'tag2'] }
 
 const modelAuth = {
   region: process.env.AWS_REGION ?? 'us-east-1',
@@ -44,7 +46,7 @@ fastify.post('/chat-invoke', async (request, reply) => {
     const llm = new ChatBedrockConverse({ model, ...modelAuth })
     const prompt = ChatPromptTemplate.fromMessages([['user', message]])
     const chain = prompt.pipe(llm)
-    const response = await chain.invoke()
+    const response = await chain.invoke(input, options)
     const responseText = response?.content
     const { requestId, httpStatusCode } = response?.response_metadata?.$metadata
     const { traceId } = newrelic.getTraceMetadata()
@@ -63,7 +65,7 @@ fastify.post('/chat-stream', async (request, reply) => {
     const llm = new ChatBedrockConverse({ model, ...modelAuth })
     const prompt = ChatPromptTemplate.fromMessages([['user', message]])
     const chain = prompt.pipe(llm)
-    const response = await chain.stream()
+    const response = await chain.stream(input, options)
     reply.raw.writeHead(200, { 'Content-Type': 'text/plain' })
 
     let traceId

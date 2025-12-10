@@ -1,5 +1,7 @@
 # Sample AWS Bedrock Application
 
+This application tests instrumentation of `@langchain/aws`, specifically LangChain's interaction with AWS Bedrock Converse classes and methods.
+
 ## Getting started
 
 **Note**: This application requires the use of Node.js v20+.
