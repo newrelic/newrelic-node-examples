@@ -20,8 +20,7 @@ const modelAuth = {
   region: process.env.AWS_REGION ?? 'us-east-1',
   credentials: {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    sessionToken: process.env.AWS_SESSION_TOKEN
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID
   }
 }
 
@@ -75,7 +74,7 @@ fastify.post('/chat-stream', async (request, reply) => {
     }
 
     for await (const chunk of response) {
-      reply.raw.write(chunk)
+      reply.raw.write(chunk?.content)
       if (!traceId) {
         traceId = newrelic.getTraceMetadata().traceId
       }

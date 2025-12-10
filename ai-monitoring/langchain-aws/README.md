@@ -10,7 +10,7 @@
 ```sh
 npm i
 cp .env.sample .env
-# Fill out `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN`, `AWS_REGION`, and `NEW_RELIC_LICENSE_KEY` in .env. Save your changes.
+# Fill out `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `NEW_RELIC_LICENSE_KEY` in .env. Save your changes.
 npm start
 ```
 
