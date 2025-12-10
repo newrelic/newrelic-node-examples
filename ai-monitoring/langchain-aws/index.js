@@ -7,8 +7,14 @@
 const newrelic = require('newrelic')
 const fastify = require('fastify')({ logger: true })
 const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env
+const { Client } = require('@elastic/elasticsearch')
 const { ChatBedrockConverse, BedrockEmbeddings } = require('@langchain/aws')
+const { ChatPromptTemplate } = require('@langchain/core/prompts')
+const { Document } = require('@langchain/core/documents')
+const { ElasticVectorSearch } = require('@langchain/community/vectorstores/elasticsearch')
 const responses = new Map()
+
+const chatModel = 'us.amazon.nova-micro-v1:0'
 
 const modelAuth = {
   region: process.env.AWS_REGION ?? 'us-east-1',
@@ -19,6 +25,12 @@ const modelAuth = {
   }
 }
 
+const elasticClientArgs = {
+  client: new Client({
+    node: `http://${process.env.ELASTIC_HOST ?? 'localhost'}:${process.env.ELASTIC_PORT ?? '9200'}`
+  })
+}
+
 fastify.listen({ host, port }, function (err, address) {
   if (err) {
     fastify.log.error(err)
@@ -27,17 +39,13 @@ fastify.listen({ host, port }, function (err, address) {
 })
 
 fastify.post('/chat-invoke', async (request, reply) => {
-  const { message = 'Hello world!', model = 'us.amazon.nova-micro-v1:0' } = request.body || {}
-  const modelConfig = {
-    model,
-    temperature: 0,
-    maxTokens: undefined,
-    timeout: undefined,
-    maxRetries: 2,
-  }
+  const { message = 'Hello world!', model = chatModel } = request.body || {}
+
   try {
-    const llm = new ChatBedrockConverse({ ...modelConfig, ...modelAuth })
-    const response = await llm.invoke(message)
+    const llm = new ChatBedrockConverse({ model, ...modelAuth })
+    const prompt = ChatPromptTemplate.fromMessages([['user', message]])
+    const chain = prompt.pipe(llm)
+    const response = await chain.invoke()
     const responseText = response?.content
     const { requestId, httpStatusCode } = response?.response_metadata?.$metadata
     const { traceId } = newrelic.getTraceMetadata()
@@ -51,21 +59,15 @@ fastify.post('/chat-invoke', async (request, reply) => {
 })
 
 fastify.post('/chat-stream', async (request, reply) => {
-  const { message = 'Hello world!', model = 'us.amazon.nova-micro-v1:0' } = request.body || {}
+  const { message = 'Hello world!', model = chatModel } = request.body || {}
   try {
-    const modelConfig = {
-      model,
-      temperature: 0,
-      maxTokens: undefined,
-      timeout: undefined,
-      maxRetries: 2,
-    }
-
-    const llm = new ChatBedrockConverse({ ...modelConfig, ...modelAuth })
+    const llm = new ChatBedrockConverse({ model, ...modelAuth })
+    const prompt = ChatPromptTemplate.fromMessages([['user', message]])
+    const chain = prompt.pipe(llm)
+    const response = await chain.stream()
+    reply.raw.writeHead(200, { 'Content-Type': 'text/plain' })
 
     let traceId
-    const response = await llm.stream(message)
-    reply.raw.writeHead(200, { 'Content-Type': 'text/plain' })
     let requestId
 
     if (response?.response_metadata?.$metadata?.requestId) {
@@ -73,7 +75,7 @@ fastify.post('/chat-stream', async (request, reply) => {
     }
 
     for await (const chunk of response) {
-      reply.raw.write(chunk?.content)
+      reply.raw.write(chunk)
       if (!traceId) {
         traceId = newrelic.getTraceMetadata().traceId
       }
@@ -100,16 +102,18 @@ fastify.post('/chat-stream', async (request, reply) => {
 
 fastify.post('/embedding', async (request, reply) => {
   const { message = 'Hello world!', model = 'amazon.titan-embed-text-v1' } = request.body || {}
-  const modelConfig = {
-    model,
-    temperature: 0,
-    maxTokens: undefined,
-    timeout: undefined,
-    maxRetries: 2,
-  }
   try {
-    const llm = new BedrockEmbeddings({ ...modelConfig, ...modelAuth })
-    const response = await llm.embedQuery(message)
+    const embedding = new BedrockEmbeddings({ model, ...modelAuth })
+    const docs = [
+      new Document({
+        metadata: { id: '2' },
+        pageContent: message
+      })
+    ]
+    const vectorStore = new ElasticVectorSearch(embedding, elasticClientArgs)
+    await vectorStore.deleteIfExists()
+    await vectorStore.addDocuments(docs)
+    const response = await vectorStore.similaritySearch(message, 1)
 
     const { traceId } = newrelic.getTraceMetadata()
     responses.set('requestId', { traceId })
