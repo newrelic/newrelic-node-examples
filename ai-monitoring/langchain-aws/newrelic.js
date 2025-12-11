@@ -7,6 +7,12 @@
  */
 exports.config = {
   app_name: ['langchain-aws-example'],
+  ai_monitoring: {
+    enabled: true,
+    streaming: {
+      enabled: true
+    }
+  },
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
@@ -21,9 +27,6 @@ exports.config = {
    * attributes include/exclude lists.
    */
   allow_all_headers: true,
-  ai_monitoring: {
-    enabled: true
-  },
   custom_insights_events: {
     max_samples_stored: 100000
   },
