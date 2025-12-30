@@ -10,6 +10,8 @@ const { AmqplibInstrumentation } = require('@opentelemetry/instrumentation-amqpl
 
 registerInstrumentations({
   instrumentations: [
-    new AmqplibInstrumentation({}),
+    new AmqplibInstrumentation({
+      useLinksForConsume: true
+    }),
   ]
 })
