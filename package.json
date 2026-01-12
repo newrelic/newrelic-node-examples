@@ -11,10 +11,5 @@
     "devDependencies": {
         "@newrelic/eslint-config": "^0.6.0",
         "eslint-plugin-jsdoc": "^54.1.1"
-    },
-    "dependencies": {
-        "@langchain/core": "^1.1.6",
-        "@langchain/langgraph": "^1.0.7",
-        "zod": "^4.2.1"
     }
 }
