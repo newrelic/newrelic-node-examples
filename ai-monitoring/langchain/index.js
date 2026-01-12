@@ -9,18 +9,16 @@ const fastify = require('fastify')({ logger: true })
 
 const { ChatOpenAI, OpenAIEmbeddings } = require('@langchain/openai')
 const { Client } = require('@elastic/elasticsearch')
-const { createRetrievalChain } = require('langchain/chains/retrieval')
+const { createRetrievalChain } = require('@langchain/classic/chains/retrieval')
 const { ChatPromptTemplate } = require('@langchain/core/prompts')
 const { StringOutputParser } = require('@langchain/core/output_parsers')
 const { Document } = require('@langchain/core/documents')
-const { createStuffDocumentsChain } = require('langchain/chains/combine_documents')
+const { createStuffDocumentsChain } = require('@langchain/classic/chains/combine_documents')
 
-const { MemoryVectorStore } = require('langchain/vectorstores/memory')
-const {
-  ElasticVectorSearch
-} = require('@langchain/community/vectorstores/elasticsearch')
+const { MemoryVectorStore } = require('@langchain/classic/vectorstores/memory')
+const { ElasticVectorSearch } = require('@langchain/community/vectorstores/elasticsearch')
 
-const TestTool = require('./custom-tool')
+const { testTool } = require('./custom-tool')
 
 const { PORT: port = 3000, HOST: host = '127.0.0.1', OPENAI_API_KEY: openAIApiKey = 'fake-key' } = process.env
 const responses = new Map()
@@ -114,15 +112,10 @@ fastify.post('/feedback', (request, reply) => {
 
 fastify.post('/tools', async (request, reply) => {
   const {
-    topic = 'Say this is a test.'
+    topic = 'langchain'
   } = request.body || {}
 
-  const baseUrl = 'http://httpbin.org'
-  const tool = new TestTool({
-    baseUrl
-  })
-
-  const result = await tool.call(topic)
+  const result = await testTool.call({ key: topic })
 
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(traceId, { traceId })
