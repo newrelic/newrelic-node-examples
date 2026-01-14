@@ -190,6 +190,7 @@ fastify.post('/agent-stream', async (request, reply) => {
   const { traceId } = newrelic.getTraceMetadata()
   responses.set(traceId, { traceId })
 
+  reply.hijack()
   reply.raw.writeHead(200, { 'Content-Type': 'text/plain' })
   reply.raw.write('\n-------- AGENT EXECUTION ---------\n')
 
@@ -228,8 +229,6 @@ fastify.post('/agent-stream', async (request, reply) => {
   reply.raw.write('\n\n-------- END ---------\n')
   reply.raw.write(`Use this id to record feedback: '${traceId}'\n`)
   reply.raw.end()
-
-  return reply
 })
 
 // Feedback endpoint
