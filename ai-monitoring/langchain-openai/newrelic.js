@@ -15,15 +15,18 @@ exports.config = {
      */
     level: 'trace'
   },
+  ai_monitoring: {
+    enabled: true,
+    streaming: {
+      enabled: true
+    }
+  },
   /**
    * When true, all request headers except for those listed in attributes.exclude
    * will be captured for all traces, unless otherwise specified in a destination's
    * attributes include/exclude lists.
    */
   allow_all_headers: true,
-  ai_monitoring: {
-    enabled: true
-  },
   custom_insights_events: {
     max_samples_stored: 100000
   },
