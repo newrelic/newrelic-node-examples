@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node --env-file .env -r newrelic index.js",
-    "start:debug": "DEBUG=@apm-js-collab* node --env-file .env -r newrelic index.js",
+    "start:debug": "node --inspect-brk --env-file .env -r newrelic index.js",
     "start:no-agent": "node --env-file .env index.js"
   },
   "author": "",
