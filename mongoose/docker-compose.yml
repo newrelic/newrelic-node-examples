@@ -1,0 +1,12 @@
+services:
+  mongodb:
+    container_name: nr_test_mongodb
+    image: library/mongo:5
+    ports:
+      - "27019:27017"
+    healthcheck:
+      test: ["CMD", "mongo", "--quiet"]
+      interval: 1s
+      timeout: 10s
+      retries: 30
+

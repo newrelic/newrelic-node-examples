@@ -1,0 +1,21 @@
+{
+  "name": "mongoose-app",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "seed": "node seed.js",
+    "start": "node --env-file .env -r newrelic index.js",
+    "start:debug": "node --inspect-brk --env-file .env -r newrelic index.js",
+    "start:no-agent": "node index.js"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.2.0",
+    "fastify": "^5.7.4",
+    "mongoose": "^9.1.5",
+    "newrelic": "^13.12.0"
+  }
+}
