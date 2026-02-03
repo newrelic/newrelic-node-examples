@@ -1,3 +1,8 @@
+/*
+ * Copyright 2026 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 const blogSchema = new Schema({
@@ -11,7 +16,7 @@ const blogSchema = new Schema({
     votes: Number,
     favs: Number
   }
-});
+})
 const model = mongoose.model('Blog', blogSchema)
 
-module.exports = model 
+module.exports = model

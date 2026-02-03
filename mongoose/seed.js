@@ -1,17 +1,21 @@
+/*
+ * Copyright 2026 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const model = require('./model')
 const mongoose = require('mongoose')
 const { CONN_STRING } = require('./constants')
 const { faker } = require('@faker-js/faker')
-
 
 async function main() {
   const promises = []
   await mongoose.connect(CONN_STRING)
   for (let i = 0; i < 100; i++) {
     const prom = model.create({
-      title: faker.book.title(), 
-      author: faker.person.firstName() + ' ' + faker.person.lastName(), 
-      body: faker.lorem.paragraphs(5), 
+      title: faker.book.title(),
+      author: faker.person.firstName() + ' ' + faker.person.lastName(),
+      body: faker.lorem.paragraphs(5),
       comments: [{ body: faker.lorem.sentence(), date: Date.now() }],
       hidden: false,
       meta: {
