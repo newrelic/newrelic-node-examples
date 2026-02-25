@@ -13,8 +13,8 @@ const openai = new OpenAI({
   apiKey
 })
 const { randomUUID: uuid } = require('node:crypto')
-
 const responses = new Map()
+const defaultChatModel = 'gpt-5.2'
 
 fastify.listen({ host, port }, function (err, address) {
   if (err) {
@@ -24,7 +24,7 @@ fastify.listen({ host, port }, function (err, address) {
 })
 
 fastify.post('/embedding', async (request, reply) => {
-  const { input = 'Test embedding', model = 'text-embedding-ada-002' } = request.body || {}
+  const { input = 'Test embedding', model = 'text-embedding-3-small' } = request.body || {}
   const embedding = await openai.embeddings.create({
     input,
     model
@@ -33,14 +33,14 @@ fastify.post('/embedding', async (request, reply) => {
 })
 
 fastify.post('/chat-completion', async(request, reply) => {
-  const { message = 'Say this is a test', model = 'gpt-4' } = request.body || {}
+  const { message = 'Say this is a test', model = defaultChatModel, temperature = 1 } = request.body || {}
 
   // assign conversation_id via custom attribute API
   const conversationId = uuid()
   newrelic.addCustomAttribute('llm.conversation_id', conversationId)
 
   const chatCompletion = await openai.chat.completions.create({
-    temperature: 0.5,
+    temperature,
     messages: [{ role: 'user', content: message }],
     model
   })
@@ -51,10 +51,10 @@ fastify.post('/chat-completion', async(request, reply) => {
 })
 
 fastify.post('/chat-completion-stream', async(request, reply) => {
-  const { message = 'Say this is a test', model = 'gpt-4' } = request.body || {}
+  const { message = 'Say this is a test', model = defaultChatModel, temperature = 1 } = request.body || {}
   const stream = await openai.chat.completions.create({
     stream: true,
-    temperature: 0.5,
+    temperature,
     messages: [{ role: 'user', content: message }],
     model
   })
@@ -95,7 +95,7 @@ fastify.post('/feedback', (request, reply) => {
 })
 
 fastify.post('/responses-create', async (request, reply) => {
-  const { message = 'Say this is a test', model = 'gpt-4' } = request.body || {}
+  const { message = 'Say this is a test', model = defaultChatModel } = request.body || {}
 
   // assign conversation_id via custom attribute API
   const conversationId = uuid()
@@ -112,7 +112,7 @@ fastify.post('/responses-create', async (request, reply) => {
 })
 
 fastify.post('/responses-create-stream', async (request, reply) => {
-  const { message = 'Say this is a test.', model = 'gpt-4' } = request.body || {}
+  const { message = 'Say this is a test.', model = defaultChatModel } = request.body || {}
 
   // assign conversation_id via custom attribute API
   const conversationId = uuid()

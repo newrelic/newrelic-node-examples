@@ -1,6 +1,6 @@
-# Sample OpenAI Application
+# Example OpenAI Application
 
-This application demonstrates using the agent to instrument openai and record spans for chat completions and embeddings.  It also will generate LlmChatCompletionMessage, LlmChatCompletionSummary, LlmEmbedding, and LlmFeedbackMessage to be used in the [New Relic AI Monitoring](https://newrelic.com/platform/ai-monitoring).
+This application demonstrates using the agent to instrument OpenAI and record spans for chat completions and embeddings.  It also will generate `LlmChatCompletionMessage`, `LlmChatCompletionSummary`, `LlmEmbedding`, and `LlmFeedbackMessage` events to be used in the [New Relic AI Monitoring](https://newrelic.com/platform/ai-monitoring) experience.
 
 ## Getting started
 
@@ -16,24 +16,74 @@ cp .env.sample .env
 npm start
 ```
 
-1. Make requests to application.
+
+
+## Make requests to application
+
+### Chat Completions API
+
+**Note**: The default chat model is `gpt-5.2`. GPT-5 family models do not support the `temperature` parameter; if you pass it, the API will return an error. Only use `temperature` with models that support it (e.g. `gpt-4`).
+
+`POST /chat-completion` - Accepts `{ message, model, temperature }`
+
+```sh
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion \
+  -d '{"message":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?"}'
+```
+
+With a model that supports `temperature`:
+
+```sh
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion \
+  -d '{"message":"Tell me a joke", "model":"gpt-4o", "temperature":0.5}'
+```
+
+`POST /chat-completion-stream` - Accepts `{ message, model, temperature }`
+
+```sh
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion-stream \
+  -d '{"message":"Explain the rules of jai alai"}'
+```
+
+### Responses API
+
+`POST /responses-create` - Accepts `{ message, model }`
+
+```sh
+curl -XPOST http://localhost:3000/responses-create
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/responses-create \
+  -d '{"message":"What is the capital of France?"}'
+```
+
+`POST /responses-create-stream` - Accepts `{ message, model }`
+
+```sh
+curl -XPOST http://localhost:3000/responses-create-stream
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/responses-create-stream \
+  -d '{"message":"Tell me a story", "model":"gpt-5.2"}'
+```
+
+### Embeddings
+
+`POST /embedding` - Accepts `{ input, model }`
 
 ```sh
 curl -XPOST http://localhost:3000/embedding
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/embedding \
+  -d '{"input":"Hello world", "model":"text-embedding-3-small"}'
+```
 
-curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion -d '{"message":"How much wood could a woodchuck chuck if a woodchuck could chuck wood?"}'
+### Feedback
 
-# To leave feedback copy the id from response
-curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
+`POST /feedback` - Accepts `{ id, category, rating, message, metadata }`
 
-curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/chat-completion-stream -d '{"message":"Explain the rules of jai alai"}'
+After making a chat completion or response request, copy the `id` from the response to submit feedback:
 
-# To leave feedback copy the id from response
-curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback -d '{"id":"<response_id>"}'
-
-# Using the new Responses API introduced in openai@5.0.0
-curl -XPOST http://localhost:3000/responses-create
-curl -XPOST http://localhost:3000/responses-create-stream
+```sh
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback \
+  -d '{"id":"<response_id>"}'
+curl -XPOST -H 'Content-Type: application/json' http://localhost:3000/feedback \
+  -d '{"id":"<response_id>", "category":"feedback-test", "rating":1, "message":"Good talk"}'
 ```
 
 ## Inspecting AI Responses
