@@ -27,9 +27,9 @@ This repository contains example applications and scripts that demonstrate funct
 When the Node.js agent is configured for OpenTelemetry bridge mode, it can instrument all libraries OTel instruments.
 
 * [GCP Pub/Sub](./gcp-pubsub) - example demonstrating [Google Cloud Pub/Sub](https://cloud.google.com/pubsub) with the Node.js agent in OTel bridge mode
-* [GraphQL](./opentelemetry-graphql) - example demonstrating `apollo`, `express`, and namely `graphql` with the agent in OTel bridge mode
-* [Messaging](./opentelemetry-messaging) - consumer/producer example demonstrating `amqplib` with the agent in OTel bridge mode
-* [Web Example](./opentelemetry-example) - example demonstrating `knex`, `express`, and `fetch` in a simple web app with the agent in OTel bridge mode
+* [GraphQL](./opentelemetry/graphql) - example demonstrating `apollo`, `express`, and namely `graphql` with the agent in OTel bridge mode
+* [Messaging](./opentelemetry/messaging) - consumer/producer example demonstrating `amqplib` with the agent in OTel bridge mode
+* [Web Example](./opentelemetry/webapp) - example demonstrating `knex`, `express`, and `fetch` in a simple web app with the agent in OTel bridge mode
 
 ## Contribute
 
