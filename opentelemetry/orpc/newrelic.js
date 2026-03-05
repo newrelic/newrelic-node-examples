@@ -21,7 +21,7 @@ exports.config = {
      */
     level: 'trace'
   },
-  
+
   instrumentation: {
     timers: {
       enabled: false
