@@ -27,14 +27,14 @@ app.get('/data', async (req, res) => {
     return
   }
 
-  const csvPath = path.join(monitorDir, file)
-
+  let csvPath
   try {
-    fs.stat(csvPath)
-  } catch {
-    res.status(404).send('CSV file not found')
+    csvPath = await fs.realpath(path.resolve(monitorDir, file))
+  } catch (err) {
+    res.status(404).send(`Failed to find file ${err.message}`)
     return
   }
+
   const csv = await fs.readFile(csvPath, 'utf8')
   const lines = csv.trim().split('\n')
   const headers = lines.shift().split(',')
