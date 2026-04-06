@@ -5,7 +5,7 @@ A simple Fastify application demonstrating New Relic AI monitoring with the Anth
 ## Setup
 
 ```sh
-cp .env.sample .env
+cp env.sample .env
 ```
 
 Fill in your `ANTHROPIC_API_KEY`, `ANTHROPIC_BASE_URL` (if needed), `NEW_RELIC_LICENSE_KEY`, and  `NEW_RELIC_HOST` (if needed) in `.env`, then:
