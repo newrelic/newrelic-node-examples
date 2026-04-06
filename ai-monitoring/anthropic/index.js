@@ -78,6 +78,28 @@ fastify.post('/chat-completion-stream', async (request, reply) => {
   }
 })
 
+// Error endpoints for testing error instrumentation
+// UnprocessableEntityError (422) - invalid model name
+fastify.post('/error/unprocessable', async (request, reply) => {
+  const response = await client.messages.create({
+    model: 'invalid-model',
+    max_tokens: 1024,
+    messages: [{ role: 'user', content: 'test' }]
+  })
+  return reply.send(response)
+})
+
+// APIConnectionError - non-routable host
+fastify.post('/error/connection', async (request, reply) => {
+  const badClient = new Anthropic({ apiKey, baseURL: 'http://10.255.255.1' })
+  const response = await badClient.messages.create({
+    model: defaultModel,
+    max_tokens: 1024,
+    messages: [{ role: 'user', content: 'test' }]
+  })
+  return reply.send(response)
+})
+
 fastify.post('/feedback', (request, reply) => {
   const { category = 'feedback-test', rating = 1, message = 'Good talk', metadata, id } = request.body || {}
   const { traceId } = responses.get(id)

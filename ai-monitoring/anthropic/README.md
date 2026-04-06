@@ -33,6 +33,19 @@ curl -X POST http://localhost:3000/chat-completion-stream \
   -d '{"message": "Write a short story about a developer who discovers their code has become sentient"}'
 ```
 
+### Error Endpoints
+
+Endpoints for testing error instrumentation. Each triggers a different Anthropic SDK error type:
+
+- **UnprocessableEntityError (422)** — invalid model name
+  ```sh
+  curl -X POST http://localhost:3000/error/unprocessable
+  ```
+- **APIConnectionError** — non-routable host (will timeout)
+  ```sh
+  curl -X POST http://localhost:3000/error/connection
+  ```
+
 ### Record Feedback
 
 Use the `id` from a chat completion response:
