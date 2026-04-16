@@ -78,7 +78,7 @@ Record LLM feedback events via New Relic.
 ```sh
 curl -X POST http://localhost:3000/feedback \
   -H 'Content-Type: application/json' \
-  -d '{"id": "<traceId from above>", "rating": 5, "category": "accuracy", "message": "Great response"}'
+  -d '{"id": "<feedbackId from above>", "rating": 5, "category": "accuracy", "message": "Great response"}'
 ```
 
 ## Instrumentation details
