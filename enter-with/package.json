@@ -1,0 +1,25 @@
+{
+  "name": "enter-with",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:agent": "node -r newrelic index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/register": "^7.28.6",
+    "axios": "^1.15.1",
+    "express": "^5.2.1",
+    "newrelic": "^13.19.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  }
+}
