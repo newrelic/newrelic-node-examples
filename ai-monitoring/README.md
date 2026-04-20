@@ -21,5 +21,6 @@ Enabling AI monitoring also lets you observe the performance of your AI agents e
 
 Learn more about this feature on [our docs website](https://docs.newrelic.com/docs/ai-monitoring/explore-ai-data/view-ai-agents/).
 
+* [Google ADK](./google-adk) - Google Agent Development Kit (`@google/adk`) example with single-agent, multi-agent hierarchy, and streaming endpoints backed by Gemini.
 * [LangGraph](./langgraph) - LangGraph example using OpenAI for agent-based workflows with tools, a simple chatbot, and streaming.
 * [MCP SDK](./mcp-sdk) - Two `@modelcontextprotocol/sdk` examples: `stdio` uses `@openai/agents` with `StdioTransport`, and `streamable-http` demonstrates `StreamableHTTPTransport` directly and via `@openai/agents`.
