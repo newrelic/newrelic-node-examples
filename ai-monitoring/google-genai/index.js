@@ -16,6 +16,8 @@ const GOOGLE_GENAI_USE_VERTEXAI = process.env.GOOGLE_GENAI_USE_VERTEXAI ?? false
 const app = express()
 const port = 3000
 
+const geminiModel = 'gemini-2.5-flash'
+
 // Determine which client to use
 let aiClient
 if (GOOGLE_GENAI_USE_VERTEXAI) {
@@ -34,7 +36,7 @@ if (GOOGLE_GENAI_USE_VERTEXAI) {
 app.get('/', async (req, res) => {
   try {
     const response = await aiClient.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: geminiModel,
       contents: 'Why is the sky blue?',
       config: {
         candidateCount: 2,
@@ -55,7 +57,7 @@ app.get('/', async (req, res) => {
 app.get('/stream', async (req, res) => {
   try {
     const response = await aiClient.models.generateContentStream({
-      model: 'gemini-2.0-flash',
+      model: geminiModel,
       contents: 'Write a story about a magic backpack.',
       config: {
         maxOutputTokens: 10000,

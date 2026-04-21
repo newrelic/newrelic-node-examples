@@ -8,22 +8,27 @@ This app supports both Gemini AI and Vertex AI. Specify which one you want with 
 
 **Note**: This application requires the use of Node.js v20+.
 
-1. Make a [Google Cloud project](https://console.cloud.google.com/) and a [Gemini API Key](https://aistudio.google.com/app/apikey).
+1. Make a [Google Cloud project](https://console.cloud.google.com/) or a [Gemini API Key](https://aistudio.google.com/app/apikey).
 2. Clone or fork this repository.
 3. Install dependencies and run application.
 
    ```sh
    npm i
    cp env.sample .env
-   # Fill out `GEMINI_API_KEY`, `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION`, `NEW_RELIC_LICENSE_KEY` in .env and save 
+   # Fill out `NEW_RELIC_LICENSE_KEY`, `GEMINI_API_KEY` or `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION` in .env and save 
    npm start
    ```
 4. Make requests to application.
 
    ```sh
-   curl http://localhost:3000/ # Basic generate content example
-   curl http://localhost:3000/stream # Generate content stream example
-   curl http://localhost:3000/embed # Embed content example
+   # Basic generate content example
+   curl http://localhost:3000/
+
+   # Generate content stream example
+   curl http://localhost:3000/stream
+
+   # Embed content example
+   curl http://localhost:3000/embed
    ```
 
 ## Inspecting AI Responses
