@@ -22,7 +22,6 @@ export default async function RootLayout({ children }) {
   // NEXT_PHASE is set to 'phase-production-build' only during `next build`.
   let browserTimingHeader = ''
   if (process.env.NEXT_PHASE !== 'phase-production-build') {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const newrelic = require('newrelic')
 
     // getBrowserTimingHeader returns an empty string when the agent is not yet
@@ -37,7 +36,7 @@ export default async function RootLayout({ children }) {
     <html>
     <body>
     <ul className='navbar'>
-      <li><a href='/'>Home</a></li>
+      <li><Link href='/'>Home</Link></li>
       <li><Link href='/users' key='users'>Users</Link></li>
       <li><Link href='/about' key='about'>About</Link></li>
     </ul>

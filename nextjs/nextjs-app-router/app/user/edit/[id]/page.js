@@ -30,7 +30,7 @@ export default function Page({ params }) {
         setLoading(false)
       })
   }
-  , [])
+  , [id])
 
   if (isLoading === true) return <p>Loading...</p>
   if (!user) return notFound()

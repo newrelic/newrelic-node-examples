@@ -6,8 +6,7 @@
 import type { NextConfig } from 'next'
 
 // newrelic/load-externals is a CommonJS module with no type declarations
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const nrExternals = require('newrelic/load-externals')
+const nrExternals = require('newrelic/load-externals')  
 
 const nextConfig: NextConfig = {
   // `newrelic` is automatically opted out of bundling in Next.js 15+, so it does not need to be listed here.

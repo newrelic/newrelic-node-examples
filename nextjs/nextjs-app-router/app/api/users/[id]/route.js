@@ -28,16 +28,14 @@ export async function POST(req, { params }) {
     // file. A top-level import initializes the agent when the module is loaded,
     // which happens during the build's static generation phase (before
     // --require newrelic is active), causing workers to stall.
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const newrelic = require('newrelic')
     newrelic.noticeError(Error('user not found'))
     return NextResponse.json('user not found', { status: 404 })
   }
 
   const payload = await req.json()
-  // Coercive check
-  // eslint-disable-next-line eqeqeq
-  if (dbUser.age != payload.age) {
+  // Coercive check: payload.age is a string from the form, dbUser.age is a number
+  if (dbUser.age != payload.age) {  
     return NextResponse.json(
       'updating age is not implemented',
       { status: 501 }
