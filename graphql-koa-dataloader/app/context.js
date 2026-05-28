@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import DataLoader from 'dataloader'
-import { getUserById } from './datastore.js'
+'use strict'
+
+const DataLoader = require('dataloader')
+const { getUserById } = require('./datastore')
 
 const loaders = () => {
   return {
@@ -23,4 +25,4 @@ const getContext = () => {
   }
 }
 
-export default getContext
+module.exports = getContext

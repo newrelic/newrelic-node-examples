@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getUserById } from './datastore.js'
+'use strict'
+
+const { getUserById } = require('./datastore')
 
 function userQueryResolver(_, args) {
   return args.id
@@ -47,7 +49,7 @@ const UserTypeResolver = {
   }
 }
 
-export default {
+module.exports = {
   Query: { user: userQueryResolver, allUsers: allUsersQueryResolver },
   User: UserTypeResolver
 }

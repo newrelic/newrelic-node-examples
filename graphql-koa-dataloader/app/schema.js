@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import gql from 'graphql-tag'
+'use strict'
+
+const gql = require('graphql-tag')
 
 const userSchema = gql`
   type Query {
@@ -21,4 +23,4 @@ const userSchema = gql`
   }
 `
 
-export default userSchema
+module.exports = userSchema
