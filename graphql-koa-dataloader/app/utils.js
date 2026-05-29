@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-'use strict'
-
-const { faker } = require('@faker-js/faker')
+import { faker } from '@faker-js/faker'
 
 const hobbies = [
   'soccer',
@@ -33,4 +31,4 @@ function generateUsers(count) {
   })
 }
 
-module.exports = { generateUsers }
+export { generateUsers }

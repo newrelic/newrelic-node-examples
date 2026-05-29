@@ -3,10 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-'use strict'
-
-const dynamodb = require('./datastore-dynamodb')
-const mongo = require('./datastore-mongo')
+import * as dynamodb from './datastore-dynamodb.js'
+import * as mongo from './datastore-mongo.js'
 
 async function initData() {
   if (process.env.NEW_RELIC_DATASTORE?.toLowerCase() === 'dynamodb') {
@@ -32,4 +30,4 @@ async function getUserById(id) {
   )
 }
 
-module.exports = { getUserById, initData }
+export { getUserById, initData }

@@ -3,10 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-'use strict'
-
-const { MongoClient } = require('mongodb')
-const { generateUsers } = require('./utils')
+import { MongoClient } from 'mongodb'
+import { generateUsers } from './utils.js'
 
 async function initData() {
   const client = new MongoClient(process.env.MONGO_URL)
@@ -39,4 +37,4 @@ async function getUserById(id) {
   }
 }
 
-module.exports = { getUserById, initData }
+export { getUserById, initData }

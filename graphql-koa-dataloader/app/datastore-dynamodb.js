@@ -3,17 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-'use strict'
-
-const {
-  DynamoDBClient: Client,
+import {
+  DynamoDBClient as Client,
   CreateTableCommand,
   DeleteTableCommand,
   waitUntilTableExists,
   waitUntilTableNotExists
-} = require('@aws-sdk/client-dynamodb')
-const { DynamoDBDocumentClient, GetCommand, PutCommand } = require('@aws-sdk/lib-dynamodb')
-const { generateUsers } = require('./utils')
+} from '@aws-sdk/client-dynamodb'
+import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb'
+import { generateUsers } from './utils.js'
 
 const tableParams = {
   AttributeDefinitions: [
@@ -77,4 +75,4 @@ async function getUserById(id) {
   return item
 }
 
-module.exports = { getUserById, initData }
+export { getUserById, initData }
