@@ -5,7 +5,7 @@
 
 import http from 'node:http'
 import Koa from 'koa'
-import bodyParser from 'koa-bodyparser'
+import { bodyParser } from '@koa/bodyparser'
 import cors from '@koa/cors'
 import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginDrainHttpServer as drain } from '@apollo/server/plugin/drainHttpServer'

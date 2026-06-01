@@ -17,19 +17,19 @@
     "@aws-sdk/client-dynamodb": "^3.1055.0",
     "@aws-sdk/lib-dynamodb": "^3.1055.0",
     "@faker-js/faker": "^10.4.0",
+    "@koa/bodyparser": "^6.1.0",
     "@koa/cors": "^5.0.0",
     "dataloader": "^2.2.3",
     "graphql": "^16.14.0",
     "graphql-tag": "^2.12.6",
-    "koa": "^2.16.4",
-    "koa-bodyparser": "^4.4.1",
+    "koa": "^3.2.1",
     "mongodb": "^4.17.0",
-    "newrelic": "^14.0.0"
+    "newrelic": "file:./newrelic.tgz"
   },
   "devDependencies": {
     "@newrelic/eslint-config": "^0.7.0"
   },
   "overrides": {
-    "@apm-js-collab/tracing-hooks": "file:./tracing-hooks.tgz"
+    "newrelic": "file:./newrelic.tgz"
   }
 }
