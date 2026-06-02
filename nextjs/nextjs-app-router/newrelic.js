@@ -8,21 +8,35 @@
  */
 exports.config = {
   /**
-   * This application_logging block shows the default configuration. That is,
-   * it is not technically necessary; if it were omitted completely, we'd still
-   * get the same configuration applied.
+   * Enables the hybrid agent (OpenTelemetry bridge) mode, which routes OTel
+   * SDK signals through the New Relic agent pipeline instead of exporting them
+   * directly. This allows standard OTel instrumentation libraries to be used
+   * alongside the agent without duplicating telemetry.
    *
-   * We are including it here for illustrative purposes. With log forwarding
-   * enabled, the Pino instance returned by `lib/logger.js` will be instrumented
-   * by the `newrelic` agent and ship logs to New Relic so that they can be
-   * viewed in the dashboard.
+   * NOTE: The OpenTelemetry bridge for Next.js requires Next.js >= 16 and
+   * newrelic >= 14.1.0. It is not supported on earlier versions of Next.js.
+   *
+   * @see https://docs.newrelic.com/docs/apm/agents/nodejs-agent/getting-started/opentelemetry-nodejs/
    */
-  application_logging: {
-    forwarding: {
-      enabled: true
-    }
+  opentelemetry: {
+    enabled: true
   },
-
+  instrumentation: {
+    http: {
+      enabled: false
+    },
+    next: {
+      enabled: false
+    },
+    // if you're doing native `fetch` calls
+    // you must disable undici instrumentation
+    // as Next.js has wrapped `fetch` and create client spans
+    // if you do not disable undici instrumentation you will have 
+    // duplicate client spans in your traces.
+    undici: {
+      enabled: false
+    },
+  },
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
