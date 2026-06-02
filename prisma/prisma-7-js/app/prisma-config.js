@@ -1,6 +1,12 @@
+/*
+ * Copyright 2026 New Relic Corporation. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict'
 
 const path = require('node:path')
+// eslint-disable-next-line n/no-unpublished-require -- shhh, we don't care.
 const { defineConfig } = require('prisma/config')
 
 module.exports = defineConfig({

@@ -57,7 +57,7 @@ const userData = [
 ]
 
 async function main() {
-  console.log(`Start seeding ...`)
+  console.log('Start seeding ...')
 
   // Clear existing data
   await prisma.post.deleteMany()
@@ -69,7 +69,7 @@ async function main() {
     })
     console.log(`Created user with id: ${user.id}`)
   }
-  console.log(`Seeding finished.`)
+  console.log('Seeding finished.')
 }
 
 main()
