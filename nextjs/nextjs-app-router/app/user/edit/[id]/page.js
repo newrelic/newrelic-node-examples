@@ -9,16 +9,19 @@
 
 // See https://nextjs.org/docs/pages/building-your-application/data-fetching/client-side#client-side-data-fetching-with-useeffect
 // See https://react.dev/reference/react/useState
-import { useEffect, useState } from 'react'
-import { notFound } from 'next/navigation'
+import { use, useEffect, useState } from 'react'
+import { notFound, useRouter } from 'next/navigation'
 
 export default function Page({ params }) {
+  // In Next.js 15+, params is a Promise — use React.use() to unwrap it in client components
+  const { id } = use(params)
+  const router = useRouter()
   const [user, setUser] = useState(null)
   const [isLoading, setLoading] = useState(true)
   const [errorState, setErrorState] = useState(null)
   useEffect(() => {
     fetch(
-        `/api/users/${params.id}`,
+        `/api/users/${id}`,
         { method: 'GET' }
     )
       .then((r) => r.json())
@@ -27,7 +30,7 @@ export default function Page({ params }) {
         setLoading(false)
       })
   }
-  , [])
+  , [id])
 
   if (isLoading === true) return <p>Loading...</p>
   if (!user) return notFound()
@@ -40,7 +43,7 @@ export default function Page({ params }) {
   async function onSubmit(event) {
     event.preventDefault()
     try {
-      const response = await fetch(`/api/users/${user.id}`, {
+      const response = await fetch(`/api/users/${id}`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json'
@@ -55,6 +58,9 @@ export default function Page({ params }) {
       if (response.ok !== true) {
         throw Error('Failed to update the data: ' + await response.text())
       }
+
+      router.refresh()
+      router.push(`/user/view/${id}`)
     } catch (error) {
       setErrorState(error.message)
     }

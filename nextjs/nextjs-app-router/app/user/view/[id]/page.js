@@ -12,12 +12,13 @@ import getDatabase from '../../../../lib/database.js'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }) {
+  const { id } = await params
   logger.info('rendering user page')
   const db = await getDatabase()
-  const user = db.userById(params.id)
+  const user = db.userById(id)
 
   if (user === undefined) {
-    logger.error('cannot find user with id: %s', params.id)
+    logger.error('cannot find user with id: %s', id)
     return notFound()
   }
 
