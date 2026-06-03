@@ -26,9 +26,6 @@ A few source files to pay particular attention to:
   New Relic pipeline. Also disables the built-in `http`, `undici`, and `next`
   instrumentations to prevent duplicate spans when OTel instrumentations are
   active. Requires Next.js >= 16 and newrelic >= 14.1.0.
-+ [otel-instrumentation.js](./otel-instrumentation.js): registers the OTel HTTP
-  and Undici instrumentations that the hybrid agent bridges into New Relic.
-  Required alongside the `opentelemetry.enabled: true` setting in `newrelic.js`.
 + [app/layout.js](app/layout.js): shows how to enable the browser agent.
 + [app/user/edit/[id]/page.js](app/user/edit/%5Bid%5D/page.js): shows how to
   handle errors on both the client and server. When updating a user's age, an
