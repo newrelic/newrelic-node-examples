@@ -1,2 +1,4 @@
 node_modules/
 *.env*
+!sample.env
+dev.db

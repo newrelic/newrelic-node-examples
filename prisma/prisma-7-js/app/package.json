@@ -1,0 +1,22 @@
+{
+  "name": "rest-express",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node -r newrelic -r ./otel-instrumentation.js src/index.js"
+  },
+  "dependencies": {
+    "@opentelemetry/instrumentation": "^0.218.0",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "@prisma/instrumentation": "^7.8.0",
+    "express": "^5.2.1",
+    "newrelic": "^14.1.0"
+  },
+  "devDependencies": {
+    "prisma": "^7.8.0"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  }
+}
