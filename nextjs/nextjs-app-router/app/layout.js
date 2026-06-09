@@ -15,22 +15,19 @@ import Link from 'next/link'
 import './style.css'
 
 export default async function RootLayout({ children }) {
-  // During `next build` the New Relic agent is not running (--require newrelic
-  // is only in the start/dev scripts, not the build script). Requiring newrelic
-  // at build time initializes the agent, which then waits indefinitely for a
-  // 'connected' event that never fires, hanging every page worker.
-  // NEXT_PHASE is set to 'phase-production-build' only during `next build`.
-  let browserTimingHeader = ''
-  if (process.env.NEXT_PHASE !== 'phase-production-build') {
-    const newrelic = require('newrelic')
+  const newrelic = require('newrelic')
+  // getBrowserTimingHeader returns an empty string when the agent is not yet
+  // connected, so wait for agent to connect
+  if (newrelic.agent.collector.isConnected() === false) {
+    await new Promise((resolve) => {
+      newrelic.agent.on('connected', resolve)
+    })
+  }
 
-    // getBrowserTimingHeader returns an empty string when the agent is not yet
-    // connected (e.g. missing license key), so no connection wait is needed.
-    browserTimingHeader = newrelic.getBrowserTimingHeader({
+  const browserTimingHeader = newrelic.getBrowserTimingHeader({
       hasToRemoveScriptWrapper: true,
       allowTransactionlessInjection: true,
     })
-  }
 
   return (
     <html>

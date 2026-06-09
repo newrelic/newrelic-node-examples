@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "build": "NODE_OPTIONS='--require dotenv/config' next build",
-    "start": "NODE_OPTIONS='--require dotenv/config --require newrelic --import newrelic/esm-loader.mjs' next start",
+    "build": "NODE_OPTIONS='--require newrelic --import newrelic/esm-loader.mjs' next build",
+    "start": "NODE_OPTIONS='--require newrelic --import newrelic/esm-loader.mjs' next start",
     "lint": "eslint ."
   },
   "dependencies": {
