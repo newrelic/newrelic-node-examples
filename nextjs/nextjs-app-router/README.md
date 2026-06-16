@@ -49,5 +49,5 @@ BASE_URL=<your vercel domain> ./scripts/smoke-test.sh
  
 After a few minutes view your [APM Entity's telemetry](https://one.newrelic.com/)
 
-**Note**: Due to how code is split and executed, transaction names will vary when comparing against a Next.js app deployed to a server. This is because the native Next.js opentelemetry spans never emit `http.route` which is used by the New Relic Node.js agent for more route based transaction naming.
+**Note**: Due to how code is split and executed, transaction names will vary when comparing against a Next.js app deployed to a server. This is because the native Next.js opentelemetry spans never emit `http.route` which is used by the New Relic Node.js agent for more complete route based transaction naming.
 
