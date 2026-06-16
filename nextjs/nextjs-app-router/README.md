@@ -22,24 +22,7 @@ A few source files to pay particular attention to:
 
 ## Vercel setup 
 
-Deploying to Vercel splits static and dynamic pages into different environments. Instead of relying on `.env` and `newrelic.js` to load agent configuration, you must define a few [environment variables](https://vercel.com/docs/environment-variables). Navigate to Vercel console > Environment Variables.
-
-To enable hybrid agent and disable native New Relic instrumentation for conflicting libraries:
-
- * `NEW_RELIC_OPENTELEMETRY_ENABLED=true`
- * `NEW_RELIC_INSTRUMENTATION_NEXT_ENABLED=false`
- * `NEW_RELIC_INSTRUMENTATION_HTTP_ENABLED=false`
- * `NEW_RELIC_INSTRUMENTATION_UNDICI_ENABLED=false`
-
-Specify the application name and license key to allow New Relic Node.js agent to send telemetry to New Relic platform:
-
- * `NEW_RELIC_APP_NAME=<your app name>`
- * `NEW_RELIC_LICENSE_KEY=<your ingest key>`
-
-To see agent logs in the Vercel console:
-
- * `NEW_RELIC_LOG=stdout`
- * `NEW_RELIC_LOG_LEVEL=info|error|warn|debug|trace`(depending on which level you want to see New Relic Node.js agent logs)
+Deploying to Vercel splits static and dynamic pages into different environments. Instead of relying on `.env` and `newrelic.js` to load agent configuration, you must define a few [environment variables](https://vercel.com/docs/environment-variables). Navigate to Vercel console > Environment Variables > Add Environment Variable, and select `Import .env` and import the .env.
 
 Make requests to application:
 
