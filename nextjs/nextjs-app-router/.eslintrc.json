@@ -1,9 +1,0 @@
-{
-  "extends": "next",
-  "env": {
-    "node": true
-  },
-  "parserOptions": {
-    "ecmaVersion": "latest"
-  }
-}
