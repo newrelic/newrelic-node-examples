@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && node -r newrelic --env-file .env dist/index.js",
-    "start:source-map": "npm run build && NEW_RELIC_PROFILING_SOURCE_MAPPING_ENABLED=true node -r newrelic --env-file .env dist/index.js",
+    "start": "npm run build && node --inspect-brk -r newrelic --env-file .env dist/index.js",
+    "start:source-map": "npm run build && NEW_RELIC_PROFILING_SOURCE_MAPPING_ENABLED=true node --inspect-brk -r newrelic --env-file .env dist/index.js",
     "load": "npm run build && node dist/load.js"
   },
   "author": "",
