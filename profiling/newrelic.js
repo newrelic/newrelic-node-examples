@@ -6,13 +6,13 @@
 'use strict'
 
 /**
- * New Relic agent configuration for exercising CPU profiling span labels.
+ * New Relic agent configuration.
  *
  * License key and collector host come from .env (NEW_RELIC_LICENSE_KEY,
- * NEW_RELIC_HOST) so the staging endpoint is set in one place.
+ * NEW_RELIC_HOST).
  */
 exports.config = {
-  app_name: ['cpu-profiling-example'],
+  app_name: ['profiling-example-app'],
   logging: {
     // trace so we can see `pprof_data` POSTs and the collector's response code
     level: 'trace'
@@ -22,8 +22,8 @@ exports.config = {
   },
   profiling: {
     enabled: true,
-    // isolate CPU so we only exercise the span-label path
-    include: ['cpu'],
+    // individually include cpu or heap if you are testing them specifically
+    include: ['cpu', 'heap'],
     // start immediately, run for the life of the process
     delay: 0,
     duration: 0,

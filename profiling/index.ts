@@ -10,9 +10,18 @@ const app = express()
 const PORT = process.env.PORT ?? '3000'
 
 /**
- * Each of these does a small, distinct slice of CPU work. They exist as separate named functions so the flame graph shows several frames instead of one giant loop — the work is spread across the call stack. All of it runs synchronously inside the Express route handler, so it stays within the transaction's context and the CPU samples still pick up the `span:`/`span_id`/`trace_id` labels.
+ * Each of these does a small, distinct slice of work: they burn CPU and allocate 
+ * (typed arrays, plain arrays, hash buffers, strings), feeding the CPU profiler 
+ * and the heap/allocation profiler respectively. They exist as separate named 
+ * functions so the flame graph shows several frames instead of one giant loop 
+ * — the work is spread across the call stack. All of it runs synchronously inside 
+ * the Express route handler, so it stays within the transaction's context and the 
+ * CPU samples still pick up the `span:`/`span_id`/`trace_id` labels.
  *
- * The app is compiled to `dist/`, so the profiler samples frames in `dist/index.js`. The agent's `profiling.source_mapping.enabled` config (see newrelic.js / the `start:source-map` script) decides whether those frames are resolved back to `index.ts` via `dist/*.js.map` — that comparison is the whole point of this app.
+ * The app is compiled to `dist/`, so the profilers sample frames in `dist/index.js`. 
+ * The agent's `profiling.source_mapping.enabled` config (see newrelic.js / the 
+ * `start:source-map` script) decides whether those frames are resolved back to 
+ * `index.ts` via `dist/*.js.map` — that comparison is the whole point of this app.
  */
 
 /**
@@ -79,8 +88,10 @@ function trigAccumulate(iterations: number): number {
   return x
 }
 
-// Rotate through the workers so no single frame dominates the profile. `level`
-// scales every worker together (default 1).
+/**  
+ * Rotate through the workers so no single frame dominates the profile. `level`
+ * scales every worker together (default 1).
+ */
 const WORKERS: Array<(lvl: number) => number | string> = [
   (lvl) => countPrimes(50_000 * lvl),
   (lvl) => hashRounds(2_000 * lvl),
@@ -120,6 +131,6 @@ app.get('/ping', (_req: Request, res: Response) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`cpu-profiling app listening on port ${PORT}`)
+  console.log(`profiling app listening on port ${PORT}`)
   console.log(`Drive load with:  npm run load   (or: curl "http://localhost:${PORT}/burn")`)
 })
