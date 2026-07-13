@@ -13,7 +13,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "express": "^4.21.2",
-    "newrelic": "^14.2.0"
+    "newrelic": "^14.3.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.25",
