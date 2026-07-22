@@ -1,0 +1,19 @@
+{
+    "name": "subscribe-to-app",
+    "version": "1.0.0",
+    "description": "Example app instrumenting a job queue with newrelic.subscribeTo",
+    "main": "index.js",
+    "scripts": {
+        "start": "node --preserve-symlinks -r ./instrumentation --env-file .env index.js",
+        "debug": "DEBUG='@apm-js-collab*' TRACING_DUMP=1 node --preserve-symlinks -r ./instrumentation --env-file .env index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "newrelic": "file:../../../amychisholm03-node-newrelic",
+        "job-queue": "file:./job-queue-pkg"
+    },
+    "devDependencies": {
+        "@newrelic/eslint-config": "^0.4.0"
+    }
+}
