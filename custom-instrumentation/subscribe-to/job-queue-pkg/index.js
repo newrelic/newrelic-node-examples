@@ -28,4 +28,14 @@ Queue.prototype.scheduleJob = function scheduleJob(job) {
   })
 }
 
+// Processes a single job asynchronously: waits a bit (simulating queue
+// latency), then awaits the job itself, which may return a plain value or a
+// promise. Returns a promise that resolves with the job's result or rejects
+// with whatever error the job threw.
+Queue.prototype.processJob = async function processJob(job) {
+  await new Promise((resolve) => setTimeout(resolve, 50))
+  const result = await job()
+  return result
+}
+
 module.exports = Queue

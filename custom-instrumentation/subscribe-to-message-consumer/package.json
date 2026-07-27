@@ -1,17 +1,17 @@
 {
-    "name": "subscribe-to-app",
+    "name": "subscribe-to-message-consumer-app",
     "version": "1.0.0",
-    "description": "Example app instrumenting a job queue with newrelic.subscribeTo",
+    "description": "Example app subscribing to a message consumer with newrelic.subscribeTo, demonstrating custom transaction creation",
     "main": "index.js",
     "scripts": {
         "start": "node --preserve-symlinks -r ./instrumentation --env-file .env index.js",
-        "debug": "DEBUG='@apm-js-collab*' node --preserve-symlinks -r ./instrumentation --env-file .env index.js"
+        "debug": "DEBUG='@apm-js-collab*' TRACING_DUMP=1 node --preserve-symlinks -r ./instrumentation --env-file .env index.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "newrelic": "file:../../../amychisholm03-node-newrelic",
-        "job-queue": "file:./job-queue-pkg"
+        "nifty-messages": "file:./nifty-messages-pkg"
     },
     "devDependencies": {
         "@newrelic/eslint-config": "^0.4.0"

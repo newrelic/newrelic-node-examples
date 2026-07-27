@@ -36,8 +36,10 @@ not already support. In this example, we subscribe to a simple module, a rudimen
    [NEWRELIC] scheduleJob ended for firstJob
    [NEWRELIC] scheduleJob ended for secondJob
    Callback job done
-   Promise job done
    [NEWRELIC] runJobs ended
+   Promise job done
+   [NEWRELIC] processJob resolved with: "Promise job done"
+   processJob result: Promise job done
    ```
 
 ## Exploring Telemetry
@@ -45,11 +47,13 @@ not already support. In this example, we subscribe to a simple module, a rudimen
 1. After a few minutes, you should be able to see `job-queue` instrumented in New Relic. From the
    dashboard, navigate to 'APM & Services' and then select the 'Example Job Queue App (subscribeTo)'
    entity.
-2. Then select 'Distributed tracing'. You should see the trace groups `firstTransaction`,
-   `secondTransaction`, and `thirdTransaction`. Inside these groups will be our custom
-   subscription. Select any trace group and then select a single trace.
-3. Under `firstTransaction` or `secondTransaction`, toggle 'Show in-process spans' and you will see
-   a segment for `scheduleJob`. Under `thirdTransaction`, you will see a segment for `runJobs`.
+2. Then select 'Distributed tracing'. You should see the trace group `jobQueueDemo`. Everything in
+   this example runs inside that one transaction, so `scheduleJob`, `runJobs`, and `processJob` all
+   show up as segments in the same trace, making their relative timings easy to compare.
+3. Select a `jobQueueDemo` trace and toggle 'Show in-process spans'. You'll see two segments for
+   `scheduleJob` (near-instant - it only queues the job), a segment for `runJobs`, and a segment
+   for `processJob` that visibly spans the ~50ms async delay and resolution, since it's created
+   from an `asyncEnd` event rather than a synchronous `end`.
 
 ## Description
 
@@ -66,3 +70,8 @@ This application consists of the following files:
   `npm start` command makes sure this module is loaded first, before `index.js` ever requires
   `job-queue`.
 * `newrelic.js`: a basic, sample New Relic configuration
+
+For an example of `subscribeTo` creating its *own* transaction (rather than segments within an
+already-active one), see the sibling `subscribe-to-message-consumer` example - a job queue doesn't
+have a natural "arrives independently from outside" event the way a message consumer does, so
+that case is demonstrated separately with a more fitting domain.
