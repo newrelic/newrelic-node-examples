@@ -17,7 +17,7 @@ FROM public.ecr.aws/newrelic-lambda-layers-for-docker/newrelic-lambda-layers-lam
 FROM nr-ext-${TARGETARCH} AS nr-ext
 
 # This FROM clause specifies our actual base image.
-FROM public.ecr.aws/lambda/nodejs:26
+FROM public.ecr.aws/lambda/nodejs:24
 
 # This FROM clause copies in the New Relic Lambda extension.
 COPY --from=nr-ext /opt/ /opt/
