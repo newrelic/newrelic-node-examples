@@ -1,14 +1,14 @@
 # Example subscription creating its own transaction
 
 This example shows how to use `newrelic.subscribeTo` to create a **new transaction**, rather than
-a segment within one that's already active - `newrelic.createSubscriberTransaction` and
-`newrelic.runInSubscriberContext`. In this example, we subscribe to a simple message broker
+a segment within one that's already active - via `newrelic.createSubscriberTransaction` and
+`newrelic.createSubscriberSegment`. In this example, we subscribe to a simple message broker
 client (`nifty-messages`) that delivers messages to a registered handler independently and
 asynchronously, whenever someone publishes one - similar to how a real message consumer
 (amqplib, kafkajs) works, and unlike a job queue's batch processing (see the sibling
 `subscribe-to` example, which covers segments within an already-active transaction instead).
 
-> **Note:** `subscribeTo`, `createSubscriberTransaction`, and `runInSubscriberContext` are not
+> **Note:** `subscribeTo`, `createSubscriberTransaction`, and `createSubscriberSegment` are not
 > yet published. This example's `package.json` points its `newrelic` dependency at the local,
 > in-development agent checkout via a `file:` path. Once they ship in a release, swap that back
 > to a normal version range.
@@ -69,9 +69,9 @@ This application consists of the following files:
   dependency, under `node_modules`.
 * `instrumentation.js`: the `newrelic.subscribeTo` call lives here. `subscribe`'s handler fires
   once, at registration time, and swaps in a wrapper around the handler being registered - that
-  wrapper is what calls `newrelic.createSubscriberTransaction`, `newrelic.createSubscriberSegment`
-  (for the message-processing work itself), and `newrelic.runInSubscriberContext` on every later,
-  independent delivery.
+  wrapper calls `newrelic.createSubscriberTransaction` on every later, independent delivery, then
+  `newrelic.createSubscriberSegment` to create a segment for the message-processing work itself
+  and run the original handler inside it.
 * `newrelic.js`: a basic, sample New Relic configuration
 
 ### A gotcha worth knowing: `requireActiveTx`

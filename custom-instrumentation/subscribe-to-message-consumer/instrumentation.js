@@ -39,8 +39,9 @@ const handlers = [
   {
     // `handler` fires once, when subscribe(queueName, handler) is called to register a message
     // handler. We swap that handler out for a wrapper that gives each later, independent
-    // delivery its own transaction - createSubscriberTransaction creates it,
-    // runInSubscriberContext runs the real handler inside it.
+    // delivery its own transaction - createSubscriberTransaction creates it, and
+    // createSubscriberSegment both creates a segment for the message-processing work and runs
+    // the real handler inside it (via its own `handler` option).
     //
     // Important: `handler` only fires if there's an *active transaction* at the moment
     // subscribe() is called (subscribers default to `requireActiveTx: true`, and there's no way
@@ -50,23 +51,24 @@ const handlers = [
       const queueName = data.arguments[0]
       const originalHandler = data.arguments[1]
       data.arguments[1] = function wrappedHandler(msg) {
-        // createSubscriberTransaction only creates the transaction's base segment - it
-        // doesn't create a segment for the actual message-processing work. Create one
-        // explicitly so the trace has something to show besides the bare transaction.
+        // createSubscriberTransaction only creates and enters the transaction's base segment -
+        // passed no `handler`, it just returns that context, since we still need to create a
+        // nested segment before running the real message-processing work.
         const txCtx = newrelic.createSubscriberTransaction(ctx, {
           type: 'message',
           name: `Consume/Named/${queueName}`
         })
-        const segmentCtx = newrelic.createSubscriberSegment(txCtx, { name: 'processMessage' })
-        segmentCtx.segment.addAttribute('message', msg)
 
-        const result = newrelic.runInSubscriberContext(segmentCtx, {
+        // createSubscriberSegment, on the other hand, is given a `handler` - it creates the
+        // nested segment, runs originalHandler inside it, and returns originalHandler's result.
+        const result = newrelic.createSubscriberSegment(txCtx, {
+          name: 'processMessage',
+          attributes: { message: msg },
           handler: originalHandler,
           thisArg: this,
           args: [msg]
         })
 
-        segmentCtx.segment.touch()
         txCtx.transaction.end()
         return result
       }
