@@ -1,14 +1,14 @@
 # Example subscription creating its own transaction
 
 This example shows how to use `newrelic.subscribeTo` to create a **new transaction**, rather than
-a segment within one that's already active - via `newrelic.createSubscriberTransaction` and
-`newrelic.createSubscriberSegment`. In this example, we subscribe to a simple message broker
+a segment within one that's already active - via `newrelic.createTransaction` and
+`newrelic.createSegment`. In this example, we subscribe to a simple message broker
 client (`nifty-messages`) that delivers messages to a registered handler independently and
 asynchronously, whenever someone publishes one - similar to how a real message consumer
 (amqplib, kafkajs) works, and unlike a job queue's batch processing (see the sibling
 `subscribe-to` example, which covers segments within an already-active transaction instead).
 
-> **Note:** `subscribeTo`, `createSubscriberTransaction`, and `createSubscriberSegment` are not
+> **Note:** `subscribeTo`, `createTransaction`, and `createSegment` are not
 > yet published. This example's `package.json` points its `newrelic` dependency at the local,
 > in-development agent checkout via a `file:` path. Once they ship in a release, swap that back
 > to a normal version range.
@@ -50,12 +50,12 @@ asynchronously, whenever someone publishes one - similar to how a real message c
 2. Then select 'Distributed tracing'. You should see a `subscribeToOrders` transaction (a
    throwaway one, just for the registration call - see the note on `requireActiveTx` below), a
    `publishOrders` transaction, and **three separate `Consume/Named/orders` transactions** - one
-   per message. Each of those three is created fresh by `createSubscriberTransaction`, entirely
+   per message. Each of those three is created fresh by `createTransaction`, entirely
    independent of `publishOrders` even though that's what triggered them.
 3. Select one of the `Consume/Named/orders` traces and toggle 'Show in-process spans'. You'll see
    a `processMessage` segment nested under the transaction's base segment -
-   `createSubscriberTransaction` only creates the base segment for the transaction itself, so the
-   handler also calls `newrelic.createSubscriberSegment` to create a segment for the actual
+   `createTransaction` only creates the base segment for the transaction itself, so the
+   handler also calls `newrelic.createSegment` to create a segment for the actual
    message-processing work, with the message attached as an attribute on it.
 
 ## Description
@@ -69,8 +69,8 @@ This application consists of the following files:
   dependency, under `node_modules`.
 * `instrumentation.js`: the `newrelic.subscribeTo` call lives here. `subscribe`'s handler fires
   once, at registration time, and swaps in a wrapper around the handler being registered - that
-  wrapper calls `newrelic.createSubscriberTransaction` on every later, independent delivery, then
-  `newrelic.createSubscriberSegment` to create a segment for the message-processing work itself
+  wrapper calls `newrelic.createTransaction` on every later, independent delivery, then
+  `newrelic.createSegment` to create a segment for the message-processing work itself
   and run the original handler inside it.
 * `newrelic.js`: a basic, sample New Relic configuration
 

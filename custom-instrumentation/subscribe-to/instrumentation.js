@@ -9,7 +9,8 @@
 
 const newrelic = require('newrelic')
 
-// 1. Define the subscriber config (what to instrument).
+// Define the subscriber config: what to instrument, when to fire, and what to do - all in one
+// entry per target function, so there's nothing to keep in sync by array index.
 // `job-queue` is a real dependency in package.json (see job-queue-pkg/), since
 // subscribeTo works by rewriting the target package's source as it's loaded,
 // which requires it to be resolvable the same way `require('job-queue')` is.
@@ -17,11 +18,34 @@ const config = {
   instrumentations: [
     {
       module: { name: 'job-queue', versionRange: '>=1.0.0', filePath: 'index.js' },
-      functionQuery: { expressionName: 'scheduleJob', kind: 'Sync' }
+      functionQuery: { expressionName: 'scheduleJob', kind: 'Sync' },
+      events: ['end'],
+      handlers: {
+        // `handler` fires on the `start` event and is where the segment for this
+        // call gets created. newrelic.createSegment takes the context
+        // explicitly
+        handler: (data, ctx) => {
+          const job = data?.arguments?.[0]
+          return newrelic.createSegment(ctx, { name: `scheduleJob: ${job?.name ?? 'anonymous job'}` })
+        },
+        end: (data) => {
+          const job = data?.arguments?.[0]
+          console.debug(`[NEWRELIC] scheduleJob ended for ${job?.name ?? 'anonymous job'}`)
+        }
+      }
     },
     {
       module: { name: 'job-queue', versionRange: '>=1.0.0', filePath: 'index.js' },
-      functionQuery: { expressionName: 'runJobs', kind: 'Sync' }
+      functionQuery: { expressionName: 'runJobs', kind: 'Sync' },
+      events: ['end'],
+      handlers: {
+        handler: (data, ctx) => {
+          return newrelic.createSegment(ctx, { name: 'runJobs' })
+        },
+        end: () => {
+          console.debug('[NEWRELIC] runJobs ended')
+        }
+      }
     },
     {
       // processJob is `async` (returns a promise), so `kind: 'Async'` here
@@ -29,60 +53,26 @@ const config = {
       // a promise-based trace (asyncStart/asyncEnd around the resolution),
       // rather than a plain synchronous call.
       module: { name: 'job-queue', versionRange: '>=1.0.0', filePath: 'index.js' },
-      functionQuery: { expressionName: 'processJob', kind: 'Async' }
+      functionQuery: { expressionName: 'processJob', kind: 'Async' },
+      events: ['asyncEnd'],
+      handlers: {
+        handler: (data, ctx) => {
+          return newrelic.createSegment(ctx, { name: 'processJob' })
+        },
+        asyncEnd(data) {
+          const ctx = this.agent.tracer.getContext()
+          const { result, error } = data
+          if (error) {
+            console.debug(`[NEWRELIC] processJob failed: ${error.message}`)
+          } else {
+            console.debug(`[NEWRELIC] processJob resolved with: ${JSON.stringify(result)}`)
+            ctx?.segment?.addAttribute('jobResult', String(result))
+          }
+        }
+      }
     }
   ]
 }
 
-// 2. Define events (when to trigger).
-// index-based, matches config.instrumentations: index 0 is scheduleJob, index 1 is runJobs,
-// index 2 is processJob.
-const events = [
-  ['end'],
-  ['end'],
-  ['asyncEnd']
-]
-
-// 3. Define handlers (the logic to run).
-// index-based, matches config.instrumentations: index 0 is scheduleJob, index 1 is runJobs.
-const handlers = [
-  {
-    // `handler` fires on the `start` event and is where the segment for this
-    // call gets created. newrelic.createSubscriberSegment takes the context
-    // explicitly
-    handler: (data, ctx) => {
-      const job = data?.arguments?.[0]
-      return newrelic.createSubscriberSegment(ctx, { name: `scheduleJob: ${job?.name ?? 'anonymous job'}` })
-    },
-    end: (data) => {
-      const job = data?.arguments?.[0]
-      console.debug(`[NEWRELIC] scheduleJob ended for ${job?.name ?? 'anonymous job'}`)
-    }
-  },
-  {
-    handler: (data, ctx) => {
-      return newrelic.createSubscriberSegment(ctx, { name: 'runJobs' })
-    },
-    end: () => {
-      console.debug('[NEWRELIC] runJobs ended')
-    }
-  },
-  {
-    handler: (data, ctx) => {
-      return newrelic.createSubscriberSegment(ctx, { name: 'processJob' })
-    },
-    asyncEnd(data) {
-      const ctx = this.agent.tracer.getContext()
-      const { result, error } = data
-      if (error) {
-        console.debug(`[NEWRELIC] processJob failed: ${error.message}`)
-      } else {
-        console.debug(`[NEWRELIC] processJob resolved with: ${JSON.stringify(result)}`)
-        ctx?.segment?.addAttribute('jobResult', String(result))
-      }
-    }
-  }
-]
-
-// 4. Register the subscription.
-newrelic.subscribeTo('job-queue', config, events, handlers)
+// Register the subscription.
+newrelic.subscribeTo('job-queue', config)

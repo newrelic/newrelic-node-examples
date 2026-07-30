@@ -65,10 +65,11 @@ This application consists of the following files:
   `subscribeTo` rewrites the target package's source as it's loaded, which requires the package to
   be resolvable like any other npm dependency (i.e. it must live under `node_modules`, same as a
   real third-party library would).
-* `instrumentation.js`: the `newrelic.subscribeTo` call lives here, along with the `config`,
-  `events`, and `handlers` that describe what to instrument and what to do when it fires. The
-  `npm start` command makes sure this module is loaded first, before `index.js` ever requires
-  `job-queue`.
+* `instrumentation.js`: the `newrelic.subscribeTo` call lives here, along with the `config` that
+  describes what to instrument and what to do when it fires - each entry in
+  `config.instrumentations` carries its own `events` and `handlers`, so there's nothing to keep in
+  sync by array index. The `npm start` command makes sure this module is loaded first, before
+  `index.js` ever requires `job-queue`.
 * `newrelic.js`: a basic, sample New Relic configuration
 
 For an example of `subscribeTo` creating its *own* transaction (rather than segments within an
