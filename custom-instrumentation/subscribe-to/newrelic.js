@@ -13,7 +13,7 @@
  */
 
 exports.config = {
-  app_name: ['Example Job Queue App (subscribeTo)'],
+  app_name: ['Example Job Queue App (createSubscription)'],
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing

@@ -1,18 +1,18 @@
 # Example subscription to a simple module
 
-This example application shows you how to use the `newrelic.subscribeTo` API — a subscriber-based
-alternative to `newrelic.instrument`/`shim.record` for instrumenting modules that New Relic does
-not already support. In this example, we subscribe to a simple module, a rudimentary job queue
-(`job-queue`) that schedules and runs a series of basic jobs.
+This example application shows you how to use the `newrelic.createSubscription` API — a
+subscriber-based alternative to `newrelic.instrument`/`shim.record` for instrumenting modules that
+New Relic does not already support. In this example, we subscribe to a simple module, a
+rudimentary job queue (`job-queue`) that schedules and runs a series of basic jobs.
 
-> **Note:** `subscribeTo` is not yet published. This example's `package.json` points its
+> **Note:** `createSubscription` is not yet published. This example's `package.json` points its
 > `newrelic` dependency at the local, in-development agent checkout via a `file:` path. Once
-> `subscribeTo` ships in a release, swap that back to a normal version range.
+> `createSubscription` ships in a release, swap that back to a normal version range.
 >
 > **Note:** `job-queue` is also a `file:` dependency (see `job-queue-pkg/`), and npm installs
-> `file:` dependencies as symlinks. `subscribeTo` identifies which package a file belongs to by
-> looking for a `node_modules` segment in its path, which a resolved symlink doesn't have - so
-> the `start`/`debug` scripts run with `node --preserve-symlinks` to keep that segment intact.
+> `file:` dependencies as symlinks. `createSubscription` identifies which package a file belongs
+> to by looking for a `node_modules` segment in its path, which a resolved symlink doesn't have -
+> so the `start`/`debug` scripts run with `node --preserve-symlinks` to keep that segment intact.
 > A normal (registry-installed) dependency wouldn't need this flag.
 
 ## Getting Started
@@ -45,7 +45,7 @@ not already support. In this example, we subscribe to a simple module, a rudimen
 ## Exploring Telemetry
 
 1. After a few minutes, you should be able to see `job-queue` instrumented in New Relic. From the
-   dashboard, navigate to 'APM & Services' and then select the 'Example Job Queue App (subscribeTo)'
+   dashboard, navigate to 'APM & Services' and then select the 'Example Job Queue App (createSubscription)'
    entity.
 2. Then select 'Distributed tracing'. You should see the trace group `jobQueueDemo`. Everything in
    this example runs inside that one transaction, so `scheduleJob`, `runJobs`, and `processJob` all
@@ -62,17 +62,20 @@ This application consists of the following files:
 * `index.js`: a simple app that utilizes our example module
 * `job-queue-pkg/`: a tiny local package providing a queue class you can use to run and schedule
   jobs. It's a real dependency (see `package.json`) rather than a sibling file, because
-  `subscribeTo` rewrites the target package's source as it's loaded, which requires the package to
+  `createSubscription` rewrites the target package's source as it's loaded, which requires the package to
   be resolvable like any other npm dependency (i.e. it must live under `node_modules`, same as a
   real third-party library would).
-* `instrumentation.js`: the `newrelic.subscribeTo` call lives here, along with the `config` that
-  describes what to instrument and what to do when it fires - each entry in
-  `config.instrumentations` carries its own `events` and `handlers`, so there's nothing to keep in
-  sync by array index. The `npm start` command makes sure this module is loaded first, before
-  `index.js` ever requires `job-queue`.
+* `instrumentation.js`: the `newrelic.createSubscription` call lives here. Each target function
+  gets its own `.instrument(target, handlers)` call, validated immediately - a typo in
+  `module`/`functionQuery`, or in one of `handlers`'s keys (e.g. `'edn'` instead of `'end'`),
+  throws right there rather than silently never matching/firing later. `handlers`'s keys (besides
+  `handler`) are also what `.events` gets derived from, so there's no separate list to keep in
+  sync, and each one automatically touches the segment afterward. Only after every target is
+  declared does `subscription.register()` actually build and enable anything. The `npm start`
+  command makes sure this module is loaded first, before `index.js` ever requires `job-queue`.
 * `newrelic.js`: a basic, sample New Relic configuration
 
-For an example of `subscribeTo` creating its *own* transaction (rather than segments within an
+For an example of a subscription creating its *own* transaction (rather than segments within an
 already-active one), see the sibling `subscribe-to-message-consumer` example - a job queue doesn't
 have a natural "arrives independently from outside" event the way a message consumer does, so
 that case is demonstrated separately with a more fitting domain.

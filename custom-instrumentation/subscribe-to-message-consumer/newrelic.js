@@ -13,7 +13,7 @@
  */
 
 exports.config = {
-  app_name: ['Example Message Consumer App (subscribeTo)'],
+  app_name: ['Example Message Consumer App (createSubscription)'],
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing

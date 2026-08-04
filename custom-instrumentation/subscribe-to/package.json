@@ -1,7 +1,7 @@
 {
     "name": "subscribe-to-app",
     "version": "1.0.0",
-    "description": "Example app instrumenting a job queue with newrelic.subscribeTo",
+    "description": "Example app instrumenting a job queue with newrelic.createSubscription",
     "main": "index.js",
     "scripts": {
         "start": "node --preserve-symlinks -r ./instrumentation --env-file .env index.js",
