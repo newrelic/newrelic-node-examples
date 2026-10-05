@@ -10,7 +10,7 @@ OpenTelemetry bridge mode to utilize the `@orpc/otel` module.
 agent with the OpenTelemetry bridge enabled.
 
 Requirements:
-  + Node.js >= 20.6.0
+  + Node.js >= 22.14.0
 
 
 ```sh
