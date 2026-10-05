@@ -13,9 +13,9 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@opentelemetry/instrumentation": "^0.208.0",
-    "@opentelemetry/instrumentation-amqplib": "^0.56.0",
-    "amqplib": "^0.10.9",
-    "newrelic": "^13.8.1"
+    "@opentelemetry/instrumentation": "^0.222.0",
+    "@opentelemetry/instrumentation-amqplib": "^0.69.0",
+    "amqplib": "^2.2.0",
+    "newrelic": "^14.5.1"
   }
 }
