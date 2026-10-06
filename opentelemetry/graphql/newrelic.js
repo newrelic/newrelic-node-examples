@@ -31,6 +31,11 @@ exports.config = {
       enabled: true
     }
   },
+  instrumentation: {
+    '@apollo/server': {
+      enabled: false
+    }
+  },
   /**
    * When true, all request headers except for those listed in attributes.exclude
    * will be captured for all traces, unless otherwise specified in a destination's

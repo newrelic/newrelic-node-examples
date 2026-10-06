@@ -36,6 +36,9 @@ exports.config = {
     express: {
       enabled: false
     },
+    router: {
+      enabled: false
+    },
     pg: {
       enabled: false
     },
