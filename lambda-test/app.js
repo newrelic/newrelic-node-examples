@@ -4,7 +4,12 @@
  */
 
 'use strict'
+
 const newrelic = require('newrelic')
+
+// Bootstrap the metrics object for the current invocation:
+require('./lib/metrics.js')
+
 const mode = process.env.FUNCTION_MODE
 const agentEnabled = process.env.NEW_RELIC_ENABLED
 const asyncHandler = require('./handlers/async')
