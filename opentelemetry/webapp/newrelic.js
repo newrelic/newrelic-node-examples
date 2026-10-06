@@ -31,13 +31,13 @@ exports.config = {
       enabled: false
     },
     http: {
-      enabled: false 
+      enabled: false
     },
     express: {
       enabled: false
     },
     router: {
-      enabled: false 
+      enabled: false
     },
     pg: {
       enabled: false
