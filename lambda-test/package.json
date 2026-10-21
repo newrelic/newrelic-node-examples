@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "deploy": "serverless deploy",
+    "invoke": "serverless invoke --function hello --log",
+    "logs": "serverless logs --function hello --tail",
+    "remove": "serverless remove",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -10,5 +14,9 @@
   "description": "",
   "dependencies": {
     "newrelic": "^12.15.0"
+  },
+  "devDependencies": {
+    "serverless": "^4.45.0",
+    "serverless-newrelic-lambda-layers": "^5.16.2"
   }
 }
