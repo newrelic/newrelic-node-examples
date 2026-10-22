@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>V8 Monitor CSV Visualization</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    #controls { margin-bottom: 1em; }
+    canvas { max-width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>V8 Monitor CSV Visualization</h1>
+  <div id="controls">
+    <label for="csvSelect">CSV File:</label>
+    <select id="csvSelect"></select>
+  </div>
+  <div id="charts"></div>
+  <script>
+    async function fetchCsvList() {
+      const res = await fetch('/csv-list');
+      return await res.json();
+    }
+
+    async function fetchData(file) {
+      const res = await fetch(`/data?file=${encodeURIComponent(file)}`);
+      return await res.json();
+    }
+
+    function renderAllCharts(headers, data) {
+      const chartsDiv = document.getElementById('charts');
+      chartsDiv.innerHTML = '';
+      const timestamps = data.map(row => row.timestamp);
+      headers.forEach(metric => {
+        if (metric === 'timestamp') return;
+        const values = data.map(row => parseFloat(row[metric]));
+        const container = document.createElement('div');
+        container.style.marginBottom = '2em';
+        const label = document.createElement('h3');
+        label.textContent = metric;
+        container.appendChild(label);
+        const canvas = document.createElement('canvas');
+        canvas.height = 80;
+        container.appendChild(canvas);
+        chartsDiv.appendChild(container);
+        const ctx = canvas.getContext('2d');
+        // Use distinct colors for percent metrics
+        let color = 'blue';
+        let yLabel = metric;
+        if (metric.endsWith('Percent')) {
+          if (metric === 'heapUsedPercent') color = 'green';
+          if (metric === 'cpuUserPercent') color = 'orange';
+          if (metric === 'cpuSystemPercent') color = 'red';
+          yLabel = metric + ' (%)';
+        }
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: timestamps,
+            datasets: [{
+              label: metric,
+              data: values,
+              borderColor: color,
+              fill: false,
+            }],
+          },
+          options: {
+            scales: {
+              x: { display: true, title: { display: true, text: 'Timestamp' } },
+              y: { display: true, title: { display: true, text: yLabel } },
+            },
+          },
+        });
+      });
+    }
+
+    async function main() {
+      const csvList = await fetchCsvList();
+      const csvSelect = document.getElementById('csvSelect');
+      csvList.forEach(file => {
+        const option = document.createElement('option');
+        option.value = file;
+        option.textContent = file;
+        csvSelect.appendChild(option);
+      });
+      async function loadAndRender(file) {
+        const { headers, data } = await fetchData(file);
+        renderAllCharts(headers, data);
+      }
+      csvSelect.addEventListener('change', () => {
+        loadAndRender(csvSelect.value);
+      });
+      if (csvList.length > 0) {
+        loadAndRender(csvList[0]);
+      }
+    }
+    main();
+  </script>
+</body>
+</html>
