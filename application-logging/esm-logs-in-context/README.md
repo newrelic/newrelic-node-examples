@@ -17,6 +17,8 @@ Edit the `NEW_RELIC_LICENSE_KEY` and `NEW_RELIC_APP_NAME` values in `.env`, as w
 docker compose up --build
 ```
 
+By default the app image is built with the current Node.js LTS release. To build with a specific Node version instead, set `NODE_VERSION` in your `.env` file (e.g. `NODE_VERSION=x.x.x`) before running `docker compose up --build`.
+
 In another terminal, you can generate server responses by executing
 
 ```sh

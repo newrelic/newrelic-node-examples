@@ -4,7 +4,7 @@
 # If you need more help, visit the Dockerfile reference guide at
 # https://docs.docker.com/engine/reference/builder/
 
-ARG NODE_VERSION=18.17.0
+ARG NODE_VERSION=lts
 
 FROM node:${NODE_VERSION}-alpine
 
@@ -19,9 +19,8 @@ WORKDIR /app
 # Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into
 # into this layer.
 RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
+    npm install --omit=dev
 
 # Run the application as a non-root user.
 USER node
