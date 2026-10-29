@@ -20,3 +20,8 @@ app.get('/sns', async (req, res) => {
 })
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
+
+process.on('SIGINT', () => {
+  console.log('ending app server')
+  process.exit(0)
+})
