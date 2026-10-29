@@ -1,6 +1,5 @@
 node_modules
 .env
-.serverless
 
 # Locally-built patched New Relic Rust Lambda extension overlaid by the
 # Dockerfile. A build artifact — rebuild from newrelic-lambda-extension-rust.

@@ -5,6 +5,7 @@
 This repository contains example applications and scripts that demonstrate functionality of the [New Relic Node.js Agent](https://github.com/newrelic/node-newrelic).
 
 * [AI Monitoring](./ai-monitoring) - examples using supported 3rd party libraries to produce AI Monitoring (AIM) telemetry
+* [AWS Lambda](./aws-lambda) - examples deploying a Node.js function to AWS Lambda with the New Relic Lambda layer, and running Lambda handlers in a local container
 * [Logs in Context](./application-logging) - examples using logging libraries to demonstrate agent log decoration and forwarding of logs to New Relic
 * [Code Level Metrics](./code-level-metrics) - example demonstrating span attributes that help drive the [CodeStream](https://newrelic.com/codestream) integration
 * [Custom Instrumentation](./custom-instrumentation) - examples demonstrating the use of the [Node.js agent API](https://newrelic.github.io/node-newrelic/API.html)

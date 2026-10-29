@@ -8,7 +8,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   architecture: x86_64
   environment:
-    # Enable OTEL bridge and metrics, see `lib/metrics.js`
+    # Enable OTEL bridge and metrics, see `hello-world.js`
     NEW_RELIC_OPENTELEMETRY_ENABLED: 'true'
     NEW_RELIC_OPENTELEMETRY_METRICS_ENABLED: 'true'
 
@@ -61,4 +61,3 @@ package:
   patterns:
     - '!**'
     - hello-world.js
-    - lib/**

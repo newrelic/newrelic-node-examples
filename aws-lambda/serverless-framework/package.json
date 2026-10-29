@@ -1,7 +1,8 @@
 {
-  "name": "lambda-test",
+  "name": "aws-lambda-serverless-framework",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Deploys a hello world AWS Lambda function instrumented with the New Relic Lambda layer",
+  "main": "hello-world.js",
   "scripts": {
     "deploy": "serverless deploy",
     "invoke": "serverless invoke --function hello --log",
@@ -11,12 +12,8 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@opentelemetry/api": "^1.9.1",
-    "newrelic": "^14.9.0"
-  },
   "devDependencies": {
+    "@opentelemetry/api": "^1.9.0",
     "serverless": "^4.45.0",
     "serverless-newrelic-lambda-layers": "^5.16.2"
   }
