@@ -22,6 +22,12 @@ FROM public.ecr.aws/lambda/nodejs:24
 # This FROM clause copies in the New Relic Lambda extension.
 COPY --from=nr-ext /opt/ /opt/
 
+# Overlay the locally-built, patched extension binary (PR #69:
+# newrelic/newrelic-lambda-extension-rust — cap platform.runtimeDone wait).
+# This replaces the stock 2.6.3 binary pulled from the ECR layer above.
+COPY newrelic-lambda-extension.patched /opt/extensions/newrelic-lambda-extension
+RUN chmod +x /opt/extensions/newrelic-lambda-extension
+
 # Copy function code
 COPY . ${LAMBDA_TASK_ROOT}
 # Uncomment if you want to install new agent

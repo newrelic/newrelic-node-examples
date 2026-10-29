@@ -55,3 +55,13 @@ NEW_RELIC_OPENTELEMETRY_ENABLED=true
 NEW_RELIC_OPENTELEMETRY_METRICS_ENABLED=true
 ```
 Additionally, the `async` handler must be used (`FUNCTION_MODE=async`).
+
+To verify that OTEL metrics data was actually delivered, as of 2026-10, you 
+must use an API key to issue the following query as the UI for this has not
+yet been built (adjust accordingly):
+
+```sh
+curl -s https://staging-api.newrelic.com/graphql \
+  -H "API-Key: <NRAK-user-key>" -H 'Content-Type: application/json' \
+  -d '{"query":"{ actor { account(id: 310705) { nrql(query: \"SELECT count(*) FROM Transaction WHERE appName = '\''jsumners-playground'\'' SINCE 30 minutes ago\") { results } } } }"}'
+```
