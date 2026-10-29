@@ -7,6 +7,10 @@ provider:
   region: ${opt:region, env:AWS_REGION, 'us-east-1'}
   stage: ${opt:stage, 'dev'}
   architecture: x86_64
+  environment:
+    # Enable OTEL bridge and metrics, see `lib/metrics.js`
+    NEW_RELIC_OPENTELEMETRY_ENABLED: 'true'
+    NEW_RELIC_OPENTELEMETRY_METRICS_ENABLED: 'true'
 
 plugins:
   - serverless-newrelic-lambda-layers
@@ -36,7 +40,7 @@ custom:
     production: {}
     staging:
       NEW_RELIC_HOST: staging-collector.newrelic.com
-      NEW_RELIC_METRIC_ENDPOINT: https://staging-metric-api.newrelic.com/metric/v1
+      NEW_RELIC_METRIC_ENDPOINT: https://staging-collector.newrelic.com/v1/metrics
       NEW_RELIC_LOG_ENDPOINT: https://staging-log-api.newrelic.com/log/v1
 
 functions:
@@ -51,7 +55,10 @@ functions:
           rate: rate(1 minute)
           enabled: ${strToBool(${env:ENABLE_SCHEDULE, 'false'})}
 
+# `@opentelemetry/api` is not packaged. It resolves from the New Relic layer so
+# the handler uses the same copy that the agent registers its meter provider on
 package:
   patterns:
     - '!**'
     - hello-world.js
+    - lib/**

@@ -1,7 +1,7 @@
 # Lambda Tests
 This application can be used two ways:
 
-* [Deploy to AWS](#deploy-to-aws): deploys a hello world Node.js function (`hello-world.js`) to AWS Lambda, instrumented with the [New Relic Lambda layer](https://docs.newrelic.com/docs/serverless-function-monitoring/aws-lambda-monitoring/get-started/introduction-new-relic-monitoring-aws-lambda/) via the [Serverless Framework](https://www.serverless.com/) and [serverless-newrelic-lambda-layers](https://github.com/newrelic/serverless-newrelic-lambda-layers) plugin.
+* [Deploy to AWS](#deploy-to-aws): deploys a hello world Node.js function (`hello-world.js`) that increments an OTEL counter (`lib/metrics.js`) to AWS Lambda, instrumented with the [New Relic Lambda layer](https://docs.newrelic.com/docs/serverless-function-monitoring/aws-lambda-monitoring/get-started/introduction-new-relic-monitoring-aws-lambda/) via the [Serverless Framework](https://www.serverless.com/) and [serverless-newrelic-lambda-layers](https://github.com/newrelic/serverless-newrelic-lambda-layers) plugin.
 * [Run locally](#run-locally): uses a [lambda runtime container](https://gallery.ecr.aws/lambda/nodejs) to simulate running a Node.js function in Lambda with or without the New Relic Node.js agent.
 
 ## Deploy to AWS
@@ -158,6 +158,10 @@ NEW_RELIC_OPENTELEMETRY_ENABLED=true
 NEW_RELIC_OPENTELEMETRY_METRICS_ENABLED=true
 ```
 Additionally, the `async` handler must be used (`FUNCTION_MODE=async`).
+
+The [deployed function](#deploy-to-aws) already has both enabled in
+[serverless.yml](./serverless.yml), and `hello-world.js` increments the same
+counter on every invocation.
 
 To verify that OTEL metrics data was actually delivered, as of 2026-10, you 
 must use an API key to issue the following query as the UI for this has not

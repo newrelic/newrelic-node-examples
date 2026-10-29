@@ -7,7 +7,11 @@
 
 // Deployed via `serverless.yml`. The New Relic layer wraps this handler, so
 // there is no need to require the agent here.
+const metrics = require('./lib/metrics.js')
+
 module.exports.handler = async function helloWorld(event, context) {
+  metrics.integers.add(1)
+
   console.log('Hello world!')
   return {
     statusCode: 200,
