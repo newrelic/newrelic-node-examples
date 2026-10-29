@@ -13,7 +13,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@opentelemetry/api": "^1.9.0",
     "serverless": "^4.45.0",
     "serverless-newrelic-lambda-layers": "^5.16.2"
   }

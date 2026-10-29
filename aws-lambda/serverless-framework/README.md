@@ -2,8 +2,6 @@
 
 This example deploys a hello world Node.js function ([hello-world.js](./hello-world.js)) to AWS Lambda with the [Serverless Framework](https://www.serverless.com/). The [serverless-newrelic-lambda-layers](https://github.com/newrelic/serverless-newrelic-lambda-layers) plugin instruments it with the [New Relic Lambda layer](https://docs.newrelic.com/docs/serverless-function-monitoring/aws-lambda-monitoring/get-started/introduction-new-relic-monitoring-aws-lambda/), which includes the Node.js agent and the New Relic Lambda extension.
 
-The function also increments an [OpenTelemetry](https://opentelemetry.io/) counter on every invocation, which the agent reports to New Relic through its OpenTelemetry bridge.
-
 ## Prerequisites
 
 * [AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
@@ -13,6 +11,9 @@ The function also increments an [OpenTelemetry](https://opentelemetry.io/) count
 * Serverless Framework v4 requires an account. Run `npx serverless login` once, or set `SERVERLESS_ACCESS_KEY`.
 
 ## 1. Log in to AWS
+
+> [!NOTE]
+> This section shows one way to log in: AWS IAM Identity Center (SSO) with the AWS CLI. Your organization may authenticate to AWS differently, for example with access keys, `aws login`, or an internal tool. Use whatever method gives you credentials for the account you want to deploy to. The Serverless Framework uses the standard AWS credential chain, so anything that works with `aws sts get-caller-identity` also works for `serverless deploy`.
 
 If you haven't set up an SSO profile yet, create one first (only needed once). This example names the profile `test`:
 
@@ -102,9 +103,3 @@ After a few invocations, the function shows up in New Relic under **APM & Servic
 ```sh
 npm run remove
 ```
-
-## OpenTelemetry metrics
-
-[serverless.yml](./serverless.yml) enables the agent's OpenTelemetry bridge and metrics with `NEW_RELIC_OPENTELEMETRY_ENABLED` and `NEW_RELIC_OPENTELEMETRY_METRICS_ENABLED`. [hello-world.js](./hello-world.js) adds 1 to the `integers` counter of the `lambda-meter` meter on every invocation.
-
-`@opentelemetry/api` is a dev dependency and is not packaged with the function. At runtime it resolves from the New Relic layer, so the handler uses the same copy of the API that the agent registers its meter provider on. If you package your own copy, make sure its version is not newer than the one in the layer, or the counter will be a no-op.
