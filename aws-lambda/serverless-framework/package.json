@@ -1,0 +1,19 @@
+{
+  "name": "aws-lambda-serverless-framework",
+  "version": "1.0.0",
+  "description": "Deploys a hello world AWS Lambda function instrumented with the New Relic Lambda layer",
+  "main": "hello-world.js",
+  "scripts": {
+    "deploy": "serverless deploy",
+    "invoke": "serverless invoke --function hello --log",
+    "logs": "serverless logs --function hello --tail",
+    "remove": "serverless remove",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^4.45.0",
+    "serverless-newrelic-lambda-layers": "^5.16.2"
+  }
+}

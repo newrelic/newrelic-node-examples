@@ -1,0 +1,57 @@
+service: lambda-test
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ${opt:region, env:AWS_REGION, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  architecture: x86_64
+
+plugins:
+  - serverless-newrelic-lambda-layers
+
+custom:
+  newRelic:
+    accountId: ${env:NEW_RELIC_ACCOUNT_ID}
+    # Use the license key as an ingest key so the plugin skips NerdGraph and
+    # does not require a User API key
+    ingestKey: ${env:NEW_RELIC_LICENSE_KEY}
+    # Set the license key directly on the function instead of reading it from
+    # a Secrets Manager secret created by `newrelic-lambda integrations install`
+    disableLicenseKeySecret: true
+    sendFunctionLogs: true
+    logEnabled: true
+    logLevel: ${env:NEW_RELIC_LOG_LEVEL, 'info'}
+    # Report the function as an APM service. Comment out to report it as a
+    # serverless function entity instead
+    apm: true
+    # Uncomment to use a custom layer instead of the latest published one
+    # layerArn: arn:aws:lambda:<region>:<account>:layer:<layer-name>:<version>
+
+  # Extra function environment variables per New Relic environment.
+  # Set NEW_RELIC_ENVIRONMENT=staging if you are a New Relic employee and you
+  # want to use staging
+  nrEnvironments:
+    production: {}
+    staging:
+      NEW_RELIC_HOST: staging-collector.newrelic.com
+      NEW_RELIC_METRIC_ENDPOINT: https://staging-metric-api.newrelic.com/metric/v1
+      NEW_RELIC_LOG_ENDPOINT: https://staging-log-api.newrelic.com/log/v1
+
+functions:
+  hello:
+    handler: hello-world.handler
+    timeout: 30
+    memorySize: 512
+    environment: ${self:custom.nrEnvironments.${env:NEW_RELIC_ENVIRONMENT, 'production'}}
+    events:
+      # Invokes the function every minute when deployed with ENABLE_SCHEDULE=true
+      - schedule:
+          rate: rate(1 minute)
+          enabled: ${strToBool(${env:ENABLE_SCHEDULE, 'false'})}
+
+package:
+  patterns:
+    - '!**'
+    - hello-world.js
