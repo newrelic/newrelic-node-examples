@@ -1,0 +1,11 @@
+{
+  "start": "npm start",
+  "port": 3000,
+  "env_file": ".env",
+  "secrets": ["NEW_RELIC_LICENSE_KEY"],
+  "routes": ["/named-route"],
+  "optional_routes": ["/sns"],
+  "services": [],
+  "ci": "full",
+  "notes": "/sns calls AWS SNS (ListTopics) with no region or credentials configured; env.sample only has NEW_RELIC_LICENSE_KEY. Marked optional so it doesn't fail the smoke test without AWS access."
+}

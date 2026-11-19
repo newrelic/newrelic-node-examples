@@ -18,6 +18,37 @@ Before submitting an Issue, please search for similar ones in the
 2. Increase the version numbers in any examples files and the README.md to the new version that this Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
 3. You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
 
+## Updating an example app with Claude Code
+
+The `update-example` [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) skill upgrades one example app to the latest `newrelic` agent and dependencies, then smoke-tests it. If the upgrade passes, it opens a PR. If the upgrade breaks the app, it opens an issue instead. It only works on apps that have a `smoke-test.json`. The format is described in [the skill](.claude/skills/update-example/SKILL.md#smoke-testjson-format).
+
+### One-time setup
+
+1. Install Claude Code: `npm install -g @anthropic-ai/claude-code`.
+2. Sign in to GitHub with `gh auth login`. You need write access to this repository, because the skill pushes its branch to `origin`.
+3. Use the current Node.js LTS.
+4. Make your New Relic license key available, either by exporting `NEW_RELIC_LICENSE_KEY` or by putting it in the app's `.env` (copy `env.sample`).
+
+### Run it
+
+From the repo root:
+
+```sh
+claude -p "/update-example simple-express-app"
+```
+
+Leave out `-p` to watch it work interactively. The run ends with the URL of the PR or issue it opened. If nothing was outdated, it prints a one-line summary.
+
+To update every app that has a `smoke-test.json`:
+
+```sh
+npm run update-examples
+```
+
+To update only some apps, list them after `--`, e.g. `npm run update-examples -- simple-express-app nestjs`. Apps are updated one at a time, and a failed run doesn't stop the rest. Each app's output is saved to a log, and the run ends with a summary of the PR or issue URL for each app.
+
+The skill pre-approves the commands it needs, so it doesn't stop for permission prompts. It branches from the latest `main`, commits only the app's `package.json`, and switches back to your branch when it's done. Any changes you have checked out are left alone. Before running it, stop anything using the app's port, or the skill stops and reports the conflict.
+
 ## Contributor License Agreement
 
 Keep in mind that when you submit your Pull Request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource@newrelic.com.
