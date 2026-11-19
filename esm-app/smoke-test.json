@@ -1,0 +1,11 @@
+{
+  "start": "npm start",
+  "port": 3000,
+  "env_file": null,
+  "secrets": ["NEW_RELIC_LICENSE_KEY"],
+  "routes": ["/", "/user/100", "/instrumentation-example"],
+  "optional_routes": [],
+  "services": [],
+  "ci": "full",
+  "notes": "npm start doesn't load an env file, so NEW_RELIC_LICENSE_KEY must be exported in the environment. /instrumentation-example exercises the custom ESM instrumentation of normalize-url and parse-json."
+}
