@@ -74,10 +74,10 @@ Before opening anything, check for an open PR or issue for this app (`gh pr list
    git switch -c update-example/$ARGUMENTS origin/main
    ```
 
-2. Commit only the app's `package.json`, leaving anything else that's staged out of the commit, and push to `origin`:
+2. Commit only the app's `package.json`, leaving anything else that's staged out of the commit, and push to `origin`. End the commit message with a `Co-Authored-By` trailer for Claude:
 
    ```sh
-   git commit -m "<PR title>" -- $ARGUMENTS/package.json
+   git commit -m "<PR title>" -m "Co-Authored-By: Claude <noreply@anthropic.com>" -- $ARGUMENTS/package.json
    git push -u origin update-example/$ARGUMENTS
    ```
 
