@@ -6,7 +6,8 @@
     "scripts": {
         "lint": "eslint --quiet .",
         "lint:verbose": "eslint .",
-        "lint:fix": "eslint --fix ."
+        "lint:fix": "eslint --fix .",
+        "update-examples": ".claude/skills/update-example/update-all.sh"
     },
     "devDependencies": {
         "@newrelic/eslint-config": "^0.6.0",
